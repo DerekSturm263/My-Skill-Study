@@ -93,7 +93,7 @@ export function Component(props: InteractionProps<InteractionType>) {
             hiddenLabel={true}
             multiline
             defaultValue={props.text}
-            rows={3.5}
+            rows={3}
             onChange={(e) => {
               props.setText(e.target.value);
             }}
