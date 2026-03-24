@@ -3,7 +3,7 @@
 import Skill from '@/lib/types/skill';
 
 import { AutoAwesome, Delete, Edit, Info, Save, Share } from '@mui/icons-material';
-import { PageComponent, Sidebar, SidebarButton, SuccessDialog } from './general';
+import { DeleteDialog, DetailsDialog, GenerateDialog, PageComponent, ShareDialog, Sidebar, SidebarButton, SuccessDialog } from './general';
 import { CookiesProvider } from 'react-cookie';
 import { Box, Snackbar } from '@mui/material';
 import { ViewMode } from "@/lib/types/general";
@@ -15,19 +15,58 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
   const [ currentChapterIndex, setCurrentChapterIndex ] = useState(0);
   const [ isThinking, setIsThinking ] = useState(false);
   const [ pagesCompleted, setPagesCompleted ] = useState(value.questions.map(questions => false));
-  const [ isDialogOpen, setIsDialogOpen ] = useState(false);
   const [ snackbarText, setSnackbarText ] = useState("");
   const [ isSnackbarOpen, setIsSnackbarOpen ] = useState(false);
+  const [ dialogOpen, setDialogOpen ] = useState<string | null>(null);
 
   return (
     <CookiesProvider>
       <SuccessDialog
         title=''
         text=''
-        isOpen={isDialogOpen}
-        setIsOpen={setIsDialogOpen}
+        isOpen={dialogOpen == "success"}
+        setIsOpen={() => setDialogOpen(null)}
       />
-          
+
+      <DetailsDialog
+        value={skill}
+        isOpen={dialogOpen == "details"}
+        setIsOpen={() => setDialogOpen(null)}
+      />
+
+      <ShareDialog
+        type="skill"
+        id={id}
+        isOpen={dialogOpen == "share"}
+        setIsOpen={() => setDialogOpen(null)}
+        setSnackbarText={(text: string) => {
+          setSnackbarText(text);
+          setIsSnackbarOpen(true);
+        }}
+      />
+
+      <GenerateDialog
+        type="skill"
+        id={id}
+        isOpen={dialogOpen == "generate"}
+        setIsOpen={() => setDialogOpen(null)}
+        setSnackbarText={(text: string) => {
+          setSnackbarText(text);
+          setIsSnackbarOpen(true);
+        }}
+      />
+
+      <DeleteDialog
+        type="skill"
+        id={id}
+        isOpen={dialogOpen == "delete"}
+        setIsOpen={() => setDialogOpen(null)}
+        setSnackbarText={(text: string) => {
+          setSnackbarText(text);
+          setIsSnackbarOpen(true);
+        }}
+      />
+
       <Box
         display='flex'
         sx={{ height: '100vh' }}

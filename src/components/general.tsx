@@ -105,8 +105,7 @@ export function DetailsDialog({ value, isOpen, setIsOpen }: { value: Sharable, i
   );
 }
 
-export function ShareDialog({ type, id, setSnackbarText }: { type: string, id: string, setSnackbarText: (text: string) => void }) {
-  const [ isOpen, setIsOpen ] = useState(false);
+export function ShareDialog({ type, id, isOpen, setIsOpen, setSnackbarText }: { type: string, id: string, isOpen: boolean, setIsOpen: Dispatch<SetStateAction<boolean>>, setSnackbarText: (text: string) => void }) {
   const [ tabIndex, setTabIndex ] = useState(0);
   const [ hideLogoState, setHideLogoState ] = useState(true);
   const [ width, setWidth ] = useState(800);
@@ -240,8 +239,7 @@ export function ShareDialog({ type, id, setSnackbarText }: { type: string, id: s
   );
 }
 
-export function GenerateDialog({ type, id, setSnackbarText }: { type: string, id: string, setSnackbarText: (text: string) => void }) {
-  const [ isOpen, setIsOpen ] = useState(false);
+export function GenerateDialog({ type, id, isOpen, setIsOpen, setSnackbarText }: { type: string, id: string, isOpen: boolean, setIsOpen: Dispatch<SetStateAction<boolean>>, setSnackbarText: (text: string) => void }) {
   const [ description, setDescription ] = useState("");
 
   return (
@@ -289,9 +287,7 @@ export function GenerateDialog({ type, id, setSnackbarText }: { type: string, id
   );
 }
 
-export function DeleteDialog({ type, id, setSnackbarText }: { type: string, id: string, setSnackbarText: (text: string) => void }) {
-  const [ isOpen, setIsOpen ] = useState(false);
-
+export function DeleteDialog({ type, id, isOpen, setIsOpen, setSnackbarText }: { type: string, id: string, isOpen: boolean, setIsOpen: Dispatch<SetStateAction<boolean>>, setSnackbarText: (text: string) => void }) {
   return (
     <Dialog
       open={isOpen}
