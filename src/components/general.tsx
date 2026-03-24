@@ -376,7 +376,7 @@ export function Sidebar({ children, label, options, selectedOption, actions }: {
             {actions.map((action, index) => (
               <MenuItem
                 key={index}
-                onClick={action.action.call}
+                onClick={(e) => action.action()}
               >
                 <ListItemIcon>
                   <action.icon />
