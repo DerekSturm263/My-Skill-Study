@@ -21,7 +21,7 @@ import { Fragment, Children, useState, MouseEventHandler, Dispatch, SetStateActi
 import { Component as TextComponent } from '@/interactions/text/elements'; 
 import { save, remove } from '../lib/miscellaneous/database';
 import { Verification } from '@/lib/ai/types';
-import { Element } from '@/lib/types/skill';
+import { Page } from '@/lib/types/skill';
 
 const interactionMap: Record<string, InteractionPackageBase> = {
   "text": Text,
@@ -517,7 +517,7 @@ export function SidebarButton({ selected, ogTitle, isDisabled, mode, progress, o
   );
 }
 
-export function ElementComponent({ element, mode, isThinking, elementsCompleted, currentPageIndex, currentElementIndex, totalElementsInPage, setIsThinking, setCurrentElementIndex, setDialogText, setSnackbarText, setIsElementComplete }: { element: Element, mode: ViewMode, isThinking: boolean, elementsCompleted: boolean[][], currentPageIndex: number, currentElementIndex: number, totalElementsInPage: number, setIsThinking: Dispatch<SetStateAction<boolean>>, setCurrentElementIndex: Dispatch<SetStateAction<number>>, setDialogText: (title: string, text: string) => void, setSnackbarText: (text: string) => void, setIsElementComplete: (isComplete: boolean) => void }) {
+export function PageComponent({ element, mode, isThinking, elementsCompleted, currentPageIndex, currentElementIndex, totalElementsInPage, setIsThinking, setCurrentElementIndex, setDialogText, setSnackbarText, setIsElementComplete }: { element: Page, mode: ViewMode, isThinking: boolean, elementsCompleted: boolean[][], currentPageIndex: number, currentElementIndex: number, totalElementsInPage: number, setIsThinking: Dispatch<SetStateAction<boolean>>, setCurrentElementIndex: Dispatch<SetStateAction<number>>, setDialogText: (title: string, text: string) => void, setSnackbarText: (text: string) => void, setIsElementComplete: (isComplete: boolean) => void }) {
   const [ text, setText ] = useState(element.text.text);
 
   function complete() {

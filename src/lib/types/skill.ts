@@ -13,10 +13,10 @@ export type Learn = {
 
 export type Chapter = {
   title: string,
-  elements: Element[]
+  pages: Page[]
 }
 
-export type Element = {
+export type Page = {
   text: TextType,
   interactions: InteractionWrapper[]
 }
@@ -31,5 +31,5 @@ export type SubSkill = {
 }
 
 export type Quiz = {
-  questions: Element[]
+  questions: Page[]
 }

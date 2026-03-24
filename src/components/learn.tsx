@@ -3,7 +3,7 @@
 import Skill from '@/lib/types/skill';
 
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Snackbar } from '@mui/material';
-import { ElementComponent, Sidebar, SidebarButton } from './general';
+import { PageComponent, Sidebar, SidebarButton } from './general';
 import { CookiesProvider } from 'react-cookie';
 import { ViewMode } from '@/lib/types/general';
 import { useState } from 'react';
@@ -108,7 +108,7 @@ export default function Page({ skill, mode }: { skill: Skill, mode: ViewMode }) 
                 selected={currentPageIndex == index}
                 ogTitle={chapter.title}
                 mode={mode}
-                progress={elementsCompleted.reduce((sum, element, index) => sum += element && (index >= currentElementIndex && index < currentElementIndex + chapter.elements.length) ? 1 : 0, 0) / chapter.elements.length}
+                progress={elementsCompleted.reduce((sum, element, index) => sum += element && (index >= currentElementIndex && index < currentElementIndex + chapter.pages.length) ? 1 : 0, 0) / chapter.pages.length}
                 onClick={(e) => {
                   setCurrentPageIndex(index);
                   setCurrentElementIndex(0);
@@ -127,14 +127,14 @@ export default function Page({ skill, mode }: { skill: Skill, mode: ViewMode }) 
           )}
         </Sidebar>
 
-        <ElementComponent
-          element={learn.chapters[currentPageIndex].elements[currentElementIndex]}
+        <PageComponent
+          element={learn.chapters[currentPageIndex].pages[currentElementIndex]}
           mode={mode}
           isThinking={isThinking}
           elementsCompleted={elementsCompleted}
           currentElementIndex={currentElementIndex}
           currentPageIndex={currentPageIndex}
-          totalElementsInPage={learn.chapters[currentPageIndex].elements.length}
+          totalElementsInPage={learn.chapters[currentPageIndex].pages.length}
           setIsThinking={setIsThinking}
           setCurrentElementIndex={setCurrentElementIndex}
           setDialogText={(title: string, text: string) => {
