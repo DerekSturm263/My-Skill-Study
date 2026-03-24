@@ -1,4 +1,5 @@
 import generateText from "@/lib/ai/functions";
+
 import { ModelType, Verification, verificationSchema } from "@/lib/ai/types";
 import { InteractionType } from "./elements";
 

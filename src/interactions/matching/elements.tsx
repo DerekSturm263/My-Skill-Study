@@ -1,12 +1,10 @@
 'use client'
 
-import { InteractionPackage, InteractionProps } from "@/lib/types";
+import { InteractionPackage, InteractionProps } from "@/lib/types/general";
 import { useState } from 'react';
 import { SyncAlt } from '@mui/icons-material';
 import { Type } from '@google/genai';
 import { Box } from '@mui/material';
-
-import * as helpers from "@/lib/helpers";
 
 export type InteractionType = {
   items: MatchingItem[]
@@ -62,8 +60,8 @@ const schema = {
   ]
 };
 
-function Component(props: InteractionProps) {
-  const [ items, setItems ] = useState(helpers.getInteractionValue<InteractionType>(props.elementID).items);
+function Component(props: InteractionProps<InteractionType>) {
+  const [ value, setValue ] = useState(props.originalValue);
   
   //const shuffledItemsLeft = useState(items.map(item => item.leftSide).sort(item => Math.random() - 0.5))[0];
   //const shuffledItemsRight = useState(items.map(item => item.rightSide).sort(item => Math.random() - 0.5))[0];
@@ -95,7 +93,7 @@ function Component(props: InteractionProps) {
   );
 }
 
-const interaction: InteractionPackage = {
+const interaction: InteractionPackage<InteractionType> = {
   id: "matching",
   prettyName: "Matching",
   category: "Assessments",

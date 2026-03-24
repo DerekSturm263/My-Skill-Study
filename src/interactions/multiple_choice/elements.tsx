@@ -4,12 +4,10 @@ import Markdown from 'react-markdown';
 import verify from './functions';
 
 import { Box, Stack, Button, TextField, InputLabel, MenuItem, Radio, RadioGroup, Select, Checkbox, FormControl, FormControlLabel } from '@mui/material';
-import { ElementID, ComponentMode, InteractionProps, InteractionPackage } from '@/lib/types';
+import { ViewMode, InteractionProps, InteractionPackage } from '@/lib/types/general';
 import { useEffect, useState } from 'react';
 import { CheckBox } from '@mui/icons-material';
 import { Type } from '@google/genai';
-
-import * as helpers from '@/lib/helpers';
 
 export type InteractionType = {
   items: MultipleChoiceItem[],
@@ -72,52 +70,44 @@ const schema = {
   ]
 };
 
-function Component(props: InteractionProps) {
-  const [ items, setItems ] = useState(helpers.getInteractionValue<InteractionType>(props.elementID).items);
+function Component(props: InteractionProps<InteractionType>) {
+  const [ value, setValue ] = useState(props.originalValue);
+  const [ selected, setSelected ] = useState([ ] as string[]);
+  const [ isDisabled, setIsDisabled ] = useState(false);
 
   useEffect(() => {
-    setItems(items.toSorted((item1, item2) => Math.random() - 0.5));
+    const newItems = value.items.toSorted((item1, item2) => Math.random() - 0.5);
+    setValue({ ... value, items: newItems });
   }, []);
 
-  const [ choiceType, setChoiceType ] = useState(helpers.getInteractionValue<InteractionType>(props.elementID).choiceType);
-  const [ selected, setSelected ] = useState([ ] as string[]);
-
-  async function submit() {
-    props.setIsThinking(true);
-
-    const feedback = await verify(props.originalText, selected, helpers.getInteractionValue<InteractionType>(props.elementID));
-    props.setText(feedback.feedback);
-    props.setIsThinking(false);
-
-    if (feedback.isValid) {
-      props.setComplete(true);
-    }
-  }
-
   function addItem() {
-    const newItems = items;
+    const newItems = value.items;
     newItems.push({
       value: "New Multiple Choice Item",
       isCorrect: false
     });
-    setItems(newItems);
+
+    setValue({ ... value, items: newItems });
   }
 
   function removeItem(index: number) {
-    const newItems = items;
+    const newItems = value.items;
     newItems.splice(index, 1);
-    setItems(newItems);
+
+    setValue({ ... value, items: newItems });
   }
 
   function selectItem(item: string) {
     const newSelected = selected;
     newSelected.push(item);
+
     setSelected(newSelected);
   }
 
   function unselectItem(item: string) {
     const newSelected = selected;
     newSelected.splice(newSelected.indexOf(item), 1);
+
     setSelected(newSelected);
   }
 
@@ -126,11 +116,9 @@ function Component(props: InteractionProps) {
       sx={{ flexGrow: 1, alignSelf: "center", alignContent: "center" }}
     >
       <FormControl
-        id={`interaction${helpers.getAbsoluteIndex(props.elementID)}`}
-        className='multipleOptions'
-        disabled={props.isDisabled}
+        disabled={isDisabled}
       >
-        {props.mode == ComponentMode.Edit && items.filter(item => item.isCorrect).length > 1 && (
+        {props.mode == ViewMode.Edit && value.items.filter(item => item.isCorrect).length > 1 && (
           <FormControl
             size="small"
           >
@@ -138,11 +126,10 @@ function Component(props: InteractionProps) {
           
             <Select
               labelId="choice-label"
-              value={choiceType}
+              value={value.choiceType}
               label="Choice Type"
               onChange={(e) => {
-                setChoiceType(e.target.value as ChoiceType);
-                helpers.getInteractionValue<InteractionType>(props.elementID).choiceType = e.target.value as ChoiceType;
+                setValue({ ... value, choiceType: e.target.value as ChoiceType });
               }}
             >
               {(Object.values(ChoiceType).map((item, index) => (
@@ -158,14 +145,12 @@ function Component(props: InteractionProps) {
         )}
         
         <RadioGroup>
-          {items.map((item, index) => (
+          {value.items.map((item, index) => (
             <MultipleChoiceItem
               key={index}
-              elementID={props.elementID}
-              isDisabled={props.isDisabled}
-              mode={props.mode}
+              props={props}
               item={item}
-              isRadio={items.filter((item) => item.isCorrect).length == 1}
+              isRadio={value.items.filter((item) => item.isCorrect).length == 1}
               index={index}
               toggle={(item: string, toggleState: boolean) => {
                 if (toggleState)
@@ -180,15 +165,15 @@ function Component(props: InteractionProps) {
           ))}
         </RadioGroup>
 
-        {props.mode == ComponentMode.View && (
+        {props.mode == ViewMode.View && (
           <>
             <br />
           
             <Button
               variant="contained"
-              onClick={(e) => submit()}
+              onClick={(e) => props.evaluateAndReply(verify(props.originalText, selected, value))}
               sx={{ width: '120px' }}
-              disabled={props.isDisabled}
+              disabled={isDisabled}
             >
               Submit
             </Button>
@@ -199,13 +184,13 @@ function Component(props: InteractionProps) {
   );
 }
 
-function MultipleChoiceItem({ elementID, isDisabled, mode, item, index, isRadio, toggle, setSelected }: { elementID: ElementID, isDisabled: boolean, mode: ComponentMode, item: MultipleChoiceItem, index: number, isRadio: boolean, toggle: (item: string, toggleState: boolean) => void, setSelected: (item: string) => void }) {
-  const [ value, setValue ] = useState(item.value);
+function MultipleChoiceItem({ props, item, index, isRadio, toggle, setSelected }: { props: InteractionProps<InteractionType>, item: MultipleChoiceItem, index: number, isRadio: boolean, toggle: (item: string, toggleState: boolean) => void, setSelected: (value: string) => void }) {
+  const [ value, setValue ] = useState(item);
   const [ isCorrect, setIsCorrect ] = useState(item.isCorrect);
 
   return (
     <>
-      {(mode == ComponentMode.Edit ? (
+      {(props.mode == ViewMode.Edit ? (
         <Stack
           direction="row"
         >
@@ -214,8 +199,7 @@ function MultipleChoiceItem({ elementID, isDisabled, mode, item, index, isRadio,
             name="value"
             value={value}
             onChange={(e) => {
-              setValue(e.target.value);
-              helpers.getInteractionValue<InteractionType>(elementID).items[index].value = e.target.value;
+              setValue({ ... value, value: e.target.value });
             }}
           />
 
@@ -224,11 +208,7 @@ function MultipleChoiceItem({ elementID, isDisabled, mode, item, index, isRadio,
               name="isCorrect"
               checked={isCorrect}
               onChange={(e) => {
-                setIsCorrect(e.target.checked);
-
-                if (mode == ComponentMode.Edit) {
-                  helpers.getInteractionValue<InteractionType>(elementID).items[index].isCorrect = e.target.checked;
-                }
+                setValue({ ... value, isCorrect: e.target.checked });
               }}
             />}
           />
@@ -255,7 +235,7 @@ function MultipleChoiceItem({ elementID, isDisabled, mode, item, index, isRadio,
   );
 }
 
-const interaction: InteractionPackage = {
+const interaction: InteractionPackage<InteractionType> = {
   id: "multipleChoice",
   prettyName: "Multiple Choice",
   category: "Assessments",

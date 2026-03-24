@@ -1,6 +1,7 @@
 import generateText from "@/lib/ai/functions";
+
+import { InteractionType, ChoiceType } from "./elements";
 import { ModelType, Verification } from "@/lib/ai/types";
-import { InteractionType, MultipleChoiceItem, ChoiceType } from "./elements";
 
 export default async function verify(question: string, userResponse: string[], value: InteractionType): Promise<Verification> {
   let isValid = false;

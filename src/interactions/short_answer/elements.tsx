@@ -2,13 +2,11 @@
 
 import verify from "./functions";
 
-import { ComponentMode, InteractionProps, InteractionPackage } from "@/lib/types";
+import { ViewMode, InteractionProps, InteractionPackage } from "@/lib/types/general";
 import { Box, TextField, Button, Stack } from '@mui/material';
 import { FormatQuote } from '@mui/icons-material';
 import { useState } from 'react';
 import { Type } from '@google/genai';
-
-import * as helpers from "@/lib/helpers";
 
 export type InteractionType = {
   correctAnswer: string | null
@@ -30,21 +28,10 @@ const schema = {
   ]
 };
 
-function Component(props: InteractionProps) {
-  const [ correctAnswer, setCorrectAnswer ] = useState(helpers.getInteractionValue<InteractionType>(props.elementID).correctAnswer);
+function Component(props: InteractionProps<InteractionType>) {
+  const [ value, setValue ] = useState(props.originalValue);
   const [ userResponse, setUserResponse ] = useState("");
-
-  async function submit() {
-    props.setIsThinking(true);
-
-    const feedback = await verify(props.originalText, userResponse, helpers.getInteractionValue<InteractionType>(props.elementID));
-    props.setText(feedback.feedback);
-    props.setIsThinking(false);
-
-    if (feedback.isValid) {
-      props.setComplete(true);
-    }
-  }
+  const [ isDisabled, setIsDisabled ] = useState(false);
 
   return (
     <Box
@@ -55,16 +42,15 @@ function Component(props: InteractionProps) {
         spacing={2}
         sx={{ marginLeft: '150px', marginRight: '150px' }}
       >
-        {props.mode == ComponentMode.Edit ? (
+        {props.mode == ViewMode.Edit ? (
           <TextField
             label="Correct Answer"
             name="correctAnswer"
             autoComplete="off"
-            value={correctAnswer}
+            value={value.correctAnswer}
             onChange={(e) => {
-              const value = e.target.value === "" ? null : e.target.value;
-              setCorrectAnswer(value);
-              helpers.getInteractionValue<InteractionType>(props.elementID).correctAnswer = value;
+              const newCorrectAnswer = e.target.value === "" ? null : e.target.value;
+              setValue({ ... value, correctAnswer: newCorrectAnswer });
             }}
             sx={{ flexGrow: 1, marginLeft: '150px', marginRight: '150px' }}
           />
@@ -74,7 +60,7 @@ function Component(props: InteractionProps) {
               label="Write your response here"
               name="response"
               autoComplete="off"
-              disabled={props.isDisabled}
+              disabled={isDisabled}
               value={userResponse}
               onChange={(e) => setUserResponse(e.target.value)}
               sx={{ flexGrow: 1 }}
@@ -82,9 +68,9 @@ function Component(props: InteractionProps) {
 
             <Button
               variant="contained"
-              onClick={(e) => submit()}
+              onClick={(e) => props.evaluateAndReply(verify(props.originalText, userResponse, value))}
               sx={{ width: '120px' }}
-              disabled={props.isDisabled}
+              disabled={isDisabled}
             >
               Submit
             </Button>
@@ -95,7 +81,7 @@ function Component(props: InteractionProps) {
   );
 }
 
-const interaction: InteractionPackage = {
+const interaction: InteractionPackage<InteractionType> = {
   id: "shortAnswer",
   prettyName: "Short Answer",
   category: "Assessments",

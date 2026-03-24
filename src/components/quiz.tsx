@@ -1,6 +1,10 @@
-import { ComponentMode, Skill } from "@/lib/types";
+'use client'
 
-export default function Content({ slug, skill, mode, apiKey, hideLogo }: { slug: string, skill: Skill, mode: ComponentMode, apiKey: string, hideLogo: boolean }) {
+import Skill from '@/lib/types/skill';
+
+import { ViewMode } from "@/lib/types/general";
+
+export default function Page({ skill, mode }: { skill: Skill, mode: ViewMode }) {
   return (
     <>
     </>

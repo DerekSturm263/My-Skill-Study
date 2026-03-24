@@ -1,7 +1,8 @@
 'use client'
 
-import { InteractionPackage, InteractionProps } from '@/lib/types';
+import { InteractionPackage, InteractionProps } from '@/lib/types/general';
 import { Architecture } from '@mui/icons-material';
+import { useState } from 'react';
 import { Type } from '@google/genai';
 import { Box } from '@mui/material';
 
@@ -26,7 +27,9 @@ const schema = {
   ]
 };
 
-function Component(props: InteractionProps) {
+function Component(props: InteractionProps<InteractionType>) {
+  const [ value, setValue ] = useState(props.originalValue);
+  
   /*const elt = createElement('div');
 
   const calculator = Desmos.GraphingCalculator(elt);
@@ -41,7 +44,7 @@ function Component(props: InteractionProps) {
   );
 }
 
-const interaction: InteractionPackage = {
+const interaction: InteractionPackage<InteractionType> = {
   id: "graph",
   prettyName: "Graph",
   category: "Mathematics",

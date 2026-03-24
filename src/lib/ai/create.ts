@@ -1,7 +1,8 @@
 import generateText from "./functions";
+
+import { Learn, Practice } from "../types/skill";
 import { ModelType } from "./types";
-import * as schemas from './schemas';
-import * as types from '../types';
+import { embedTypeSchema, skillSchema } from "./schemas";
 
 enum InteractionType {
   Drawing = 'Drawing',
@@ -29,7 +30,7 @@ async function chooseSkillType(skillPrompt: SkillPrompt): Promise<InteractionTyp
     CHAPTERS:
     ${skillPrompt.chapters.join(', ')}`,
     mimeType: 'text/x.enum',
-    schema: schemas.embedTypeSchema,
+    schema: embedTypeSchema,
     overrideInstruction:
     `You are an lesson plan classifier. You take lesson topics and decide which of the following interaction types they should use: 'Drawing', 'Graph', 'DAW', 'Codespace', or 'Engine'.
         
@@ -43,7 +44,7 @@ async function chooseSkillType(skillPrompt: SkillPrompt): Promise<InteractionTyp
   return response as InteractionType;
 }
 
-async function generateSkillLearn(skillPrompt: SkillPrompt, type: InteractionType): Promise<types.Learn> {
+async function generateSkillLearn(skillPrompt: SkillPrompt, type: InteractionType): Promise<Learn> {
   const response = await generateText({
     model: ModelType.Smart,
     prompt:
@@ -84,7 +85,7 @@ async function generateSkillLearn(skillPrompt: SkillPrompt, type: InteractionTyp
 
     </EXAMPLE>`,
     mimeType: 'application/json',
-    schema: schemas.skillSchema,
+    schema: skillSchema,
     overrideInstruction:
     `You are an expert lesson planner.
         
@@ -101,7 +102,7 @@ async function generateSkillLearn(skillPrompt: SkillPrompt, type: InteractionTyp
     Math formulas, equations, and variables should always be written using LATEX formatting.`
   });
 
-  return JSON.parse(response) as types.Learn;
+  return JSON.parse(response) as Learn;
 }
 
 function generateLearnInstructions(skillPrompt: SkillPrompt, type: InteractionType): string {
@@ -155,26 +156,26 @@ function generateLearnInstructions(skillPrompt: SkillPrompt, type: InteractionTy
 function getInteractionPrompt(type: InteractionType): string {
   switch (type) {
     case InteractionType.Drawing:
-      return  `Create a drawing environment with this element.`;
+      return `Create a drawing environment with this element.`;
       
     case InteractionType.Graph:
-      return  `Create a graph environment with this element.`;
+      return `Create a graph environment with this element.`;
       
     case InteractionType.DAW:
-      return  `Create a DAW environment with this element.`;
+      return `Create a DAW environment with this element.`;
       
     case InteractionType.Codespace:
-      return  `Create a codespace environment with this element. The codespace needs a defined programming language and file content to demonstrate whatever concept is being taught.`;
+      return `Create a codespace environment with this element. The codespace needs a defined programming language and file content to demonstrate whatever concept is being taught.`;
       
     case InteractionType.Engine:
-      return  `Create an engine environment with this element.`;
+      return `Create an engine environment with this element.`;
   }
 }
 
-async function generateSkillPractice(skillPrompt: SkillPrompt): Promise<types.Practice> {
+async function generateSkillPractice(skillPrompt: SkillPrompt): Promise<Practice> {
   const response = '';
   
-  return JSON.parse(response ?? '') as types.Practice;
+  return JSON.parse(response ?? '') as Practice;
 }
 
 function getExampleInput(type: InteractionType): string {
@@ -216,21 +217,21 @@ function getExampleInput(type: InteractionType): string {
   }
 }
 
-async function getExampleLearnOutput(type: InteractionType): Promise<types.Learn> {
+async function getExampleLearnOutput(type: InteractionType): Promise<Learn> {
   switch (type) {
     case InteractionType.Drawing:
-      return {} as types.Learn;
+      return {} as Learn;
       
     case InteractionType.Graph:
-      return {} as types.Learn;
+      return {} as Learn;
       
     case InteractionType.DAW:
-      return {} as types.Learn;
+      return {} as Learn;
       
     case InteractionType.Codespace:
-      return {} as types.Learn;
+      return {} as Learn;
       
     case InteractionType.Engine:
-      return {} as types.Learn;
+      return {} as Learn;
   }
 }

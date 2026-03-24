@@ -1,10 +1,11 @@
 import Content from '@/components/learn';
+import Skill from '@/lib/types/skill';
 
 import { Metadata, ResolvingMetadata } from 'next';
-import { Skill, Props, ComponentMode } from '@/lib/types';
-import { get } from '@/lib/database';
+import { PageProps, ViewMode } from '@/lib/types/general';
+import { get } from '@/lib/miscellaneous/database';
 
-export async function generateMetadata({ params, searchParams }: Props, parent: ResolvingMetadata): Promise<Metadata> {
+export async function generateMetadata({ params, searchParams }: PageProps, parent: ResolvingMetadata): Promise<Metadata> {
   const { slug } = await params;
   const course = await get<Skill>("skills", slug);
 
@@ -13,7 +14,7 @@ export async function generateMetadata({ params, searchParams }: Props, parent: 
   }
 }
 
-export default async function Page({ params, searchParams }: Props) {
+export default async function Page({ params, searchParams }: PageProps) {
   const { slug } = await params;
   const urlParams = await searchParams;
 
@@ -24,11 +25,8 @@ export default async function Page({ params, searchParams }: Props) {
     <div>
       <main>
         <Content
-          slug={slug}
           skill={skill}
-          mode={mode as ComponentMode}
-          apiKey={process.env.ONECOMPILER_API_KEY ?? ''}
-          hideLogo={false}
+          mode={mode as ViewMode}
         />
       </main>
     </div>

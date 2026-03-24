@@ -1,11 +1,9 @@
 'use client'
 
 import { CSSProperties, PureComponent, useState } from 'react';
-import { InteractionPackage, InteractionProps } from '@/lib/types';
+import { InteractionPackage, InteractionProps } from '@/lib/types/general';
 import { SportsEsports } from '@mui/icons-material';
 import { Type } from '@google/genai';
-
-import * as helpers from '@/lib/helpers';
 
 export type InteractionType = {
   properties: CSSProperties,
@@ -59,10 +57,9 @@ const schema = {
   ]
 };
 
-function Component(props: InteractionProps) {
-  const [ properties, setProperties ] = useState(helpers.getInteractionValue<InteractionType>(props.elementID).properties);
-  const [ entities, setEntities ] = useState(helpers.getInteractionValue<InteractionType>(props.elementID).entities);
-
+function Component(props: InteractionProps<InteractionType>) {
+  const [ value, setValue ] = useState(props.originalValue);
+  
   //const renderedEntities = entities.map(entity => ({ ...entity, renderer: Renderer }));
 
   return (
@@ -98,7 +95,7 @@ class Renderer extends PureComponent {
   }
 }*/
 
-const interaction: InteractionPackage = {
+const interaction: InteractionPackage<InteractionType> = {
   id: "engine",
   prettyName: "Engine",
   category: "Computer Science",

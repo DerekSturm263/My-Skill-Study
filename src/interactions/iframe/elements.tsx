@@ -1,12 +1,10 @@
 'use client'
 
-import { ComponentMode, InteractionPackage, InteractionProps } from '@/lib/types';
+import { ViewMode, InteractionPackage, InteractionProps } from '@/lib/types/general';
 import { Stack, TextField } from '@mui/material';
 import { FilterFrames } from '@mui/icons-material';
 import { useState } from 'react';
 import { Type } from '@google/genai';
-
-import * as helpers from '@/lib/helpers';
 
 export type InteractionType = {
   source: string
@@ -31,40 +29,37 @@ const schema = {
   ]
 };
 
-function Component(props: InteractionProps) {
-  const [ source, setSource ] = useState(helpers.getInteractionValue<InteractionType>(props.elementID).source);
+function Component(props: InteractionProps<InteractionType>) {
+  const [ value, setValue ] = useState(props.originalValue);
+  const [ isDisabled, setIsDisabled ] = useState(false);
 
   return (
     <Stack
       sx={{ flexGrow: 1 }}
     >
-      {props.mode == ComponentMode.Edit && (
+      {props.mode == ViewMode.Edit && (
         <TextField
           label="Source"
           name="source"
           autoComplete="off"
-          disabled={props.isDisabled}
-          value={source}
+          disabled={isDisabled}
+          value={value.source}
           onChange={(e) => {
-            setSource(e.target.value);
-            helpers.getInteractionValue<InteractionType>(props.elementID).source = e.target.value;
+            setValue({ ... value, source: e.target.value });
           }}
         />
       )}
 
       <iframe
-        id={`interaction${helpers.getAbsoluteIndex(props.elementID)}`}
-        className="fullscreenInteraction"
-        src={source}
+        src={value.source}
         width="100%"
         height="100%"
-        onLoad={(e) => props.setComplete(true)}
       ></iframe>
     </Stack>
   );
 }
 
-const interaction: InteractionPackage = {
+const interaction: InteractionPackage<InteractionType> = {
   id: "iframe",
   prettyName: "IFrame",
   category: "Miscellaneous",

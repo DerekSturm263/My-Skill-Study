@@ -3,9 +3,8 @@
 import Link from "next/link";
 
 import { Breadcrumbs, Card, CardActionArea, CardActions, CardContent, Chip, LinearProgress, Rating, Stack, Tab, Tabs, TextField, Toolbar, Typography } from "@mui/material";
-import { ComponentMode, Sharable } from "@/lib/types";
+import { ViewMode, Sharable } from "@/lib/types/general";
 import { useState } from "react";
-import { Header } from "./general";
 
 export function SharableCard<T extends Sharable>({ sharable, id, type }: { sharable: T, id: string, type: string }) {
   return (
@@ -49,27 +48,15 @@ export function SharableCard<T extends Sharable>({ sharable, id, type }: { shara
   );
 }
 
-export function SharablePage<T extends Sharable>({ slug, sharable, mode, hideLogo, type, children }: { slug: string, sharable: T, mode: ComponentMode, hideLogo: boolean, type: string, children?: React.ReactNode }) {
+export function SharablePage<T extends Sharable>({ slug, sharable, mode, hideLogo, type, children }: { slug: string, sharable: T, mode: ViewMode, hideLogo: boolean, type: string, children?: React.ReactNode }) {
   const [ tabIndex, setTabIndex ] = useState(0);
-  const tabs = mode == ComponentMode.Edit ? ["About"] : ["About", "Recommended", "Reviews"];
+
+  const tabs = mode == ViewMode.Edit ? [ "About" ] : [ "About", "Recommended", "Reviews" ];
 
   return (
     <Stack
       sx={{ height: '100vh' }}
     >
-      <Header
-        slug={slug}
-        mode={mode as ComponentMode}
-        type=""
-        progress={0}
-        showProgress={true}
-        hideLogo={hideLogo}
-        value={sharable}
-        showSave={false}
-        linkType={type}
-      />
-      <Toolbar />
-
       <Breadcrumbs>
         <Link
           href="./"
@@ -88,15 +75,15 @@ export function SharablePage<T extends Sharable>({ slug, sharable, mode, hideLog
       >
         <Title
           sharable={sharable}
-          mode={mode as ComponentMode}
+          mode={mode as ViewMode}
         />
 
         <Tagline
           sharable={sharable}
-          mode={mode as ComponentMode}
+          mode={mode as ViewMode}
         />
 
-        {mode != ComponentMode.Edit && (
+        {mode != ViewMode.Edit && (
           <Rating
             name="skill-rating"
             value={sharable.rating}
@@ -130,7 +117,7 @@ export function SharablePage<T extends Sharable>({ slug, sharable, mode, hideLog
       {tabIndex == 0 ? (
         <Description
           sharable={sharable}
-          mode={mode as ComponentMode}
+          mode={mode as ViewMode}
         />
       ) : (
         <></>
@@ -139,7 +126,7 @@ export function SharablePage<T extends Sharable>({ slug, sharable, mode, hideLog
   );
 }
 
-function Title<T extends Sharable>({ sharable, mode }: { sharable: T, mode: ComponentMode }) {
+function Title<T extends Sharable>({ sharable, mode }: { sharable: T, mode: ViewMode }) {
   const [ title, setTitle ] = useState(sharable.title);
   
   const header = (
@@ -162,10 +149,10 @@ function Title<T extends Sharable>({ sharable, mode }: { sharable: T, mode: Comp
     />
   );
 
-  return mode == ComponentMode.Edit ? input : header;
+  return mode == ViewMode.Edit ? input : header;
 }
 
-function Tagline<T extends Sharable>({ sharable, mode }: { sharable: T, mode: ComponentMode }) {
+function Tagline<T extends Sharable>({ sharable, mode }: { sharable: T, mode: ViewMode }) {
   const [ tagLine, setTagLine ] = useState(sharable.tagLine);
   
   const header = (
@@ -188,10 +175,10 @@ function Tagline<T extends Sharable>({ sharable, mode }: { sharable: T, mode: Co
     />
   );
 
-  return mode == ComponentMode.Edit ? input : header;
+  return mode == ViewMode.Edit ? input : header;
 }
 
-function Description<T extends Sharable>({ sharable, mode }: { sharable: T, mode: ComponentMode }) {
+function Description<T extends Sharable>({ sharable, mode }: { sharable: T, mode: ViewMode }) {
   const [ description, setDescription ] = useState(sharable.description);
   
   const header = (
@@ -217,5 +204,5 @@ function Description<T extends Sharable>({ sharable, mode }: { sharable: T, mode
     />
   );
 
-  return mode == ComponentMode.Edit ? input : header;
+  return mode == ViewMode.Edit ? input : header;
 }

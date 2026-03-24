@@ -1,20 +1,18 @@
 'use client'
 
-import ky from 'ky';
-import verify, { CodeResult } from './functions';
+import verify, { compile } from './functions';
 
-import { Stack,  Tabs, Tab, Button, Typography, TextField, Checkbox, FormControlLabel, LinearProgress, FormControl, IconButton, InputLabel, MenuItem, Select } from '@mui/material';
-import { ComponentMode, InteractionPackage, InteractionProps } from '@/lib/types';
+import { Stack,  Tabs, Tab, Button, Typography, TextField, Checkbox, FormControlLabel, LinearProgress, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { ViewMode, InteractionPackage, InteractionProps } from '@/lib/types/general';
 import { Add, Code, PlayArrow } from '@mui/icons-material';
 import { Fragment, useState } from 'react';
+import { Verification } from '@/lib/ai/types';
 import { Editor } from '@monaco-editor/react';
 import { Type } from '@google/genai';
 
-import * as helpers from '@/lib/helpers';
-
 export type InteractionType = {
   language: CodespaceLanguage,
-  content: CodespaceFile[],
+  files: CodespaceFile[],
   isSimplified: boolean,
   allowNewFiles: boolean,
   correctOutput: string | undefined
@@ -88,7 +86,7 @@ export type CodespaceFile = {
 
 const defaultValue: InteractionType = {
   language: CodespaceLanguage.JavaScript,
-  content: [
+  files: [
     {
       name: 'Main.js',
       content: 'console.log("Hello, world!");'
@@ -166,56 +164,36 @@ const schema = {
   required: [
     "language",
     "content",
+    "allowNewFiles",
     "isSimplified"
   ],
   propertyOrdering: [
     "language",
     "content",
     "isSimplified",
+    "allowNewFiles",
     "correctOutput"
   ]
 };
 
-function Component(props: InteractionProps) {
-  const [ language, setLanguage ] = useState(helpers.getInteractionValue<InteractionType>(props.elementID).language);
-  const [ content, setContent ] = useState(helpers.getInteractionValue<InteractionType>(props.elementID).content);
-  const [ isSimplified, setIsSimplified ] = useState(helpers.getInteractionValue<InteractionType>(props.elementID).isSimplified);
-  const [ allowNewFiles, setAllowNewFiles ] = useState(helpers.getInteractionValue<InteractionType>(props.elementID).allowNewFiles);
-  const [ correctOutput, setCorrectOutput ] = useState(helpers.getInteractionValue<InteractionType>(props.elementID).correctOutput);
+function Component(props: InteractionProps<InteractionType>) {
+  const [ value, setValue ] = useState(props.originalValue);
+
   const [ output, setOutput ] = useState("");
-  const [ tabIndex, setTabIndex ] = useState(0);
+  const [ currentTabIndex, setTabIndex ] = useState(0);
   const [ isRunning, setIsRunning ] = useState(false);
   
-  const file = content[tabIndex];
+  const currentFile = value.files[currentTabIndex];
 
-  async function submit() {
+  async function submit(): Promise<Verification> {
     setIsRunning(true);
-    props.setIsThinking(true);
 
-    const response = await ky.post('https://onecompiler-apis.p.rapidapi.com/api/v1/run', {
-      headers: {
-        'x-rapidapi-key': props.elementID.keys[0],
-        'x-rapidapi-host': 'onecompiler-apis.p.rapidapi.com',
-        'Content-Type': 'application/json',
-      },
-      json: {
-        language: language,
-        stdin: "",
-        files: content.map(file => isSimplified ? unsimplify(file) : file)
-      }
-    }).json() as CodeResult;
+    const output = await compile(value);
+    setOutput(output.consoleOutput);
 
-    const output = `${response.stdout ?? ''}\n${response.stderr ?? ''}`;
-    setOutput(output.trim() == '' ? 'Program did not output anything' : output);
     setIsRunning(false);
 
-    const feedback = await verify(props.originalText, content, response, helpers.getInteractionValue<InteractionType>(props.elementID));
-    props.setText(feedback.feedback);
-    props.setIsThinking(false);
-
-    if (feedback.isValid) {
-      props.setComplete(true);
-    }
+    return verify(props.originalText, value, output.response);
   }
 
   return (
@@ -226,7 +204,7 @@ function Component(props: InteractionProps) {
       <Stack
         sx={{ flexGrow: 1, width: '60%' }}
       >
-        {props.mode == ComponentMode.Edit && (
+        {props.mode == ViewMode.Edit && (
           <Stack
             direction="row"
             spacing={2}
@@ -239,11 +217,10 @@ function Component(props: InteractionProps) {
 
               <Select
                 labelId="language-label"
-                value={language}
+                value={value.language}
                 label="Language"
                 onChange={(e) => {
-                  setLanguage(e.target.value as CodespaceLanguage);
-                  helpers.getInteractionValue<InteractionType>(props.elementID).language = e.target.value as CodespaceLanguage;
+                  setValue({ ... value, language: e.target.value as CodespaceLanguage });
                 }}
               >
                 {(Object.values(CodespaceLanguage).map((item, index) => (
@@ -261,10 +238,9 @@ function Component(props: InteractionProps) {
               <Checkbox
                 name="isSimplified"
                 id="isSimplified"
-                checked={isSimplified}
+                checked={value.isSimplified}
                 onChange={(e) => {
-                  setIsSimplified(e.target.checked);
-                  helpers.getInteractionValue<InteractionType>(props.elementID).isSimplified = e.target.checked;
+                  setValue({ ... value, isSimplified: e.target.checked });
                 }}
               />}
             />
@@ -273,10 +249,9 @@ function Component(props: InteractionProps) {
               <Checkbox
                 name="allowNewFiles"
                 id="allowNewFiles"
-                checked={allowNewFiles}
+                checked={value.allowNewFiles}
                 onChange={(e) => {
-                  setAllowNewFiles(e.target.checked);
-                  helpers.getInteractionValue<InteractionType>(props.elementID).allowNewFiles = e.target.checked;
+                  setValue({ ... value, allowNewFiles: e.target.checked });
                 }}
               />}
             />
@@ -287,47 +262,39 @@ function Component(props: InteractionProps) {
           sx={{ flexGrow: 1 }}
         >
           <Tabs
-            value={tabIndex}
+            value={currentTabIndex}
             onChange={(e, value) => { setTabIndex(value); }}
             variant="scrollable"
             scrollButtons="auto"
           >
-            {content.map((file, index) => (
+            {value.files.map((file, index) => (
               <Tab
                 key={index}
                 label={file.name}
               />
             ))}
 
-            {(props.mode == ComponentMode.Edit || allowNewFiles) && (
+            {(props.mode == ViewMode.Edit || value.allowNewFiles) && (
               <Tab
                 icon={<Add />}
                 onClick={(e) => {
-                  const newContent = content;
-                  newContent.push({ name: "New File", content: "" });
-                  setContent(newContent);
-
-                  if (props.mode == ComponentMode.Edit) {
-                    helpers.getInteractionValue<InteractionType>(props.elementID).content = content;
-                  }
+                  const newFiles = value.files;
+                  newFiles.push({ name: "New File", content: "" });
+                  setValue({ ... value, files: newFiles });
                 }}
               />
             )}
           </Tabs>
 
           <Editor
-            path={file.name}
-            defaultLanguage={language}
-            defaultValue={file.content}
+            path={currentFile.name}
+            defaultLanguage={value.language}
+            defaultValue={currentFile.content}
             theme="vs-dark"
             onChange={(e) => {
-              const newContent = content;
-              newContent[tabIndex].content = e ?? '';
-              setContent(newContent);
-
-              if (props.mode == ComponentMode.Edit) {
-                helpers.getInteractionValue<InteractionType>(props.elementID).content[tabIndex].content = e ?? '';
-              }
+              const newFiles = value.files;
+              newFiles[currentTabIndex].content = e ?? '';
+              setValue({ ... value, files: newFiles });
             }}
           />
         </Stack>
@@ -336,16 +303,15 @@ function Component(props: InteractionProps) {
       <Stack
         sx={{ flexGrow: 1 }}
       >
-        {props.mode == ComponentMode.Edit ? (
+        {props.mode == ViewMode.Edit ? (
           <TextField
             label="Correct Output"
             name="correctOutput"
-            value={correctOutput}
+            value={value.correctOutput}
             multiline
             rows={22}
             onChange={(e) => {
-              setCorrectOutput(e.target.value);
-              helpers.getInteractionValue<InteractionType>(props.elementID).correctOutput = e.target.value;
+              setValue({ ... value, correctOutput: e.target.value });
             }}
             fullWidth={true}
           />
@@ -369,7 +335,7 @@ function Component(props: InteractionProps) {
               <Button
                 variant="contained"
                 startIcon={<PlayArrow />}
-                onClick={submit}
+                onClick={(e) => props.evaluateAndReply(submit())}
                 sx={{ width: '120px' }}
                 disabled={isRunning}
               >
@@ -397,22 +363,7 @@ function Component(props: InteractionProps) {
   );
 }
 
-function unsimplify(file: CodespaceFile) {
-  return {
-    name: file.name,
-    content: `using System;
-
-    public class Program
-    {
-      public static void Main(string[] args)
-      {
-        ${file.content}
-      }
-    }`
-  };
-}
-
-const interaction: InteractionPackage = {
+const interaction: InteractionPackage<InteractionType> = {
   id: "codespace",
   prettyName: "Codespace",
   category: "Computer Science",

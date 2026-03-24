@@ -2,13 +2,11 @@
 
 import Image from 'next/image';
 
-import { ElementID, ComponentMode, InteractionProps, InteractionPackage } from "@/lib/types";
+import { ViewMode, InteractionProps, InteractionPackage } from "@/lib/types/general";
 import { Box, Button, IconButton, Stack, TextField } from '@mui/material';
 import { Delete, Folder } from '@mui/icons-material';
 import { useState } from "react";
 import { Type } from '@google/genai';
-
-import * as helpers from '@/lib/helpers';
 
 export type InteractionType = {
   files: File[]
@@ -64,22 +62,24 @@ const schema = {
   ]
 };
 
-function Component(props: InteractionProps) {
-  const [ files, setFiles ] = useState(helpers.getInteractionValue<InteractionType>(props.elementID).files);
+function Component(props: InteractionProps<InteractionType>) {
+  const [ value, setValue ] = useState(props.originalValue);
 
   function addFile() {
-    const newFiles = files;
+    const newFiles = value.files;
     newFiles.push({
       source: "",
       isDownloadable: false
     });
-    setFiles(newFiles);
+
+    setValue({ ... value, files: newFiles });
   }
 
   function removeFile(index: number) {
-    const newFiles = files;
+    const newFiles = value.files;
     newFiles.splice(index, 1);
-    setFiles(newFiles);
+
+    setValue({ ... value, files: newFiles });
   }
 
   return (
@@ -91,12 +91,10 @@ function Component(props: InteractionProps) {
         direction="row"
         spacing={2}
       >
-        {files.map((item, index) => (
+        {value.files.map((item, index) => (
           <FileItem
             key={index}
-            elementID={props.elementID}
-            isDisabled={props.isDisabled}
-            mode={props.mode}
+            props={props}
             item={item}
             index={index}
             removeItem={removeFile}
@@ -104,7 +102,7 @@ function Component(props: InteractionProps) {
         ))}
       </Stack>
 
-      {props.mode == ComponentMode.Edit && (
+      {props.mode == ViewMode.Edit && (
         <Button
           onClick={(e) => { addFile() }}
           variant="contained"
@@ -116,23 +114,21 @@ function Component(props: InteractionProps) {
   );
 }
 
-function FileItem({ elementID, isDisabled, mode, item, index, removeItem }: { elementID: ElementID, isDisabled: boolean, mode: ComponentMode, item: File, index: number, removeItem: (index: number) => void }) {
-  const [ source, setSource ] = useState(item.source);
-  const [ isDownloadable, setIsDownloadable ] = useState(item.isDownloadable);
+function FileItem({ props, item, index, removeItem }: { props: InteractionProps<InteractionType>, item: File, index: number, removeItem: (index: number) => void }) {
+  const [ value, setValue ] = useState(item);
   
-  const extension = source.substring(source.length - 3);
+  const extension = value.source.substring(value.source.length - 3);
 
   return (
     <Stack>
-      {mode == ComponentMode.Edit && (
+      {props.mode == ViewMode.Edit && (
         <>
           <TextField
             label="Source"
             autoComplete="off"
-            value={source}
+            value={value.source}
             onChange={(e) => {
-              setSource(e.target.value);
-              helpers.getInteractionValue<InteractionType>(elementID).files[index].source = e.target.value;
+              setValue({ ... value, source: e.target.value });
             }}
           />
 
@@ -146,24 +142,24 @@ function FileItem({ elementID, isDisabled, mode, item, index, removeItem }: { el
       
       {extension == "png" ? (
         <Image
-          src={source}
-          alt={source}
+          src={value.source}
+          alt={value.source}
         />
       ) : extension == "mp4" ? (
         <video
-          src={source}
+          src={value.source}
           controls
         ></video>
       ) : extension == "mp3" ? (
         <audio
-          src={source}
+          src={value.source}
           controls
         ></audio>
       ) : (
         <></>
       )}
 
-      {isDownloadable && (
+      {value.isDownloadable && (
         <Button
           onClick={(e) => removeItem(index)}
         >
@@ -174,7 +170,7 @@ function FileItem({ elementID, isDisabled, mode, item, index, removeItem }: { el
   );
 }
 
-const interaction: InteractionPackage = {
+const interaction: InteractionPackage<InteractionType> = {
   id: "files",
   prettyName: "Files",
   category: "Miscellaneous",

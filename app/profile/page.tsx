@@ -2,10 +2,8 @@ import { Metadata, ResolvingMetadata } from 'next';
 import { PageProps } from '@/lib/types/general';
 
 export async function generateMetadata({ params, searchParams }: PageProps, parent: ResolvingMetadata): Promise<Metadata> {
-  const urlParams = await searchParams;
-
   return {
-    title: `"${urlParams.query}"`
+    title: "Profile"
   }
 }
 

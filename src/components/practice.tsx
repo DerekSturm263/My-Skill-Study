@@ -1,9 +1,13 @@
+'use client'
+
+import Skill from '@/lib/types/skill';
+
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Stack, Toolbar } from '@mui/material';
-import { Header, Sidebar, SidebarButton } from './general';
-import { ComponentMode, Skill } from '@/lib/types';
+import { Sidebar, SidebarButton } from './general';
+import { ViewMode } from '@/lib/types/general';
 import { useState } from 'react';
 
-export default function Content({ slug, skill, mode, apiKey, hideLogo }: { slug: string, skill: Skill, mode: ComponentMode, apiKey: string, hideLogo: boolean }) {
+export default function Page({ skill, mode }: { skill: Skill, mode: ViewMode }) {
   const [ subSkills, setSubSkills ] = useState(skill.practice.subSkills);
   const [ isNavigationEnabled, setIsNavigationEnabled ] = useState(true);
   const [ currentSubSkillIndex, setCurrentSubSkillIndex ] = useState(0);
@@ -43,18 +47,6 @@ export default function Content({ slug, skill, mode, apiKey, hideLogo }: { slug:
           </Button>
         </DialogActions>
       </Dialog>
-
-      <Header
-        slug={slug}
-        mode={mode as ComponentMode}
-        type="Practice"
-        progress={0}
-        showProgress={true}
-        hideLogo={hideLogo}
-        value={skill}
-        showSave={false}
-        linkType="skills"
-      />
 
       <Box
         display='flex'

@@ -2,13 +2,11 @@
 
 import verify from './functions';
 
-import { Box,  Button, FormControl, Radio, RadioGroup, FormControlLabel } from '@mui/material';
-import { ComponentMode, InteractionPackage, InteractionProps } from '@/lib/types';
+import { Box, Button, FormControl, Radio, RadioGroup, FormControlLabel } from '@mui/material';
+import { ViewMode, InteractionPackage, InteractionProps } from '@/lib/types/general';
 import { ToggleOn } from '@mui/icons-material';
 import { useState } from 'react';
 import { Type } from '@google/genai';
-
-import * as helpers from '@/lib/helpers';
 
 export type InteractionType = {
   isCorrect: boolean
@@ -33,42 +31,26 @@ const schema = {
   ]
 };
 
-function Component(props: InteractionProps) {
-  const [ isCorrect, setIsCorrect ] = useState(helpers.getInteractionValue<InteractionType>(props.elementID).isCorrect);
+function Component(props: InteractionProps<InteractionType>) {
+  const [ value, setValue ] = useState(props.originalValue);
   const [ userIsCorrect, setUserIsCorrect ] = useState(false);
-
-  async function submit() {
-    props.setIsThinking(true);
-
-    const feedback = await verify(props.originalText, userIsCorrect, helpers.getInteractionValue<InteractionType>(props.elementID));
-    props.setText(feedback.feedback);
-    props.setIsThinking(false);
-
-    if (feedback.isValid) {
-      props.setComplete(true);
-    }
-  }
+  const [ isDisabled, setIsDisabled ] = useState(false);
 
   return (
     <Box
       sx={{ flexGrow: 1, alignSelf: "center", alignContent: "center" }}
     >
       <FormControl
-        id={`interaction${helpers.getAbsoluteIndex(props.elementID)}`}
-        className='multipleOptions'
         sx={{ alignItems: "center" }}
-        disabled={props.isDisabled}
+        disabled={isDisabled}
       >
         <RadioGroup
           defaultValue=""
           name="true-false-group"
-          value={props.mode == ComponentMode.Edit ? isCorrect : userIsCorrect}
+          value={props.mode == ViewMode.Edit ? value.isCorrect : userIsCorrect}
           onChange={(e) => {
-            const isCorrect = e.target.value == "true";
-
-            if (props.mode == ComponentMode.Edit) {
-              setIsCorrect(isCorrect);
-              helpers.getInteractionValue<InteractionType>(props.elementID).isCorrect = isCorrect;
+            if (props.mode == ViewMode.Edit) {
+              setValue({ ... value, isCorrect: e.target.value == "true" });
             } else {
               setUserIsCorrect(e.target.value == "true");
             }
@@ -78,15 +60,15 @@ function Component(props: InteractionProps) {
           <FormControlLabel value="false" control={<Radio />} label="False" />
         </RadioGroup>
 
-        {props.mode == ComponentMode.View && (
+        {props.mode == ViewMode.View && (
           <>
             <br />
           
             <Button
               variant="contained"
-              onClick={(e) => submit()}
+              onClick={(e) => props.evaluateAndReply(verify(props.originalText, userIsCorrect, value))}
               sx={{ width: '120px' }}
-              disabled={props.isDisabled}
+              disabled={isDisabled}
             >
               Submit
             </Button>
@@ -97,7 +79,7 @@ function Component(props: InteractionProps) {
   );
 }
 
-const interaction: InteractionPackage = {
+const interaction: InteractionPackage<InteractionType> = {
   id: "trueOrFalse",
   prettyName: "True or False",
   category: "Assessments",

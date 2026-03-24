@@ -1,7 +1,8 @@
 'use client'
 
-import { InteractionPackage, InteractionProps } from '@/lib/types';
+import { InteractionPackage, InteractionProps } from '@/lib/types/general';
 import { GraphicEq } from '@mui/icons-material';
+import { useState } from 'react';
 import { Type } from '@google/genai';
 import { Box } from '@mui/material';
 
@@ -26,7 +27,9 @@ const schema = {
   ]
 };
 
-function Component(props: InteractionProps) {
+function Component(props: InteractionProps<InteractionType>) {
+  const [ value, setValue ] = useState(props.originalValue);
+  
   return (
     <Box
       sx={{ flexGrow: 1 }}
@@ -36,7 +39,7 @@ function Component(props: InteractionProps) {
   );
 }
 
-const interaction: InteractionPackage = {
+const interaction: InteractionPackage<InteractionType> = {
   id: "daw",
   prettyName: "Digital Audio Workstation",
   category: "Audio",

@@ -1,12 +1,10 @@
 'use client'
 
-import { InteractionPackage, InteractionProps } from "@/lib/types";
+import { InteractionPackage, InteractionProps } from "@/lib/types/general";
 import { FormatLineSpacing } from '@mui/icons-material';
 import { useState } from 'react';
 import { Type } from '@google/genai';
 import { Box } from '@mui/material';
-
-import * as helpers from "@/lib/helpers";
 
 export type InteractionType = {
   correctOrder: string[]
@@ -38,8 +36,8 @@ const schema = {
   ]
 };
 
-function Component(props: InteractionProps) {
-  const [ items, setItems ] = useState(helpers.getInteractionValue<InteractionType>(props.elementID).correctOrder);
+function Component(props: InteractionProps<InteractionType>) {
+  const [ value, setValue ] = useState(props.originalValue);
 
   /*if (mode != types.ComponentMode.Edit) {
     setItems(items.sort(item => Math.random() - 0.5));
@@ -62,7 +60,7 @@ function Component(props: InteractionProps) {
   );
 }
 
-const interaction: InteractionPackage = {
+const interaction: InteractionPackage<InteractionType> = {
   id: "ordering",
   prettyName: "Ordering",
   category: "Assessments",

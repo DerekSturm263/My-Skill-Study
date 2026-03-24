@@ -1,7 +1,7 @@
 'use server'
 
 import { MongoClient, ObjectId, WithId } from 'mongodb';
-import { Sharable } from './types';
+import { Sharable } from '../types/general';
 
 const client = new MongoClient(process.env.MONGODB_URI ?? '', {
   serverSelectionTimeoutMS: 120000,

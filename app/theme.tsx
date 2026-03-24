@@ -1,11 +1,11 @@
 'use client'
 
-import { createTheme } from '@mui/material/styles';
-
 import '@fontsource/lexend/300.css';
 import '@fontsource/lexend/400.css';
 import '@fontsource/lexend/500.css';
 import '@fontsource/lexend/700.css';
+
+import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
   palette: {
