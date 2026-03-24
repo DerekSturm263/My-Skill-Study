@@ -15,7 +15,7 @@ import Matching from '@/interactions/matching/elements';
 import IFrame from '@/interactions/iframe/elements';
 
 import { IconButton, Dialog, Typography, Stack, List, ListItem, ListItemButton, ListItemText, Button, TextField, LinearProgress, Drawer, MenuItem, DialogActions, Divider, FormControl, InputLabel, Toolbar, Select, Box, Tabs, Tab, Switch, FormControlLabel, ListItemIcon, Link, DialogTitle, DialogContentText, DialogContent, SpeedDial, SpeedDialAction, SpeedDialIcon, Menu } from '@mui/material';
-import { ViewMode, InteractionProps, InteractionPackageBase, InteractionPackage } from '../lib/types/general';
+import { ViewMode, InteractionProps, InteractionPackageBase, InteractionPackage, Sharable } from '../lib/types/general';
 import { Delete, MoreVert, Refresh, SwapHoriz, SvgIconComponent } from '@mui/icons-material';
 import { Fragment, Children, useState, MouseEventHandler, Dispatch, SetStateAction } from 'react';
 import { Component as TextComponent } from '@/interactions/text/elements'; 
@@ -70,6 +70,39 @@ export function SuccessDialog({ title, text, isOpen, setIsOpen }: { title: strin
       </DialogActions>
     </Dialog>
   )
+}
+
+export function DetailsDialog({ value, isOpen, setIsOpen }: { value: Sharable, isOpen: boolean, setIsOpen: Dispatch<SetStateAction<boolean>> }) {
+  return (
+    <Dialog
+      open={isOpen}
+      onClose={(e) => setIsOpen(false)}
+    >
+      <DialogTitle>
+        {value.title}
+      </DialogTitle>
+    
+      <DialogContent>
+        <DialogContentText
+          gutterBottom
+        >
+          {value.tagLine}
+        </DialogContentText>
+        
+        <DialogContentText>
+          {value.description}
+        </DialogContentText>
+      </DialogContent>
+    
+      <DialogActions>
+        <Button
+          onClick={(e) => setIsOpen(false)}
+        >
+          Close
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
 }
 
 export function ShareDialog({ type, id, setSnackbarText }: { type: string, id: string, setSnackbarText: (text: string) => void }) {
@@ -207,44 +240,6 @@ export function ShareDialog({ type, id, setSnackbarText }: { type: string, id: s
   );
 }
 
-export function DeleteDialog({ type, id, setSnackbarText }: { type: string, id: string, setSnackbarText: (text: string) => void }) {
-  const [ isOpen, setIsOpen ] = useState(false);
-
-  return (
-    <Dialog
-      open={isOpen}
-      onClose={(e) => setIsOpen(false)}
-    >
-      <DialogTitle>
-        Delete Content?
-      </DialogTitle>
-
-      <DialogContent>
-        <DialogContentText>
-          Are you sure you want to delete this content permanently? You will not be able to bring it back.
-        </DialogContentText>
-      </DialogContent>
-
-      <DialogActions>
-        <Button
-          onClick={(e) => setIsOpen(false)}
-        >
-          Cancel
-        </Button>
-
-        <Button
-          onClick={async (e) => {
-            await remove(type, id);
-            setSnackbarText("Content deleted");
-          }}
-        >
-          Delete
-        </Button>
-      </DialogActions>
-    </Dialog>
-  );
-}
-
 export function GenerateDialog({ type, id, setSnackbarText }: { type: string, id: string, setSnackbarText: (text: string) => void }) {
   const [ isOpen, setIsOpen ] = useState(false);
   const [ description, setDescription ] = useState("");
@@ -288,6 +283,44 @@ export function GenerateDialog({ type, id, setSnackbarText }: { type: string, id
           }}
         >
           Generate
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+}
+
+export function DeleteDialog({ type, id, setSnackbarText }: { type: string, id: string, setSnackbarText: (text: string) => void }) {
+  const [ isOpen, setIsOpen ] = useState(false);
+
+  return (
+    <Dialog
+      open={isOpen}
+      onClose={(e) => setIsOpen(false)}
+    >
+      <DialogTitle>
+        Delete Content?
+      </DialogTitle>
+
+      <DialogContent>
+        <DialogContentText>
+          Are you sure you want to delete this content permanently? You will not be able to bring it back.
+        </DialogContentText>
+      </DialogContent>
+
+      <DialogActions>
+        <Button
+          onClick={(e) => setIsOpen(false)}
+        >
+          Cancel
+        </Button>
+
+        <Button
+          onClick={async (e) => {
+            await remove(type, id);
+            setSnackbarText("Content deleted");
+          }}
+        >
+          Delete
         </Button>
       </DialogActions>
     </Dialog>
