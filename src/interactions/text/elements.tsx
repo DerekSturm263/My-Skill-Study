@@ -125,12 +125,16 @@ export function Component(props: InteractionProps<InteractionType>) {
           spacing={1}
           sx={{ width: '500px' }}
         >
-          <IconButton
-            disabled={props.isThinking}
-            onClick={(e) => setIsPlaying(!isPlaying)}
+          <Tooltip
+            title="Play/pause the text-to-speech"
           >
-            {isPlaying ? <Pause /> : <PlayArrow />}
-          </IconButton>
+            <IconButton
+              disabled={props.isThinking}
+              onClick={(e) => setIsPlaying(!isPlaying)}
+            >
+              {isPlaying ? <Pause /> : <PlayArrow />}
+            </IconButton>
+          </Tooltip>
 
           <Tooltip
             title="Automatically read new text it appears"

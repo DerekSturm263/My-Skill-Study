@@ -68,11 +68,15 @@ function Header({ presetSearchTerms }: { presetSearchTerms: string }) {
           slotProps={{
             input: {
               endAdornment: <InputAdornment position="end">
-                <IconButton
-                  href={`/search?query=${searchTerms}`}
+                <Tooltip
+                  title="Search for what you typed"
                 >
-                  <Search />
-                </IconButton>
+                  <IconButton
+                    href={`/search?query=${searchTerms}`}
+                  >
+                    <Search />
+                  </IconButton>
+                </Tooltip>
                 
                 <Tooltip
                   title="I'm feeling lucky"
@@ -90,7 +94,7 @@ function Header({ presetSearchTerms }: { presetSearchTerms: string }) {
         <Stack
           direction="row"
           width={200}
-          spacing={1}
+          spacing={0}
           sx={{ alignItems: "center", justifyContent: "end" }}
         >
           <IconButton
