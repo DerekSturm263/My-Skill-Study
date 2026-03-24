@@ -129,56 +129,58 @@ export function Component(props: InteractionProps<InteractionType>) {
           )}
         />
 
-        <Stack
-          direction="row"
-          spacing={1}
-          sx={{ width: '500px' }}
-        >
-          <Tooltip
-            title="Play/pause the text-to-speech"
-          >
-            <IconButton
-              disabled={props.isThinking}
-              onClick={(e) => setIsPlaying(!isPlaying)}
-            >
-              {isPlaying ? <Pause /> : <PlayArrow />}
-            </IconButton>
-          </Tooltip>
-
-          <Tooltip
-            title="Automatically read new text it appears"
-          >
-            <IconButton
-              disabled={props.isThinking}
-              onClick={(e) => setCookie('autoReadAloud', !cookies.autoReadAloud, { path: '/' })}
-            >
-              {cookies.autoReadAloud ? <MotionPhotosAuto /> : <MotionPhotosOff />}
-            </IconButton>
-          </Tooltip>
-
+        {props.mode != ViewMode.Edit && (
           <Stack
-            spacing={2}
             direction="row"
-            sx={{ alignItems: 'center', flexGrow: 1 }}
+            spacing={1}
+            sx={{ width: '500px' }}
           >
-            <Typography
-              variant='caption'
+            <Tooltip
+              title="Play/pause the text-to-speech"
             >
-              0:00
-            </Typography>
-  
-            <Slider
-              disabled={props.isThinking}
-              sx={{ flexGrow: 1 }}
-            />
-  
-            <Typography
-              variant='caption'
+              <IconButton
+                disabled={props.isThinking}
+                onClick={(e) => setIsPlaying(!isPlaying)}
+              >
+                {isPlaying ? <Pause /> : <PlayArrow />}
+              </IconButton>
+            </Tooltip>
+
+            <Tooltip
+              title="Automatically read new text it appears"
             >
+              <IconButton
+                disabled={props.isThinking}
+                onClick={(e) => setCookie('autoReadAloud', !cookies.autoReadAloud, { path: '/' })}
+              >
+                {cookies.autoReadAloud ? <MotionPhotosAuto /> : <MotionPhotosOff />}
+              </IconButton>
+            </Tooltip>
+
+            <Stack
+              spacing={2}
+              direction="row"
+              sx={{ alignItems: 'center', flexGrow: 1 }}
+            >
+              <Typography
+                variant='caption'
+              >
+                0:00
+              </Typography>
+  
+              <Slider
+                disabled={props.isThinking}
+                sx={{ flexGrow: 1 }}
+              />
+  
+              <Typography
+                variant='caption'
+              >
               1:00
-            </Typography>
+              </Typography>
+            </Stack>
           </Stack>
-        </Stack>
+        )}
 
         <Stack
           direction="row"
