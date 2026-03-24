@@ -124,6 +124,7 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
             <Button
               variant="contained"
               onClick={(e) => addChapter()}
+              fullWidth
             >
               New Chapter
             </Button>
