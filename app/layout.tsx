@@ -10,7 +10,7 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { ThemeProvider } from '@mui/material/styles';
 import { URLProps } from '@/lib/types/general';
 
-export default async function RootLayout({ children, searchParams }: Readonly<{ children: React.ReactNode }> & { searchParams: { [key: string]: string | string[] | undefined } }) {
+export default function RootLayout({ children, searchParams }: Readonly<{ children: React.ReactNode }> & { searchParams: { [key: string]: string | string[] | undefined } }) {
   const hideHeader = searchParams?.hideHeader == "true";
   
   return (
