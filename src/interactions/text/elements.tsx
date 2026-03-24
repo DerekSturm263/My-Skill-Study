@@ -3,8 +3,8 @@
 import generateText from "@/lib/ai/functions";
 import speakText from "@/lib/tts/functions";
 
-import { TextField, Stack, Card, CardContent, LinearProgress, CardActions, Pagination, PaginationItem, Tooltip, Chip, FormGroup, FormControlLabel, Switch } from '@mui/material';
-import { Add, AutoAwesome, Delete, RecordVoiceOver, Refresh, TextSnippet, VoiceOverOff, VolumeUp } from '@mui/icons-material';
+import { TextField, Stack, Card, CardContent, LinearProgress, CardActions, Pagination, PaginationItem, Tooltip, Chip, FormGroup, FormControlLabel, Switch, IconButton, Slider } from '@mui/material';
+import { Add, AutoAwesome, Delete, PlayArrow, RecordVoiceOver, Refresh, TextSnippet, VoiceOverOff, VolumeUp } from '@mui/icons-material';
 import { ViewMode, InteractionProps, InteractionPackage } from "@/lib/types/general";
 import { ModelType, Verification } from "@/lib/ai/types";
 import { useEffect, useState } from "react";
@@ -120,16 +120,11 @@ export function Component(props: InteractionProps<InteractionType>) {
         <Stack
           direction="row"
         >
-          <Tooltip
-            title="Read this text out loud"
-          >
-            <Chip
-              icon={<VolumeUp />}
-              label="Read Aloud"
-              onClick={(e) => readAloud()}
-              disabled={props.isThinking}
-            />
-          </Tooltip>
+          <IconButton>
+            <PlayArrow />
+          </IconButton>
+
+          <Slider />
 
           <FormGroup>
             <FormControlLabel
