@@ -4,16 +4,15 @@ import generateText from "@/lib/ai/functions";
 import speakText from "@/lib/tts/functions";
 
 import { TextField, Stack, Card, CardContent, LinearProgress, CardActions, Pagination, PaginationItem, Tooltip, Chip, FormGroup, FormControlLabel, Switch, IconButton, Slider } from '@mui/material';
-import { Add, AutoAwesome, Delete, PlayArrow, RecordVoiceOver, Refresh, TextSnippet, VoiceOverOff, VolumeUp } from '@mui/icons-material';
+import { Add, AutoAwesome, Delete, PlayArrow, Refresh, TextSnippet } from '@mui/icons-material';
 import { ViewMode, InteractionProps, InteractionPackage } from "@/lib/types/general";
 import { ModelType, Verification } from "@/lib/ai/types";
 import { useEffect, useState } from "react";
 import { MarkdownTypewriter } from "react-markdown-typewriter";
-import { Interaction } from "@/lib/types/general";
 import { useCookies } from "react-cookie";
 import { Type } from '@google/genai';
 
-export interface InteractionType extends Interaction {
+export interface InteractionType {
   text: string
 };
 

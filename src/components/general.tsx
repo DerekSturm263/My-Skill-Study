@@ -15,7 +15,7 @@ import Matching from '@/interactions/matching/elements';
 import IFrame from '@/interactions/iframe/elements';
 
 import { IconButton, Dialog, Typography, Stack, List, ListItem, ListItemButton, ListItemText, Button, TextField, Tooltip, Snackbar, LinearProgress, AppBar, Drawer, MenuItem, DialogActions, Divider, FormControl, InputLabel, Toolbar, Select, Box, Tabs, Tab, Switch, FormControlLabel, ListItemIcon, Link, DialogTitle, DialogContentText, DialogContent, SpeedDial, SpeedDialAction, SpeedDialIcon, Menu } from '@mui/material';
-import { ViewMode, InteractionProps, Sharable, InteractionPackageBase, Interaction, InteractionPackage } from '../lib/types/general';
+import { ViewMode, InteractionProps, Sharable, InteractionPackageBase, InteractionPackage } from '../lib/types/general';
 import { AutoAwesome, School, LocalLibrary, Delete, MoreVert, Save, Quiz, Share, Refresh, SwapHoriz, Info, SvgIconComponent } from '@mui/icons-material';
 import { Fragment, Children, useState, MouseEventHandler, Dispatch, SetStateAction } from 'react';
 import { Component as TextComponent } from '@/interactions/text/elements'; 
@@ -591,10 +591,10 @@ export function ElementComponent({ element, mode, isThinking, elementsCompleted,
   );
 }
 
-export function InteractionComponent(props: InteractionProps<Interaction> & { thisType: string }) {
+export function InteractionComponent(props: InteractionProps<object> & { thisType: string }) {
   const [ type, setType ] = useState(props.thisType);
 
-  const Component = (interactionMap[type] as InteractionPackage<Interaction>).Component;
+  const Component = (interactionMap[type] as InteractionPackage<object>).Component;
 
   return (
     <Stack
@@ -642,10 +642,10 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
   );
 }
 
-export function TypeSwitcher({ props, type, setType }: { props: InteractionProps<Interaction>, type: string, setType: Dispatch<SetStateAction<string>> }) {
+export function TypeSwitcher({ props, type, setType }: { props: InteractionProps<object>, type: string, setType: Dispatch<SetStateAction<string>> }) {
   function setTypeAndUpdate(type: string) {
     setType(type);
-    props.originalValue = (interactionMap[type] as InteractionPackage<Interaction>).defaultValue;
+    props.originalValue = (interactionMap[type] as InteractionPackage<object>).defaultValue;
   }
 
   return (

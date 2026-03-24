@@ -22,14 +22,12 @@ export type PageProps = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
-export interface Interaction { }
-
 export type InteractionWrapper = {
   type: string,
-  value: Interaction
+  value: object
 }
 
-export type InteractionProps<T extends Interaction | Interaction> = {
+export type InteractionProps<T extends object> = {
   text: string,
   originalValue: T,
   pageIndex: number,
@@ -51,7 +49,7 @@ export interface InteractionPackageBase {
   schema: SchemaUnion
 }
 
-export interface InteractionPackage<T extends Interaction> extends InteractionPackageBase {
+export interface InteractionPackage<T extends object> extends InteractionPackageBase {
   defaultValue: T,
   Component: (props: InteractionProps<T>) => JSX.Element
 }
