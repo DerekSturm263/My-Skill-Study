@@ -53,6 +53,9 @@ export function Component(props: InteractionProps<InteractionType>) {
   }
 
   async function readAloud() {
+    if (!cookies.autoReadAloud)
+      return;
+
     const request = {
       input: { text: props.text },
       voice: { languageCode: 'en-US', ssmlGender: 'NEUTRAL' },
@@ -70,6 +73,10 @@ export function Component(props: InteractionProps<InteractionType>) {
 
   async function reset() {
     props.setText(props.originalValue.text);
+  }
+  
+  async function toggleIsPlaying() {
+    setIsPlaying(!isPlaying);
   }
 
   useEffect(() => { readAloud() },  []);
@@ -122,7 +129,9 @@ export function Component(props: InteractionProps<InteractionType>) {
           spacing={3}
           sx={{ width: '500px' }}
         >
-          <IconButton>
+          <IconButton
+            onClick={toggleIsPlaying}
+          >
             {isPlaying ? <PlayArrow /> : <Pause />}
           </IconButton>
 
