@@ -31,5 +31,11 @@ export type SubSkill = {
 }
 
 export type Quiz = {
-  questions: Page[]
+  pages: QuizPage[]
+}
+
+export type QuizPage = {
+  title: string,
+  question: TextType,
+  interactions: InteractionWrapper[]
 }

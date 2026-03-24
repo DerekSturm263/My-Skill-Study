@@ -2,52 +2,32 @@
 
 import Skill from '@/lib/types/skill';
 
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
-import { Sidebar, SidebarButton } from './general';
+import { AutoAwesome, Delete, Info, Save, Share } from '@mui/icons-material';
+import { Sidebar, SidebarButton, SuccessDialog } from './general';
+import { CookiesProvider } from 'react-cookie';
+import { Box, Snackbar } from '@mui/material';
 import { ViewMode } from '@/lib/types/general';
 import { useState } from 'react';
-import { CookiesProvider } from 'react-cookie';
+import { save } from '@/lib/miscellaneous/database';
 
 export default function Page({ skill, id, mode }: { skill: Skill, id: string, mode: ViewMode }) {
-  const [ subSkills, setSubSkills ] = useState(skill.practice.subSkills);
-  const [ isNavigationEnabled, setIsNavigationEnabled ] = useState(true);
-  const [ currentSubSkillIndex, setCurrentSubSkillIndex ] = useState(0);
-  const [ hideDialogue, setHideDialogue ] = useState(false);
+  const [ value, setValue ] = useState(skill.practice);
+  const [ currentPageIndex, setCurrentPageIndex ] = useState(0);
+  const [ currentElementIndex, setCurrentElementIndex ] = useState(0);
+  const [ isThinking, setIsThinking ] = useState(false);
+  const [ elementsCompleted, setElementsCompleted ] = useState([[]] as boolean[][]);
+  const [ isDialogOpen, setIsDialogOpen ] = useState(false);
+  const [ snackbarText, setSnackbarText ] = useState("");
+  const [ isSnackbarOpen, setIsSnackbarOpen ] = useState(false);
 
   return (
     <CookiesProvider>
-      <Dialog
-        open={!hideDialogue}
-        onClose={(e) => setHideDialogue(true)}
-      >
-        <DialogTitle>
-          Practice Complete!
-        </DialogTitle>
-
-        <DialogContent>
-          <DialogContentText>
-            {"Good job on completing this practice!"}
-          </DialogContentText>
-          
-          <DialogContentText>
-            {"Next up: Quiz yourself on this skill to check your understanding."}
-          </DialogContentText>
-        </DialogContent>
-
-        <DialogActions>
-          <Button
-            onClick={(e) => setHideDialogue(true)}
-          >
-            Close
-          </Button>
-
-          <Button
-            href="./quiz"
-          >
-            Quiz Skill
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <SuccessDialog
+        title=''
+        text=''
+        isOpen={isDialogOpen}
+        setIsOpen={setIsDialogOpen}
+      />
 
       <Box
         display='flex'
@@ -55,22 +35,67 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
       >
         <Sidebar
           label="Sub-Skills"
-          actions={[]}
+          actions={[
+            {
+              label: "Details",
+              icon: Info,
+              action: () => {}
+            },
+            {
+              label: "Share",
+              icon: Share,
+              action: () => {}
+            },
+            {
+              label: "Generate",
+              icon: AutoAwesome,
+              action: () => {}
+            },
+            {
+              label: "Save",
+              icon: Save,
+              action: async () => {
+                await save("skills", id, skill);
+          
+                setSnackbarText("Saved");
+                setIsSnackbarOpen(true);
+              }
+            },
+            {
+              label: "Delete",
+              icon: Delete,
+              action: () => {}
+            }
+          ]}
         >
-          {subSkills.map((subSkill, index) => (
+          {value.subSkills.map((subSkill, index) => (
             <SidebarButton
-              isDisabled={!isNavigationEnabled}
-              selected={currentSubSkillIndex == index}
+              isDisabled={isThinking}
+              selected={currentPageIndex == index}
               key={index}
               ogTitle={subSkill.title}
               mode={mode}
               progress={0}
               onClick={(e) => {
-                setCurrentSubSkillIndex(index);
+                setCurrentPageIndex(index);
+                setCurrentElementIndex(0);
               }}
             />
           ))}
         </Sidebar>
+        
+        <Snackbar
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+          autoHideDuration={3000}
+          open={isSnackbarOpen}
+          message={snackbarText}
+          onClose={(e, reason?) => {
+            if (reason === 'clickaway')
+              return;
+        
+            setIsSnackbarOpen(false);
+          }}
+        />
       </Box>
     </CookiesProvider>
   );

@@ -2,70 +2,46 @@
 
 import Skill from '@/lib/types/skill';
 
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Snackbar } from '@mui/material';
-import { PageComponent, Sidebar, SidebarButton } from './general';
+import { PageComponent, Sidebar, SidebarButton, SuccessDialog } from './general';
+import { AutoAwesome, Delete, Info, Save, Share } from '@mui/icons-material';
+import { Box, Button, Snackbar } from '@mui/material';
 import { CookiesProvider } from 'react-cookie';
 import { ViewMode } from '@/lib/types/general';
 import { useState } from 'react';
-import { AutoAwesome, Delete, Info, Save, Share } from '@mui/icons-material';
 import { save } from '@/lib/miscellaneous/database';
 
 export default function Page({ skill, id, mode }: { skill: Skill, id: string, mode: ViewMode }) {
-  const [ learn, setLearn ] = useState(skill.learn);
+  const [ value, setValue ] = useState(skill.learn);
   const [ currentPageIndex, setCurrentPageIndex ] = useState(0);
   const [ currentElementIndex, setCurrentElementIndex ] = useState(0);
   const [ isThinking, setIsThinking ] = useState(false);
   const [ elementsCompleted, setElementsCompleted ] = useState([[]] as boolean[][]);
-  const [ dialogTitle, setDialogTitle ] = useState("");
-  const [ dialogText, setDialogText ] = useState("");
   const [ isDialogOpen, setIsDialogOpen ] = useState(false);
   const [ snackbarText, setSnackbarText ] = useState("");
   const [ isSnackbarOpen, setIsSnackbarOpen ] = useState(false);
 
   function addChapter() {
-    const newChapters = learn.chapters;
+    const newChapters = value.chapters;
     newChapters.push();
 
-    setLearn({ ... learn, chapters: newChapters });
+    setValue({ ... value, chapters: newChapters });
   }
 
   function removeChapter(index: number) {
-    const newChapters = learn.chapters;
+    const newChapters = value.chapters;
     newChapters.splice(index, 1);
 
-    setLearn({ ... learn, chapters: newChapters });
+    setValue({ ... value, chapters: newChapters });
   }
 
   return (
     <CookiesProvider>
-      <Dialog
-        open={isDialogOpen && mode == ViewMode.View && elementsCompleted.filter(element => element).length == elementsCompleted.length}
-        onClose={(e) => setIsDialogOpen(false)}
-      >
-        <DialogTitle>
-          {dialogTitle}
-        </DialogTitle>
-
-        <DialogContent>
-          <DialogContentText>
-            {dialogText}
-          </DialogContentText>
-        </DialogContent>
-
-        <DialogActions>
-          <Button
-            onClick={(e) => setIsDialogOpen(false)}
-          >
-            Close
-          </Button>
-
-          <Button
-            href="./practice"
-          >
-            Practice Skill
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <SuccessDialog
+        title=''
+        text=''
+        isOpen={isDialogOpen}
+        setIsOpen={setIsDialogOpen}
+      />
 
       <Box
         display='flex'
@@ -85,6 +61,11 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
               action: () => {}
             },
             {
+              label: "Generate",
+              icon: AutoAwesome,
+              action: () => {}
+            },
+            {
               label: "Save",
               icon: Save,
               action: async () => {
@@ -95,18 +76,13 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
               }
             },
             {
-              label: "Generate",
-              icon: AutoAwesome,
-              action: () => {}
-            },
-            {
               label: "Delete",
               icon: Delete,
               action: () => {}
             }
           ]}
         >
-          {learn.chapters.map((chapter, index) => {
+          {value.chapters.map((chapter, index) => {
             return (
               <SidebarButton
                 key={index}
@@ -134,20 +110,15 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
         </Sidebar>
 
         <PageComponent
-          element={learn.chapters[currentPageIndex].pages[currentElementIndex]}
+          element={value.chapters[currentPageIndex].pages[currentElementIndex]}
           mode={mode}
           isThinking={isThinking}
           elementsCompleted={elementsCompleted}
           currentElementIndex={currentElementIndex}
           currentPageIndex={currentPageIndex}
-          totalElementsInPage={learn.chapters[currentPageIndex].pages.length}
+          totalElementsInPage={value.chapters[currentPageIndex].pages.length}
           setIsThinking={setIsThinking}
           setCurrentElementIndex={setCurrentElementIndex}
-          setDialogText={(title: string, text: string) => {
-            setDialogTitle(title);
-            setDialogText(text);
-            setIsDialogOpen(true);
-          }}
           setSnackbarText={(text: string) => {
             setSnackbarText(text);
             setIsSnackbarOpen(true);
@@ -166,9 +137,8 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
           open={isSnackbarOpen}
           message={snackbarText}
           onClose={(e, reason?) => {
-            if (reason === 'clickaway') {
+            if (reason === 'clickaway')
               return;
-            }
 
             setIsSnackbarOpen(false);
           }}

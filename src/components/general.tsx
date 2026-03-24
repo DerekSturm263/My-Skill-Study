@@ -14,12 +14,12 @@ import Ordering from '@/interactions/ordering/elements';
 import Matching from '@/interactions/matching/elements';
 import IFrame from '@/interactions/iframe/elements';
 
-import { IconButton, Dialog, Typography, Stack, List, ListItem, ListItemButton, ListItemText, Button, TextField, Tooltip, Snackbar, LinearProgress, AppBar, Drawer, MenuItem, DialogActions, Divider, FormControl, InputLabel, Toolbar, Select, Box, Tabs, Tab, Switch, FormControlLabel, ListItemIcon, Link, DialogTitle, DialogContentText, DialogContent, SpeedDial, SpeedDialAction, SpeedDialIcon, Menu } from '@mui/material';
-import { ViewMode, InteractionProps, Sharable, InteractionPackageBase, InteractionPackage } from '../lib/types/general';
-import { AutoAwesome, School, LocalLibrary, Delete, MoreVert, Save, Quiz, Share, Refresh, SwapHoriz, Info, SvgIconComponent } from '@mui/icons-material';
+import { IconButton, Dialog, Typography, Stack, List, ListItem, ListItemButton, ListItemText, Button, TextField, LinearProgress, Drawer, MenuItem, DialogActions, Divider, FormControl, InputLabel, Toolbar, Select, Box, Tabs, Tab, Switch, FormControlLabel, ListItemIcon, Link, DialogTitle, DialogContentText, DialogContent, SpeedDial, SpeedDialAction, SpeedDialIcon, Menu } from '@mui/material';
+import { ViewMode, InteractionProps, InteractionPackageBase, InteractionPackage } from '../lib/types/general';
+import { Delete, MoreVert, Refresh, SwapHoriz, SvgIconComponent } from '@mui/icons-material';
 import { Fragment, Children, useState, MouseEventHandler, Dispatch, SetStateAction } from 'react';
 import { Component as TextComponent } from '@/interactions/text/elements'; 
-import { save, remove } from '../lib/miscellaneous/database';
+import { remove } from '../lib/miscellaneous/database';
 import { Verification } from '@/lib/ai/types';
 import { Page } from '@/lib/types/skill';
 
@@ -39,338 +39,258 @@ const interactionMap: Record<string, InteractionPackageBase> = {
   "iframe": IFrame
 };
 
-export function SharableInfo<T extends Sharable>({ slug, mode, type, progress, showProgress, hideLogo, value, showSave, linkType, children }: { slug: string, mode: ViewMode, type: string, progress: number, showProgress: boolean, hideLogo: boolean, value: T, showSave: boolean, linkType: string, children?: React.ReactNode }) {
-  const [ headerTitle, setHeaderTitle ] = useState(value.title);
+export function SuccessDialog({ title, text, isOpen, setIsOpen }: { title: string, text: string, isOpen: boolean, setIsOpen: Dispatch<SetStateAction<boolean>> }) {
+  return (
+    <Dialog
+      open={isOpen}
+      onClose={(e) => setIsOpen(false)}
+    >
+      <DialogTitle>
+        {title}
+      </DialogTitle>
+    
+      <DialogContent>
+        <DialogContentText>
+          {text}
+        </DialogContentText>
+      </DialogContent>
+    
+      <DialogActions>
+        <Button
+          onClick={(e) => setIsOpen(false)}
+        >
+          Close
+        </Button>
+    
+        <Button
+          href="./practice"
+        >
+          Practice Skill
+        </Button>
+      </DialogActions>
+    </Dialog>
+  )
+}
+
+export function ShareDialog({ type, id, setSnackbarText }: { type: string, id: string, setSnackbarText: (text: string) => void }) {
   const [ isOpen, setIsOpen ] = useState(false);
   const [ tabIndex, setTabIndex ] = useState(0);
-  const [ isSnackbarOpen, setIsSnackbarOpen ] = useState(false);
-  const [ snackbarText, setSnackbarText ] = useState("");
   const [ hideLogoState, setHideLogoState ] = useState(true);
   const [ width, setWidth ] = useState(800);
   const [ height, setHeight ] = useState(600);
-  const [ isAIOpen, setIsAIOpen ] = useState(false);
-  const [ isDeleteOpen, setIsDeleteOpen ] = useState(false);
-  const [ description, setDescription] = useState("");
 
-  const link = `https://myskillstudy.com/${linkType}/${slug}?mode=view&hideLogo=${hideLogoState}`;
-  const iframe = `<iframe src="https://myskillstudy.com/${linkType}/${slug}?mode=view&hideLogo=${hideLogoState}" width=${width} height=${height}></iframe>`;
+  const link = `https://myskillstudy.com/${type}/${id}?mode=view&hideLogo=${hideLogoState}`;
+  const iframe = `<iframe src="https://myskillstudy.com/${type}/${id}?mode=view&hideLogo=${hideLogoState}" width=${width} height=${height}></iframe>`;
 
   return (
-    <Fragment>
-      <Dialog
-        open={isOpen}
-        onClose={(e) => setIsOpen(false)}
-      >
-        <DialogTitle>
-          {`Select Share Settings`}
-        </DialogTitle>
+    <Dialog
+      open={isOpen}
+      onClose={(e) => setIsOpen(false)}
+    >
+      <DialogTitle>
+        {`Select Share Settings`}
+      </DialogTitle>
 
-        <DialogContent>
-          <Tabs
-            value={tabIndex}
-            onChange={(e, value) => { setTabIndex(value); }}
-            variant="scrollable"
-            scrollButtons="auto"
-          >
-            {[ "Link", "IFrame" ].map((label, index) => (
-              <Tab
-                key={index}
-                label={label}
-              />
-            ))}
-          </Tabs>
-
-          <br />
-
-          <DialogContentText>
-            <Typography
-              variant="h6"
-            >
-              Settings
-            </Typography>
-          </DialogContentText>
-      
-          <Stack>
-            <FormControlLabel control={
-              <Switch
-                defaultChecked={true}
-                value={hideLogoState}
-                onChange={(e, value) => setHideLogoState(value)}
-              />}
-              label="Hide MySkillStudy.com Logo"
+      <DialogContent>
+        <Tabs
+          value={tabIndex}
+          onChange={(e, value) => { setTabIndex(value); }}
+          variant="scrollable"
+          scrollButtons="auto"
+        >
+          {[ "Link", "IFrame" ].map((label, index) => (
+            <Tab
+              key={index}
+              label={label}
             />
+          ))}
+        </Tabs>
 
-            {tabIndex == 1 && (
-              <>
-                <TextField
-                  id="width"
-                  label="Width"
-                  type="number"
-                  value={width}
-                  onChange={(e) => setWidth(Number(e.target.value))}
-                />
-              
-                <TextField
-                  id="height"
-                  label="Height"
-                  type="number"
-                  value={height}
-                  onChange={(e) => setHeight(Number(e.target.value))}
-                />
-              </>
-            )}
-          </Stack>
-          
-          <br />
-              
-          {tabIndex == 0 ? (
+        <br />
+
+        <DialogContentText>
+          <Typography
+            variant="h6"
+          >
+            Settings
+          </Typography>
+        </DialogContentText>
+      
+        <Stack>
+          <FormControlLabel control={
+            <Switch
+              defaultChecked={true}
+              value={hideLogoState}
+              onChange={(e, value) => setHideLogoState(value)}
+            />}
+            label="Hide MySkillStudy.com Logo"
+          />
+
+          {tabIndex == 1 && (
             <>
-              <DialogContentText>
-                {"Copy the link below and send it to give anyone access this content."}
-              </DialogContentText>
+              <TextField
+                id="width"
+                label="Width"
+                type="number"
+                value={width}
+                onChange={(e) => setWidth(Number(e.target.value))}
+              />
               
-              <br />
-
-              <DialogContentText>
-                <Link
-                  href={link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {link}
-                </Link>
-              </DialogContentText>
-            </>
-          ) : (
-            <>
-              <DialogContentText>
-                {"Copy the code below and paste it into your website/LMS to give users access to this skill."}
-              </DialogContentText>
-
-              <br />
-
-              <DialogContentText
-                sx={{ backgroundColor: "#1c1c1c", padding: "10px", overflow: "auto", borderRadius: "5px" }}
-              >
-                <code>
-                  {iframe}
-                </code>
-              </DialogContentText>
+              <TextField
+                id="height"
+                label="Height"
+                type="number"
+                value={height}
+                onChange={(e) => setHeight(Number(e.target.value))}
+              />
             </>
           )}
-        </DialogContent>
-
-        <DialogActions>
-          <Button
-            onClick={(e) => {
-              navigator.clipboard.writeText(tabIndex == 0 ? link : iframe);
-
-              setSnackbarText("Copied to clipboard");
-              setIsSnackbarOpen(true);
-            }}
-          >
-            Copy to Clipboard
-          </Button>
-
-          <Button
-            onClick={(e) => setIsOpen(false)}
-          >
-            Done
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      <Dialog
-        open={isAIOpen}
-        onClose={(e) => setIsAIOpen(false)}
-      >
-        <DialogTitle>
-          Generation Settings
-        </DialogTitle>
-
-        <DialogContent>
-          <DialogContentText>
-            Your content will be generated based on the description you enter below. All existing settings will be overriden by the generated content.
-          </DialogContentText>
-      
-          <Stack>
-            <TextField
-              id="description"
-              label="Description"
-              value={description}
-              multiline={true}
-              rows={5}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </Stack>
-        </DialogContent>
-
-        <DialogActions>
-          <Button
-            onClick={(e) => setIsAIOpen(false)}
-          >
-            Cancel
-          </Button>
-
-          <Button
-            onClick={async (e) => {
+        </Stack>
+          
+        <br />
               
-            }}
-          >
-            Generate
-          </Button>
-        </DialogActions>
-      </Dialog>
+        {tabIndex == 0 ? (
+          <>
+            <DialogContentText
+              gutterBottom
+            >
+              Copy the link below and send it to give anyone access this content.
+            </DialogContentText>
 
-      <Dialog
-        open={isDeleteOpen}
-        onClose={(e) => setIsDeleteOpen(false)}
-      >
-        <DialogTitle>
-          Delete Content?
-        </DialogTitle>
-
-        <DialogContent>
-          <DialogContentText>
-            Are you sure you want to delete this content permanently? You will not be able to bring it back.
-          </DialogContentText>
-        </DialogContent>
-
-        <DialogActions>
-          <Button
-            onClick={(e) => setIsDeleteOpen(false)}
-          >
-            Cancel
-          </Button>
-
-          <Button
-            onClick={async (e) => {
-              await remove(slug, linkType);
-            }}
-          >
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      <Snackbar
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-        autoHideDuration={3000}
-        open={isSnackbarOpen}
-        message={snackbarText}
-        onClose={(e, reason?) => {
-          if (reason === 'clickaway') {
-            return;
-          }
-
-          setIsSnackbarOpen(false);
-        }}
-      />
-
-      <AppBar
-        position="fixed"
-        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
-      >
-        <Toolbar
-          sx={{ display: 'flex', justifyContent: 'space-between' }}
-        >
-          <Stack
-            spacing={2}
-          >
-            {mode == ViewMode.Edit && (
-              <TextField
-                label="Title"
-                autoComplete="off"
-                value={headerTitle}
-                onChange={(e) => {
-                  setHeaderTitle(e.target.value);
-                }}
-              />
-            )}
-
-            {showProgress && mode == ViewMode.View && (
-              <LinearProgress
-                variant="determinate"
-                value={progress * 100}
-                sx={{ width: '200px' }}
-                style={{ marginTop: '6px' }}
-              />
-            )}
-          </Stack>
-
-          <Stack
-            direction="row"
-            spacing={2}
-            sx={{ width: '400px', justifyContent: 'flex-end' }}
-          >
-            {type != "" && (
-              <FormControl
-                size="small"
+            <DialogContentText>
+              <Link
+                href={link}
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                <InputLabel id="mode-label">Mode</InputLabel>
+                {link}
+              </Link>
+            </DialogContentText>
+          </>
+        ) : (
+          <>
+            <DialogContentText
+              gutterBottom
+            >
+              Copy the code below and paste it into your website/LMS to give users access to this skill.
+            </DialogContentText>
 
-                <Select
-                  labelId="mode-label"
-                  value={type}
-                  label="Mode"
-                >
-                  <MenuItem
-                    value="Learn"
-                  >
-                    <ListItemButton
-                      href={`./learn?mode=${mode}&hideLogo=${hideLogo}`}
-                      sx={{ padding: '0px' }}
-                    >
-                      <ListItemIcon>
-                        <School />
-                      </ListItemIcon>
+            <DialogContentText
+              sx={{ backgroundColor: "#1c1c1c", padding: "10px", overflow: "auto", borderRadius: "5px" }}
+            >
+              <code>
+                {iframe}
+              </code>
+            </DialogContentText>
+          </>
+        )}
+      </DialogContent>
 
-                      <ListItemText>
-                        Learn
-                      </ListItemText>
-                    </ListItemButton>
-                  </MenuItem>
+      <DialogActions>
+        <Button
+          onClick={(e) => {
+            navigator.clipboard.writeText(tabIndex == 0 ? link : iframe);
 
-                  <MenuItem
-                    value="Practice"
-                  >
-                    <ListItemButton
-                      href={`./practice?mode=${mode}&hideLogo=${hideLogo}`}
-                      sx={{ padding: '0px' }}
-                    >
-                      <ListItemIcon>
-                        <LocalLibrary />
-                      </ListItemIcon>
+            setSnackbarText("Copied to clipboard");
+          }}
+        >
+          Copy to Clipboard
+        </Button>
 
-                      <ListItemText>
-                        Practice
-                      </ListItemText>
-                    </ListItemButton>
-                  </MenuItem>
+        <Button
+          onClick={(e) => setIsOpen(false)}
+        >
+          Done
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+}
 
-                  <MenuItem
-                    value="Quiz"
-                  >
-                    <ListItemButton
-                      href={`./quiz?mode=${mode}&hideLogo=${hideLogo}`}
-                      sx={{ padding: '0px' }}
-                    >
-                      <ListItemIcon>
-                        <Quiz />
-                      </ListItemIcon>
+export function DeleteDialog({ type, id, setSnackbarText }: { type: string, id: string, setSnackbarText: (text: string) => void }) {
+  const [ isOpen, setIsOpen ] = useState(false);
 
-                      <ListItemText>
-                        Quiz
-                      </ListItemText>
-                    </ListItemButton>
-                  </MenuItem>
-                </Select>
-              </FormControl>
-            )}
-          </Stack>
-        </Toolbar>
-      </AppBar>
-    </Fragment>
+  return (
+    <Dialog
+      open={isOpen}
+      onClose={(e) => setIsOpen(false)}
+    >
+      <DialogTitle>
+        Delete Content?
+      </DialogTitle>
+
+      <DialogContent>
+        <DialogContentText>
+          Are you sure you want to delete this content permanently? You will not be able to bring it back.
+        </DialogContentText>
+      </DialogContent>
+
+      <DialogActions>
+        <Button
+          onClick={(e) => setIsOpen(false)}
+        >
+          Cancel
+        </Button>
+
+        <Button
+          onClick={async (e) => {
+            await remove(type, id);
+            setSnackbarText("Content deleted");
+          }}
+        >
+          Delete
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+}
+
+export function GenerateDialog({ type, id, setSnackbarText }: { type: string, id: string, setSnackbarText: (text: string) => void }) {
+  const [ isOpen, setIsOpen ] = useState(false);
+  const [ description, setDescription ] = useState("");
+
+  return (
+    <Dialog
+      open={isOpen}
+      onClose={(e) => setIsOpen(false)}
+    >
+      <DialogTitle>
+        Generation Settings
+      </DialogTitle>
+
+      <DialogContent>
+        <DialogContentText>
+          Your content will be generated based on the description you enter below. All existing settings will be overriden by the generated content.
+        </DialogContentText>
+      
+        <Stack>
+          <TextField
+            id="description"
+            label="Description"
+            value={description}
+            multiline={true}
+            rows={5}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+        </Stack>
+      </DialogContent>
+
+      <DialogActions>
+        <Button
+          onClick={(e) => setIsOpen(false)}
+        >
+          Cancel
+        </Button>
+
+        <Button
+          onClick={async (e) => {
+            
+          }}
+        >
+          Generate
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 }
 
@@ -472,7 +392,7 @@ export function SidebarButton({ selected, ogTitle, isDisabled, mode, progress, o
   );
 }
 
-export function PageComponent({ element, mode, isThinking, elementsCompleted, currentPageIndex, currentElementIndex, totalElementsInPage, setIsThinking, setCurrentElementIndex, setDialogText, setSnackbarText, setIsElementComplete }: { element: Page, mode: ViewMode, isThinking: boolean, elementsCompleted: boolean[][], currentPageIndex: number, currentElementIndex: number, totalElementsInPage: number, setIsThinking: Dispatch<SetStateAction<boolean>>, setCurrentElementIndex: Dispatch<SetStateAction<number>>, setDialogText: (title: string, text: string) => void, setSnackbarText: (text: string) => void, setIsElementComplete: (isComplete: boolean) => void }) {
+export function PageComponent({ element, mode, isThinking, elementsCompleted, currentPageIndex, currentElementIndex, totalElementsInPage, setIsThinking, setCurrentElementIndex, setSnackbarText, setIsElementComplete }: { element: Page, mode: ViewMode, isThinking: boolean, elementsCompleted: boolean[][], currentPageIndex: number, currentElementIndex: number, totalElementsInPage: number, setIsThinking: Dispatch<SetStateAction<boolean>>, setCurrentElementIndex: Dispatch<SetStateAction<number>>, setSnackbarText: (text: string) => void, setIsElementComplete: (isComplete: boolean) => void }) {
   const [ text, setText ] = useState(element.text.text);
 
   function complete() {
