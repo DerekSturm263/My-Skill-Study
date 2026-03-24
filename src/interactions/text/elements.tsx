@@ -119,7 +119,7 @@ export function Component(props: InteractionProps<InteractionType>) {
         <Stack
           direction="row"
           spacing={2}
-          sx={{ width: '200px' }}
+          sx={{ width: '1000px' }}
         >
           <IconButton>
             <PlayArrow />
