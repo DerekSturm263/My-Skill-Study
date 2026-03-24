@@ -150,11 +150,11 @@ export function Component(props: InteractionProps<InteractionType>) {
 
           <FormGroup>
             <FormControlLabel
+              sx={{ width: '200px' }}
               control={
                 <Switch
                   defaultChecked={cookies.autoReadAloud}
                   checked={cookies.autoReadAloud}
-                  sx={{ width: '200px' }}
                   onChange={(e) => {
                     setCookie('autoReadAloud', e.target.checked, { path: '/' });
                   }}
