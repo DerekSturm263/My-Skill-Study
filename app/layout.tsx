@@ -8,10 +8,9 @@ import { AppBar, Avatar, Badge, Divider, IconButton, InputAdornment, ListItemIco
 import { Logout, Notifications, Person, QuestionMark, Search } from "@mui/icons-material";
 import { Dispatch, SetStateAction, useState } from "react";
 import { ThemeProvider } from '@mui/material/styles';
-import { URLProps } from '@/lib/types/general';
 
-export default function RootLayout({ children, searchParams }: Readonly<{ children: React.ReactNode }> & { searchParams: { [key: string]: string | string[] | undefined } }) {
-  const hideHeader = searchParams?.hideHeader == "true";
+export default function RootLayout({ children, params }: Readonly<{ children: React.ReactNode }> & { params: { hideHeader: string } }) {
+  const hideHeader = params.hideHeader == "true";
   
   return (
     <ThemeProvider theme={theme}>
