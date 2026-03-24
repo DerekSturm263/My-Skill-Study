@@ -144,11 +144,15 @@ export function Component(props: InteractionProps<InteractionType>) {
             ]}
           />
 
-          <IconButton
-            onClick={(e) => setCookie('autoReadAloud', !cookies.autoReadAloud, { path: '/' })}
+          <Tooltip
+            title="Automatically read new paragraphs when they appear"
           >
-            {cookies.autoReadAloud ? <MotionPhotosAuto /> : <MotionPhotosOff />}
-          </IconButton>
+            <IconButton
+              onClick={(e) => setCookie('autoReadAloud', !cookies.autoReadAloud, { path: '/' })}
+            >
+              {cookies.autoReadAloud ? <MotionPhotosAuto /> : <MotionPhotosOff />}
+            </IconButton>
+          </Tooltip>
         </Stack>
 
         <Stack
