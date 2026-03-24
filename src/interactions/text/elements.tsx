@@ -3,8 +3,8 @@
 import generateText from "@/lib/ai/functions";
 import speakText from "@/lib/tts/functions";
 
-import { TextField, Stack, Card, CardContent, LinearProgress, CardActions, Pagination, PaginationItem, Tooltip, Chip, FormGroup, FormControlLabel, Switch, IconButton, Slider } from '@mui/material';
-import { Add, AutoAwesome, Delete, Pause, PlayArrow, Refresh, TextSnippet } from '@mui/icons-material';
+import { TextField, Stack, Card, CardContent, LinearProgress, CardActions, Pagination, PaginationItem, Tooltip, Chip, IconButton, Slider } from '@mui/material';
+import { Add, AutoAwesome, Delete, MotionPhotosAuto, MotionPhotosOff, Pause, PlayArrow, Refresh, TextSnippet } from '@mui/icons-material';
 import { ViewMode, InteractionProps, InteractionPackage } from "@/lib/types/general";
 import { ModelType, Verification } from "@/lib/ai/types";
 import { useEffect, useState } from "react";
@@ -132,7 +132,7 @@ export function Component(props: InteractionProps<InteractionType>) {
           <IconButton
             onClick={toggleIsPlaying}
           >
-            {isPlaying ? <PlayArrow /> : <Pause />}
+            {isPlaying ? <Pause /> : <PlayArrow />}
           </IconButton>
 
           <Slider
@@ -148,21 +148,11 @@ export function Component(props: InteractionProps<InteractionType>) {
             ]}
           />
 
-          <FormGroup>
-            <FormControlLabel
-              sx={{ width: '200px' }}
-              control={
-                <Switch
-                  defaultChecked={cookies.autoReadAloud}
-                  checked={cookies.autoReadAloud}
-                  onChange={(e) => {
-                    setCookie('autoReadAloud', e.target.checked, { path: '/' });
-                  }}
-                />
-              }
-              label="Auto Read"
-            />
-          </FormGroup>
+          <IconButton
+            onClick={toggleIsPlaying}
+          >
+            {cookies.autoReadAloud ? <MotionPhotosAuto /> : <MotionPhotosOff />}
+          </IconButton>
         </Stack>
 
         <Stack
