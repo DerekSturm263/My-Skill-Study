@@ -135,7 +135,7 @@ export function Component(props: InteractionProps<InteractionType>) {
           <Stack
             spacing={2}
             direction="row"
-            sx={{ alignItems: 'center', mb: 1 }}
+            sx={{ alignItems: 'center' }}
           >
             <Typography
               variant='caption'
