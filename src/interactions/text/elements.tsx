@@ -126,12 +126,14 @@ export function Component(props: InteractionProps<InteractionType>) {
           sx={{ width: '500px' }}
         >
           <IconButton
+            disabled={props.isThinking}
             onClick={(e) => setIsPlaying(!isPlaying)}
           >
             {isPlaying ? <Pause /> : <PlayArrow />}
           </IconButton>
 
           <Slider
+            disabled={props.isThinking}
             marks={[
               {
                 value: 0,
@@ -148,6 +150,7 @@ export function Component(props: InteractionProps<InteractionType>) {
             title="Automatically read new paragraphs when they appear"
           >
             <IconButton
+              disabled={props.isThinking}
               onClick={(e) => setCookie('autoReadAloud', !cookies.autoReadAloud, { path: '/' })}
             >
               {cookies.autoReadAloud ? <MotionPhotosAuto /> : <MotionPhotosOff />}
