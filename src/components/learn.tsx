@@ -52,16 +52,19 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
           options={[
             {
               label: "Learn",
+              tooltip: "Switch to learn mode",
               link: "./learn",
               id: "learn"
             },
             {
               label: "Practice",
+              tooltip: "Switch to practice mode",
               link: "./practice",
               id: "practice"
             },
             {
               label: "Quiz",
+              tooltip: "Switch to quiz mode",
               link: "./quiz",
               id: "quiz"
             }
