@@ -394,7 +394,7 @@ export function Sidebar({ children, label, options, selectedOption, actions }: {
           value={selectedOption}
           size='small'
           exclusive
-          sx={{ minWidth: 'calc(100% - 16px)', marginLeft: '8px', marginRight: '8px', marginBottom: '8px' }}
+          sx={{ minWidth: 'calc(100% - 20px)', marginLeft: '8px', marginRight: '8px', marginBottom: '8px' }}
         >
           {options.map((item, index) => (
             <ToggleButton
