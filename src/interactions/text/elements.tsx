@@ -104,7 +104,7 @@ export function Component(props: InteractionProps<InteractionType>) {
               }
             }
           >
-            {props.isThinking ? "Thinking..." : props.text}
+            {props.isThinking ? "<br />Thinking..." : props.text}
           </MarkdownTypewriter>
         ))}
       </CardContent>
