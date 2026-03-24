@@ -22,20 +22,16 @@ export type Page = {
 }
 
 export type Practice = {
-  subSkills: SubSkill[]
-}
-
-export type SubSkill = {
-  title: string,
-  value: InteractionWrapper[]
+  subSkills: SmallChapter[]
 }
 
 export type Quiz = {
-  pages: QuizPage[]
+  pages: SmallChapter[]
 }
 
-export type QuizPage = {
+export type SmallChapter = {
   title: string,
   question: TextType,
-  interactions: InteractionWrapper[]
+  interaction: InteractionWrapper[]
 }
+

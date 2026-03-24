@@ -394,7 +394,7 @@ export function Sidebar({ children, label, options, selectedOption, actions }: {
           value={selectedOption}
           size='small'
           exclusive
-          sx={{ minWidth: 'calc(100% - 32px)', marginLeft: '16px', marginRight: '16px', marginBottom: '16px' }}
+          sx={{ minWidth: 'calc(100% - 32px)', marginLeft: '16px', marginRight: '16px', marginBottom: '12px' }}
         >
           {options.map((item, index) => (
             <Tooltip
