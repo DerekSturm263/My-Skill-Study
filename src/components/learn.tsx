@@ -3,7 +3,7 @@
 import Skill from '@/lib/types/skill';
 
 import { PageComponent, Sidebar, SidebarButton, SuccessDialog } from './general';
-import { AutoAwesome, Delete, Info, Save, Share } from '@mui/icons-material';
+import { AutoAwesome, Delete, Edit, Info, Save, Share } from '@mui/icons-material';
 import { Box, Button, Snackbar } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { CookiesProvider } from 'react-cookie';
@@ -85,6 +85,11 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
               label: "Generate",
               icon: AutoAwesome,
               action: () => {}
+            },
+            {
+              label: "Edit",
+              icon: Edit,
+              action: async () => {}
             },
             {
               label: "Save",
