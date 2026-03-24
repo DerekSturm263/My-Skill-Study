@@ -132,7 +132,7 @@ export function Component(props: InteractionProps<InteractionType>) {
                 label: "0:00"
               },
               {
-                value: 1,
+                value: 100,
                 label: "1:00"
               }
             ]}
