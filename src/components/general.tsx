@@ -345,7 +345,7 @@ export function Sidebar({ children, label, options, selectedOption, actions }: {
       <Toolbar />
 
       <Box
-        sx={{  overflow: 'auto' }}
+        sx={{ overflow: 'auto' }}
       >
         <Stack
           direction="row"
@@ -394,6 +394,7 @@ export function Sidebar({ children, label, options, selectedOption, actions }: {
           value={selectedOption}
           size='small'
           exclusive
+          sx={{ minWidth: '100%' }}
         >
           {options.map((item, index) => (
             <ToggleButton
