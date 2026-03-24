@@ -6,6 +6,7 @@ import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, D
 import { ElementComponent, Sidebar, SidebarButton } from './general';
 import { ViewMode } from '@/lib/types/general';
 import { useState } from 'react';
+import { CookiesProvider } from 'react-cookie';
 
 export default function Page({ skill, mode }: { skill: Skill, mode: ViewMode }) {
   const [ learn, setLearn ] = useState(skill.learn);
@@ -32,7 +33,7 @@ export default function Page({ skill, mode }: { skill: Skill, mode: ViewMode }) 
   }
 
   return (
-    <>
+    <CookiesProvider>
       <Dialog
         open={!hideDialogue && mode == ViewMode.View && elementsCompleted.filter(element => element).length == elementsCompleted.length}
         onClose={(e) => setHideDialogue(true)}
@@ -134,6 +135,6 @@ export default function Page({ skill, mode }: { skill: Skill, mode: ViewMode }) 
           }}
         />
       </Box>
-    </>
+    </CookiesProvider>
   );
 }

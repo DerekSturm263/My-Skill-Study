@@ -74,9 +74,7 @@ function Header({ presetSearchTerms }: { presetSearchTerms: string }) {
                 <Tooltip
                   title="I'm feeling lucky"
                 >
-                  <IconButton
-                    href={""}
-                  >
+                  <IconButton>
                     <QuestionMark />
                   </IconButton>
                 </Tooltip>

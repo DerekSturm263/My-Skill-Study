@@ -1,5 +1,4 @@
 import { InteractionType as TextType } from "@/interactions/text/elements";
-
 import { InteractionWrapper, Sharable } from "./general";
 
 export default interface Skill extends Sharable {

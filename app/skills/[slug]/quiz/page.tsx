@@ -25,7 +25,7 @@ export default async function Page({ params, searchParams }: PageProps) {
     <div>
       <main>
         <Content
-          skill={skill}
+          skill={skill as Skill}
           mode={mode as ViewMode}
         />
       </main>

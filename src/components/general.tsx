@@ -556,8 +556,9 @@ export function ElementComponent({ element, mode, isThinking, elementsCompleted,
       <Stack
         direction="row"
       >
-        {element.interactions.map(interaction => (
+        {element.interactions.map((interaction, index) => (
           <InteractionComponent
+            key={index}
             originalText={element.text.text}
             originalValue={interaction.value}
             pageIndex={currentPageIndex}

@@ -1,6 +1,7 @@
 'use client'
 
 import generateText from "@/lib/ai/functions";
+import speakText from "@/lib/tts/functions";
 
 import { TextField, Stack, Card, CardContent, LinearProgress, CardActions, Pagination, PaginationItem, Tooltip, Chip } from '@mui/material';
 import { Add, AutoAwesome, Delete, RecordVoiceOver, Refresh, TextSnippet, VoiceOverOff, VolumeUp } from '@mui/icons-material';
@@ -11,7 +12,6 @@ import { MarkdownTypewriter } from "react-markdown-typewriter";
 import { Interaction } from "@/lib/types/general";
 import { useCookies } from "react-cookie";
 import { Type } from '@google/genai';
-import speakText from "@/lib/tts/functions";
 
 export interface InteractionType extends Interaction {
   text: string
