@@ -5,9 +5,9 @@ import Skill from '@/lib/types/skill';
 import { PageComponent, Sidebar, SidebarButton, SuccessDialog } from './general';
 import { AutoAwesome, Delete, Info, Save, Share } from '@mui/icons-material';
 import { Box, Button, Snackbar } from '@mui/material';
+import { useEffect, useState } from 'react';
 import { CookiesProvider } from 'react-cookie';
 import { ViewMode } from '@/lib/types/general';
-import { useEffect, useState } from 'react';
 import { save } from '@/lib/miscellaneous/database';
 
 export default function Page({ skill, id, mode }: { skill: Skill, id: string, mode: ViewMode }) {
@@ -15,19 +15,10 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
   const [ currentChapterIndex, setCurrentChapterIndex ] = useState(0);
   const [ currentPageIndex, setCurrentPageIndex ] = useState(0);
   const [ isThinking, setIsThinking ] = useState(false);
-  const [ pagesCompleted, setPagesCompleted ] = useState([[]] as boolean[][]);
+  const [ pagesCompleted, setPagesCompleted ] = useState(value.chapters.map(chapter => chapter.pages.map(page => false)));
   const [ isDialogOpen, setIsDialogOpen ] = useState(false);
   const [ snackbarText, setSnackbarText ] = useState("");
   const [ isSnackbarOpen, setIsSnackbarOpen ] = useState(false);
-
-  useEffect(() => {
-    const newPagesCompleted: boolean[][] = new Array(value.chapters.length);
-    for (let i = 0; i < newPagesCompleted.length; ++i) {
-      newPagesCompleted[i] = new Array(value.chapters[i].pages.length);
-    }
-
-    setPagesCompleted(newPagesCompleted);
-  }, []);
 
   function addChapter() {
     const newChapters = value.chapters;

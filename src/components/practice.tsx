@@ -14,7 +14,7 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
   const [ value, setValue ] = useState(skill.practice);
   const [ currentChapterIndex, setCurrentChapterIndex ] = useState(0);
   const [ isThinking, setIsThinking ] = useState(false);
-  const [ pagesCompleted, setPagesCompleted ] = useState(new Array(value.subSkills.length) as boolean[]);
+  const [ pagesCompleted, setPagesCompleted ] = useState(value.subSkills.map(subSkill => false));
   const [ isDialogOpen, setIsDialogOpen ] = useState(false);
   const [ snackbarText, setSnackbarText ] = useState("");
   const [ isSnackbarOpen, setIsSnackbarOpen ] = useState(false);
