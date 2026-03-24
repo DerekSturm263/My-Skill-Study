@@ -395,7 +395,6 @@ export function Sidebar({ children, label, options, selectedOption, actions }: {
           size='small'
           exclusive
           fullWidth
-          style={{ borderRadius: 0 }}
         >
           {options.map((item, index) => (
             <Tooltip

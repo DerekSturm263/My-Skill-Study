@@ -3,7 +3,7 @@
 import Skill from '@/lib/types/skill';
 
 import { PageComponent, Sidebar, SidebarButton, SuccessDialog } from './general';
-import { AutoAwesome, Delete, Edit, Info, Save, Share } from '@mui/icons-material';
+import { AutoAwesome, Delete, Edit, Info, Save, Share, Visibility } from '@mui/icons-material';
 import { Box, Button, Snackbar } from '@mui/material';
 import { CookiesProvider } from 'react-cookie';
 import { ViewMode } from '@/lib/types/general';
@@ -82,14 +82,14 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
               action: () => {}
             },
             {
+              label: mode == ViewMode.Edit ? "View" : "Edit",
+              icon: mode == ViewMode.Edit ? Visibility : Edit,
+              action: async () => {}
+            },
+            ...( mode == ViewMode.Edit ? [ {
               label: "Generate",
               icon: AutoAwesome,
               action: () => {}
-            },
-            {
-              label: "Edit",
-              icon: Edit,
-              action: async () => {}
             },
             {
               label: "Save",
@@ -105,7 +105,7 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
               label: "Delete",
               icon: Delete,
               action: () => {}
-            }
+            } ] : [])
           ]}
         >
           {value.chapters.map((chapter, index) => {
