@@ -467,6 +467,7 @@ export function Sidebar({ children, label, actions }: { children?: React.ReactNo
           >
             {actions.map((action, index) => (
               <MenuItem
+                key={index}
                 onClick={action.action.call}
               >
                 <ListItemIcon>
