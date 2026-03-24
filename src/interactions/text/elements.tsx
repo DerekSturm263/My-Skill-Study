@@ -4,7 +4,7 @@ import generateText from "@/lib/ai/functions";
 import speakText from "@/lib/tts/functions";
 
 import { TextField, Stack, Card, CardContent, LinearProgress, CardActions, Pagination, PaginationItem, Tooltip, Chip, FormGroup, FormControlLabel, Switch, IconButton, Slider } from '@mui/material';
-import { Add, AutoAwesome, Delete, PlayArrow, Refresh, TextSnippet } from '@mui/icons-material';
+import { Add, AutoAwesome, Delete, Pause, PlayArrow, Refresh, TextSnippet } from '@mui/icons-material';
 import { ViewMode, InteractionProps, InteractionPackage } from "@/lib/types/general";
 import { ModelType, Verification } from "@/lib/ai/types";
 import { useEffect, useState } from "react";
@@ -34,6 +34,7 @@ const schema = {
 
 export function Component(props: InteractionProps<InteractionType>) {
   const [ cookies, setCookie ] = useCookies([ 'autoReadAloud' ]);
+  const [ isPlaying, setIsPlaying ] = useState(false);
   
   async function rephrase(): Promise<Verification> {
     return {
@@ -118,11 +119,11 @@ export function Component(props: InteractionProps<InteractionType>) {
 
         <Stack
           direction="row"
-          spacing={2}
+          spacing={3}
           sx={{ width: '500px' }}
         >
           <IconButton>
-            <PlayArrow />
+            {isPlaying ? <PlayArrow /> : <Pause />}
           </IconButton>
 
           <Slider
@@ -144,6 +145,7 @@ export function Component(props: InteractionProps<InteractionType>) {
                 <Switch
                   defaultChecked={cookies.autoReadAloud}
                   checked={cookies.autoReadAloud}
+                  sx={{ width: '200px' }}
                   onChange={(e) => {
                     setCookie('autoReadAloud', e.target.checked, { path: '/' });
                   }}
