@@ -132,6 +132,17 @@ export function Component(props: InteractionProps<InteractionType>) {
             {isPlaying ? <Pause /> : <PlayArrow />}
           </IconButton>
 
+          <Tooltip
+            title="Automatically read new text it appears"
+          >
+            <IconButton
+              disabled={props.isThinking}
+              onClick={(e) => setCookie('autoReadAloud', !cookies.autoReadAloud, { path: '/' })}
+            >
+              {cookies.autoReadAloud ? <MotionPhotosAuto /> : <MotionPhotosOff />}
+            </IconButton>
+          </Tooltip>
+
           <Stack
             spacing={2}
             direction="row"
@@ -154,17 +165,6 @@ export function Component(props: InteractionProps<InteractionType>) {
               1:00
             </Typography>
           </Stack>
-
-          <Tooltip
-            title="Automatically read new paragraphs when they appear"
-          >
-            <IconButton
-              disabled={props.isThinking}
-              onClick={(e) => setCookie('autoReadAloud', !cookies.autoReadAloud, { path: '/' })}
-            >
-              {cookies.autoReadAloud ? <MotionPhotosAuto /> : <MotionPhotosOff />}
-            </IconButton>
-          </Tooltip>
         </Stack>
 
         <Stack
