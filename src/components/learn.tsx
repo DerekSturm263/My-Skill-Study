@@ -49,6 +49,24 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
       >
         <Sidebar
           label={skill.title}
+          options={[
+            {
+              label: "Learn",
+              link: "./learn",
+              id: "learn"
+            },
+            {
+              label: "Practice",
+              link: "./practice",
+              id: "practice"
+            },
+            {
+              label: "Quiz",
+              link: "./quiz",
+              id: "quiz"
+            }
+          ]}
+          selectedOption='learn'
           actions={[
             {
               label: "Details",

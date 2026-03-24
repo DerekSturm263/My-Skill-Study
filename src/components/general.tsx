@@ -14,7 +14,7 @@ import Ordering from '@/interactions/ordering/elements';
 import Matching from '@/interactions/matching/elements';
 import IFrame from '@/interactions/iframe/elements';
 
-import { IconButton, Dialog, Typography, Stack, List, ListItem, ListItemButton, ListItemText, Button, TextField, LinearProgress, Drawer, MenuItem, DialogActions, Divider, FormControl, InputLabel, Toolbar, Select, Box, Tabs, Tab, Switch, FormControlLabel, ListItemIcon, Link, DialogTitle, DialogContentText, DialogContent, SpeedDial, SpeedDialAction, SpeedDialIcon, Menu } from '@mui/material';
+import { IconButton, Dialog, Typography, Stack, List, ListItem, ListItemButton, ListItemText, Button, TextField, LinearProgress, Drawer, MenuItem, DialogActions, Divider, FormControl, InputLabel, Toolbar, Select, Box, Tabs, Tab, Switch, FormControlLabel, ListItemIcon, Link, DialogTitle, DialogContentText, DialogContent, SpeedDial, SpeedDialAction, SpeedDialIcon, Menu, ToggleButtonGroup, ToggleButton } from '@mui/material';
 import { ViewMode, InteractionProps, InteractionPackageBase, InteractionPackage, Sharable } from '../lib/types/general';
 import { Delete, MoreVert, Refresh, SwapHoriz, SvgIconComponent } from '@mui/icons-material';
 import { Fragment, Children, useState, MouseEventHandler, Dispatch, SetStateAction } from 'react';
@@ -327,7 +327,7 @@ export function DeleteDialog({ type, id, setSnackbarText }: { type: string, id: 
   );
 }
 
-export function Sidebar({ children, label, actions }: { children?: React.ReactNode, label: string, actions: { label: string, icon: SvgIconComponent, action: () => void }[] }) {
+export function Sidebar({ children, label, options, selectedOption, actions }: { children?: React.ReactNode, label: string, options: { label: string, link: string, id: string }[], selectedOption: string, actions: { label: string, icon: SvgIconComponent, action: () => void }[] }) {
   const [ isOpen, setIsOpen ] = useState(true);
   const [ isMenuOpen, setIsMenuOpen ] = useState(false);
   const [ anchorElement, setAnchorElement ] = useState<null | HTMLElement>(null);
@@ -389,6 +389,21 @@ export function Sidebar({ children, label, actions }: { children?: React.ReactNo
             ))}
           </Menu>
         </Stack>
+
+        <ToggleButtonGroup
+          value={selectedOption}
+          exclusive
+        >
+          {options.map((item, index) => (
+            <ToggleButton
+              key={index}
+              value={item.id}
+              href={item.link}
+            >
+              {item.label}
+            </ToggleButton>
+          ))}
+        </ToggleButtonGroup>
 
         <Divider />
 
