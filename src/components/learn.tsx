@@ -12,10 +12,10 @@ import { save } from '@/lib/miscellaneous/database';
 
 export default function Page({ skill, id, mode }: { skill: Skill, id: string, mode: ViewMode }) {
   const [ value, setValue ] = useState(skill.learn);
+  const [ currentChapterIndex, setCurrentChapterIndex ] = useState(0);
   const [ currentPageIndex, setCurrentPageIndex ] = useState(0);
-  const [ currentElementIndex, setCurrentElementIndex ] = useState(0);
   const [ isThinking, setIsThinking ] = useState(false);
-  const [ elementsCompleted, setElementsCompleted ] = useState([[]] as boolean[][]);
+  const [ pagesCompleted, setPagesCompleted ] = useState([[]] as boolean[][]);
   const [ isDialogOpen, setIsDialogOpen ] = useState(false);
   const [ snackbarText, setSnackbarText ] = useState("");
   const [ isSnackbarOpen, setIsSnackbarOpen ] = useState(false);
@@ -107,14 +107,14 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
             return (
               <SidebarButton
                 key={index}
-                isDisabled={isThinking || (index != 0 && !elementsCompleted[currentElementIndex - 1])}
-                selected={currentPageIndex == index}
+                isDisabled={isThinking || (index != 0 && !pagesCompleted[currentPageIndex - 1])}
+                selected={currentChapterIndex == index}
                 ogTitle={chapter.title}
                 mode={mode}
-                progress={elementsCompleted.reduce((sum, element, index) => sum += element && (index >= currentElementIndex && index < currentElementIndex + chapter.pages.length) ? 1 : 0, 0) / chapter.pages.length}
+                progress={pagesCompleted[currentChapterIndex].filter(item => item).length / pagesCompleted[currentChapterIndex].length}
                 onClick={(e) => {
-                  setCurrentPageIndex(index);
-                  setCurrentElementIndex(0);
+                  setCurrentChapterIndex(index);
+                  setCurrentPageIndex(0);
                 }}
               />
             );
@@ -131,24 +131,24 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
         </Sidebar>
 
         <PageComponent
-          element={value.chapters[currentPageIndex].pages[currentElementIndex]}
+          element={value.chapters[currentChapterIndex].pages[currentPageIndex]}
           mode={mode}
           isThinking={isThinking}
-          elementsCompleted={elementsCompleted}
-          currentElementIndex={currentElementIndex}
-          currentPageIndex={currentPageIndex}
-          totalElementsInPage={value.chapters[currentPageIndex].pages.length}
+          elementsCompleted={pagesCompleted}
+          currentElementIndex={currentPageIndex}
+          currentPageIndex={currentChapterIndex}
+          totalElementsInPage={value.chapters[currentChapterIndex].pages.length}
           setIsThinking={setIsThinking}
-          setCurrentElementIndex={setCurrentElementIndex}
+          setCurrentElementIndex={setCurrentPageIndex}
           setSnackbarText={(text: string) => {
             setSnackbarText(text);
             setIsSnackbarOpen(true);
           }}
           setIsElementComplete={(isComplete: boolean) => {
-            const newElementsCompleted = elementsCompleted;
-            newElementsCompleted[currentPageIndex][currentElementIndex] = isComplete;
+            const newElementsCompleted = pagesCompleted;
+            newElementsCompleted[currentChapterIndex][currentPageIndex] = isComplete;
 
-            setElementsCompleted(newElementsCompleted);
+            setPagesCompleted(newElementsCompleted);
           }}
         />
 

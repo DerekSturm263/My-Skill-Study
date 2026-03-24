@@ -27,7 +27,7 @@ export type Practice = {
 
 export type SubSkill = {
   title: string,
-  value: object
+  value: InteractionWrapper[]
 }
 
 export type Quiz = {
