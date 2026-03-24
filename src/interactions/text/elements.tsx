@@ -122,7 +122,7 @@ export function Component(props: InteractionProps<InteractionType>) {
 
         <Stack
           direction="row"
-          spacing={3}
+          spacing={1}
           sx={{ width: '500px' }}
         >
           <IconButton
