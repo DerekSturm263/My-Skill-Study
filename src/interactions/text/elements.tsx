@@ -132,7 +132,11 @@ export function Component(props: InteractionProps<InteractionType>) {
             {isPlaying ? <Pause /> : <PlayArrow />}
           </IconButton>
 
-          <Stack spacing={2} direction="row" sx={{ alignItems: 'center', mb: 1 }}>
+          <Stack
+            spacing={2}
+            direction="row"
+            sx={{ alignItems: 'center', mb: 1 }}
+          >
             <Typography
               variant='caption'
             >
@@ -141,6 +145,7 @@ export function Component(props: InteractionProps<InteractionType>) {
   
             <Slider
               disabled={props.isThinking}
+              sx={{ flexGrow: 1 }}
             />
   
             <Typography
