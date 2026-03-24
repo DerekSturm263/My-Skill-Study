@@ -12,7 +12,7 @@ export function SharableCard<T extends Sharable>({ sharable, id, type }: { shara
       sx={{ width: '300px' }}
     >
       <CardActionArea
-        href={`https://myskillstudy.com/${type}/${id}`}
+        href={`/${type}/${id}`}
       >
         <CardContent>
           <Typography
