@@ -82,7 +82,11 @@ export function Component(props: InteractionProps<InteractionType>) {
       <CardContent
         style={{ height: '20vh', overflowY: 'auto' }}
       >
-        {props.isThinking && <LinearProgress />}
+        {props.isThinking && (
+          <LinearProgress
+            sx={{ marginBottom: '8px' }}
+          />
+        )}
 
         {(props.mode == ViewMode.Edit ? (
           <TextField
@@ -104,7 +108,7 @@ export function Component(props: InteractionProps<InteractionType>) {
               }
             }
           >
-            {props.isThinking ? "<br />*Thinking...*" : props.text}
+            {props.isThinking ? "*Thinking...*" : props.text}
           </MarkdownTypewriter>
         ))}
       </CardContent>
