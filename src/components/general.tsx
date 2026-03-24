@@ -394,13 +394,14 @@ export function Sidebar({ children, label, options, selectedOption, actions }: {
           value={selectedOption}
           size='small'
           exclusive
-          sx={{ minWidth: '100%' }}
+          sx={{ minWidth: 'calc(100% - 24px)' }}
         >
           {options.map((item, index) => (
             <ToggleButton
               key={index}
               value={item.id}
               href={item.link}
+              sx={{ flex: 1 }}
             >
               {item.label}
             </ToggleButton>
