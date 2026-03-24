@@ -5,9 +5,9 @@ import Skill from '@/lib/types/skill';
 import { PageComponent, Sidebar, SidebarButton, SuccessDialog } from './general';
 import { AutoAwesome, Delete, Edit, Info, Save, Share } from '@mui/icons-material';
 import { Box, Button, Snackbar } from '@mui/material';
-import { useEffect, useState } from 'react';
 import { CookiesProvider } from 'react-cookie';
 import { ViewMode } from '@/lib/types/general';
+import { useState } from 'react';
 import { save } from '@/lib/miscellaneous/database';
 
 export default function Page({ skill, id, mode }: { skill: Skill, id: string, mode: ViewMode }) {

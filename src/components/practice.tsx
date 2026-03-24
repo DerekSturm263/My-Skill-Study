@@ -7,7 +7,7 @@ import { PageComponent, Sidebar, SidebarButton, SuccessDialog } from './general'
 import { CookiesProvider } from 'react-cookie';
 import { Box, Snackbar } from '@mui/material';
 import { ViewMode } from '@/lib/types/general';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { save } from '@/lib/miscellaneous/database';
 
 export default function Page({ skill, id, mode }: { skill: Skill, id: string, mode: ViewMode }) {
