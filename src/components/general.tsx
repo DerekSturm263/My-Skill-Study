@@ -392,6 +392,7 @@ export function Sidebar({ children, label, options, selectedOption, actions }: {
 
         <ToggleButtonGroup
           value={selectedOption}
+          size='small'
           exclusive
         >
           {options.map((item, index) => (
