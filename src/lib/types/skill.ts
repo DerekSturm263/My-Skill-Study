@@ -26,12 +26,11 @@ export type Practice = {
 }
 
 export type Quiz = {
-  pages: SmallChapter[]
+  questions: SmallChapter[]
 }
 
 export type SmallChapter = {
   title: string,
-  question: TextType,
-  interaction: InteractionWrapper[]
+  page: Page
 }
 

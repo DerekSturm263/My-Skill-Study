@@ -7,7 +7,7 @@ import { AutoAwesome, Delete, Info, Save, Share } from '@mui/icons-material';
 import { Box, Button, Snackbar } from '@mui/material';
 import { CookiesProvider } from 'react-cookie';
 import { ViewMode } from '@/lib/types/general';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { save } from '@/lib/miscellaneous/database';
 
 export default function Page({ skill, id, mode }: { skill: Skill, id: string, mode: ViewMode }) {
@@ -19,6 +19,15 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
   const [ isDialogOpen, setIsDialogOpen ] = useState(false);
   const [ snackbarText, setSnackbarText ] = useState("");
   const [ isSnackbarOpen, setIsSnackbarOpen ] = useState(false);
+
+  useEffect(() => {
+    const newPagesCompleted: boolean[][] = new Array(value.chapters.length);
+    for (let i = 0; i < newPagesCompleted.length; ++i) {
+      newPagesCompleted[i] = new Array(value.chapters[i].pages.length);
+    }
+
+    setPagesCompleted(newPagesCompleted);
+  }, []);
 
   function addChapter() {
     const newChapters = value.chapters;
@@ -136,8 +145,8 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
           mode={mode}
           isThinking={isThinking}
           elementsCompleted={pagesCompleted}
-          currentElementIndex={currentPageIndex}
           currentPageIndex={currentChapterIndex}
+          currentElementIndex={currentPageIndex}
           totalElementsInPage={value.chapters[currentChapterIndex].pages.length}
           setIsThinking={setIsThinking}
           setCurrentElementIndex={setCurrentPageIndex}
@@ -146,10 +155,10 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
             setIsSnackbarOpen(true);
           }}
           setIsElementComplete={(isComplete: boolean) => {
-            const newElementsCompleted = pagesCompleted;
-            newElementsCompleted[currentChapterIndex][currentPageIndex] = isComplete;
+            const newPagesCompleted = pagesCompleted;
+            newPagesCompleted[currentChapterIndex][currentPageIndex] = isComplete;
 
-            setPagesCompleted(newElementsCompleted);
+            setPagesCompleted(newPagesCompleted);
           }}
         />
 

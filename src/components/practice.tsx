@@ -3,19 +3,18 @@
 import Skill from '@/lib/types/skill';
 
 import { AutoAwesome, Delete, Info, Save, Share } from '@mui/icons-material';
-import { Sidebar, SidebarButton, SuccessDialog } from './general';
+import { PageComponent, Sidebar, SidebarButton, SuccessDialog } from './general';
 import { CookiesProvider } from 'react-cookie';
 import { Box, Snackbar } from '@mui/material';
 import { ViewMode } from '@/lib/types/general';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { save } from '@/lib/miscellaneous/database';
 
 export default function Page({ skill, id, mode }: { skill: Skill, id: string, mode: ViewMode }) {
   const [ value, setValue ] = useState(skill.practice);
-  const [ currentPageIndex, setCurrentPageIndex ] = useState(0);
-  const [ currentElementIndex, setCurrentElementIndex ] = useState(0);
+  const [ currentChapterIndex, setCurrentChapterIndex ] = useState(0);
   const [ isThinking, setIsThinking ] = useState(false);
-  const [ elementsCompleted, setElementsCompleted ] = useState([[]] as boolean[][]);
+  const [ pagesCompleted, setPagesCompleted ] = useState(new Array(value.subSkills.length) as boolean[]);
   const [ isDialogOpen, setIsDialogOpen ] = useState(false);
   const [ snackbarText, setSnackbarText ] = useState("");
   const [ isSnackbarOpen, setIsSnackbarOpen ] = useState(false);
@@ -92,19 +91,40 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
           {value.subSkills.map((subSkill, index) => (
             <SidebarButton
               isDisabled={isThinking}
-              selected={currentPageIndex == index}
+              selected={currentChapterIndex == index}
               key={index}
               ogTitle={subSkill.title}
               mode={mode}
-              progress={0}
+              progress={pagesCompleted[index] ? 1 : 0}
               onClick={(e) => {
-                setCurrentPageIndex(index);
-                setCurrentElementIndex(0);
+                setCurrentChapterIndex(index);
               }}
             />
           ))}
         </Sidebar>
-        
+
+        <PageComponent
+          element={value.subSkills[currentChapterIndex].page}
+          mode={mode}
+          isThinking={isThinking}
+          elementsCompleted={[[]] as boolean[][]}
+          currentPageIndex={currentChapterIndex}
+          currentElementIndex={0}
+          totalElementsInPage={1}
+          setIsThinking={setIsThinking}
+          setCurrentElementIndex={setCurrentChapterIndex}
+          setSnackbarText={(text: string) => {
+            setSnackbarText(text);
+            setIsSnackbarOpen(true);
+          }}
+          setIsElementComplete={(isComplete: boolean) => {
+            const newPagesCompleted = pagesCompleted;
+            newPagesCompleted[currentChapterIndex] = isComplete;
+
+            setPagesCompleted(newPagesCompleted);
+          }}
+        />
+
         <Snackbar
           anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
           autoHideDuration={3000}

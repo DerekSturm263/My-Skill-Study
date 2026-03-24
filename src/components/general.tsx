@@ -473,11 +473,11 @@ export function PageComponent({ element, mode, isThinking, elementsCompleted, cu
             thisType={interaction.type}
             text={element.text.text}
             originalValue={interaction.value}
-            pageIndex={currentPageIndex}
-            elementIndex={currentElementIndex}
-            totalElementsInPage={totalElementsInPage}
+            chapterIndex={currentPageIndex}
+            pageIndex={currentElementIndex}
+            totalElementsInChapter={totalElementsInPage}
             isThinking={isThinking}
-            elementsCompleted={elementsCompleted}
+            pagesCompleted={elementsCompleted}
             mode={mode}
             setText={setText}
             evaluateAndReply={async (promise: Promise<Verification>) => {
@@ -500,11 +500,11 @@ export function PageComponent({ element, mode, isThinking, elementsCompleted, cu
       <TextComponent
         text={text}
         originalValue={element.text}
-        pageIndex={currentPageIndex}
-        elementIndex={currentElementIndex}
-        totalElementsInPage={totalElementsInPage}
+        chapterIndex={currentPageIndex}
+        pageIndex={currentElementIndex}
+        totalElementsInChapter={totalElementsInPage}
         isThinking={isThinking}
-        elementsCompleted={elementsCompleted}
+        pagesCompleted={elementsCompleted}
         mode={mode}
         setText={setText}
         evaluateAndReply={async (promise: Promise<Verification>) => {

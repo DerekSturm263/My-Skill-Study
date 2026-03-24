@@ -3,7 +3,7 @@
 import Skill from '@/lib/types/skill';
 
 import { AutoAwesome, Delete, Info, Save, Share } from '@mui/icons-material';
-import { Sidebar, SidebarButton, SuccessDialog } from './general';
+import { PageComponent, Sidebar, SidebarButton, SuccessDialog } from './general';
 import { CookiesProvider } from 'react-cookie';
 import { Box, Snackbar } from '@mui/material';
 import { ViewMode } from "@/lib/types/general";
@@ -12,10 +12,9 @@ import { save } from '@/lib/miscellaneous/database';
 
 export default function Page({ skill, id, mode }: { skill: Skill, id: string, mode: ViewMode }) {
   const [ value, setValue ] = useState(skill.quiz);
-  const [ currentPageIndex, setCurrentPageIndex ] = useState(0);
-  const [ currentElementIndex, setCurrentElementIndex ] = useState(0);
+  const [ currentChapterIndex, setCurrentChapterIndex ] = useState(0);
   const [ isThinking, setIsThinking ] = useState(false);
-  const [ elementsCompleted, setElementsCompleted ] = useState([[]] as boolean[][]);
+  const [ pagesCompleted, setPagesCompleted ] = useState(new Array(value.questions.length) as boolean[]);
   const [ isDialogOpen, setIsDialogOpen ] = useState(false);
   const [ snackbarText, setSnackbarText ] = useState("");
   const [ isSnackbarOpen, setIsSnackbarOpen ] = useState(false);
@@ -89,21 +88,42 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
             }
           ]}
         >
-          {value.pages.map((page, index) => (
+          {value.questions.map((page, index) => (
             <SidebarButton
               isDisabled={isThinking}
-              selected={currentPageIndex == index}
+              selected={currentChapterIndex == index}
               key={index}
               ogTitle={page.title}
               mode={mode}
-              progress={0}
+              progress={pagesCompleted[index] ? 1 : 0}
               onClick={(e) => {
-                setCurrentPageIndex(index);
-                setCurrentElementIndex(0);
+                setCurrentChapterIndex(index);
               }}
             />
           ))}
         </Sidebar>
+
+        <PageComponent
+          element={value.questions[currentChapterIndex].page}
+          mode={mode}
+          isThinking={isThinking}
+          elementsCompleted={[[]] as boolean[][]}
+          currentPageIndex={currentChapterIndex}
+          currentElementIndex={0}
+          totalElementsInPage={1}
+          setIsThinking={setIsThinking}
+          setCurrentElementIndex={setCurrentChapterIndex}
+          setSnackbarText={(text: string) => {
+            setSnackbarText(text);
+            setIsSnackbarOpen(true);
+          }}
+          setIsElementComplete={(isComplete: boolean) => {
+            const newPagesCompleted = pagesCompleted;
+            newPagesCompleted[currentChapterIndex] = isComplete;
+
+            setPagesCompleted(newPagesCompleted);
+          }}
+        />
 
         <Snackbar
           anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
