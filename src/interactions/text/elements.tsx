@@ -74,10 +74,6 @@ export function Component(props: InteractionProps<InteractionType>) {
   async function reset() {
     props.setText(props.originalValue.text);
   }
-  
-  async function toggleIsPlaying() {
-    setIsPlaying(!isPlaying);
-  }
 
   useEffect(() => { readAloud() },  []);
 
@@ -130,7 +126,7 @@ export function Component(props: InteractionProps<InteractionType>) {
           sx={{ width: '500px' }}
         >
           <IconButton
-            onClick={toggleIsPlaying}
+            onClick={(e) => setIsPlaying(!isPlaying)}
           >
             {isPlaying ? <Pause /> : <PlayArrow />}
           </IconButton>
@@ -149,7 +145,7 @@ export function Component(props: InteractionProps<InteractionType>) {
           />
 
           <IconButton
-            onClick={toggleIsPlaying}
+            onClick={(e) => setCookie('autoReadAloud', !cookies.autoReadAloud, { path: '/' })}
           >
             {cookies.autoReadAloud ? <MotionPhotosAuto /> : <MotionPhotosOff />}
           </IconButton>
