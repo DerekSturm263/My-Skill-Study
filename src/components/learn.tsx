@@ -4,9 +4,10 @@ import Skill from '@/lib/types/skill';
 
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Snackbar } from '@mui/material';
 import { ElementComponent, Sidebar, SidebarButton } from './general';
+import { CookiesProvider } from 'react-cookie';
 import { ViewMode } from '@/lib/types/general';
 import { useState } from 'react';
-import { CookiesProvider } from 'react-cookie';
+import { Info, Share } from '@mui/icons-material';
 
 export default function Page({ skill, mode }: { skill: Skill, mode: ViewMode }) {
   const [ learn, setLearn ] = useState(skill.learn);
@@ -70,7 +71,19 @@ export default function Page({ skill, mode }: { skill: Skill, mode: ViewMode }) 
         sx={{ height: '100vh' }}
       >
         <Sidebar
-          label="Chapters"
+          label={skill.title}
+          actions={[
+            {
+              label: "Details",
+              icon: Info,
+              action: () => {}
+            },
+            {
+              label: "Share",
+              icon: Share,
+              action: () => {}
+            }
+          ]}
         >
           {learn.chapters.map((chapter, index) => {
             return (

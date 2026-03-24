@@ -14,9 +14,9 @@ import Ordering from '@/interactions/ordering/elements';
 import Matching from '@/interactions/matching/elements';
 import IFrame from '@/interactions/iframe/elements';
 
-import { IconButton, Dialog, Typography, Stack, List, ListItem, ListItemButton, ListItemText, Button, TextField, Tooltip, Snackbar, LinearProgress, AppBar, Drawer, MenuItem, DialogActions, Divider, FormControl, InputLabel, Toolbar, Select, Box, Tabs, Tab, Switch, FormControlLabel, ListItemIcon, Link, DialogTitle, DialogContentText, DialogContent, SpeedDial, SpeedDialAction, SpeedDialIcon } from '@mui/material';
+import { IconButton, Dialog, Typography, Stack, List, ListItem, ListItemButton, ListItemText, Button, TextField, Tooltip, Snackbar, LinearProgress, AppBar, Drawer, MenuItem, DialogActions, Divider, FormControl, InputLabel, Toolbar, Select, Box, Tabs, Tab, Switch, FormControlLabel, ListItemIcon, Link, DialogTitle, DialogContentText, DialogContent, SpeedDial, SpeedDialAction, SpeedDialIcon, Menu } from '@mui/material';
 import { ViewMode, InteractionProps, Sharable, InteractionPackageBase, Interaction, InteractionPackage } from '../lib/types/general';
-import { AutoAwesome, School, LocalLibrary, Delete, MoreVert, Save, Quiz, Share, Refresh, SwapHoriz } from '@mui/icons-material';
+import { AutoAwesome, School, LocalLibrary, Delete, MoreVert, Save, Quiz, Share, Refresh, SwapHoriz, Info, SvgIconComponent } from '@mui/icons-material';
 import { Fragment, Children, useState, MouseEventHandler, Dispatch, SetStateAction } from 'react';
 import { Component as TextComponent } from '@/interactions/text/elements'; 
 import { save, remove } from '../lib/miscellaneous/database';
@@ -72,7 +72,7 @@ export function SharableInfo<T extends Sharable>({ slug, mode, type, progress, s
             variant="scrollable"
             scrollButtons="auto"
           >
-            {["Link", "IFrame"].map((label, index) => (
+            {[ "Link", "IFrame" ].map((label, index) => (
               <Tab
                 key={index}
                 label={label}
@@ -274,20 +274,10 @@ export function SharableInfo<T extends Sharable>({ slug, mode, type, progress, s
         <Toolbar
           sx={{ display: 'flex', justifyContent: 'space-between' }}
         >
-          {!hideLogo && (
-            <Link
-              variant="h6"
-              sx={{ width: '400px', textDecoration: 'none' }}
-              href="/"
-            >
-              MySkillStudy.com
-            </Link>
-          )}
-
           <Stack
             spacing={2}
           >
-            {mode == ViewMode.Edit ? (
+            {mode == ViewMode.Edit && (
               <TextField
                 label="Title"
                 autoComplete="off"
@@ -296,14 +286,6 @@ export function SharableInfo<T extends Sharable>({ slug, mode, type, progress, s
                   setHeaderTitle(e.target.value);
                 }}
               />
-            ) : (
-              <Link
-                variant="h6"
-                sx={{ textAlign: 'center', textDecoration: 'none' }}
-                href={`./?mode=${mode}&hideLogo=${hideLogo}`}
-              >
-                {headerTitle}
-              </Link>
             )}
 
             {showProgress && mode == ViewMode.View && (
@@ -386,24 +368,6 @@ export function SharableInfo<T extends Sharable>({ slug, mode, type, progress, s
               </FormControl>
             )}
 
-            {slug != "" && hideLogo == false && (
-              <Tooltip
-                title="Share or embed this content"
-              >
-                <IconButton
-                  onClick={async (e) => {
-                    setIsOpen(true);
-                    setTabIndex(0);
-                    setHideLogoState(true);
-                    setWidth(800);
-                    setHeight(600);
-                  }}
-                >
-                  <Share />
-                </IconButton>
-              </Tooltip>
-            )}
-
             {(mode == ViewMode.Edit) && (
               <Tooltip
                 title="Generate using AI"
@@ -455,8 +419,10 @@ export function SharableInfo<T extends Sharable>({ slug, mode, type, progress, s
   );
 }
 
-export function Sidebar({ children, label }: { children?: React.ReactNode, label: string }) {
+export function Sidebar({ children, label, actions }: { children?: React.ReactNode, label: string, actions: { label: string, icon: SvgIconComponent, action: () => void }[] }) {
   const [ isOpen, setIsOpen ] = useState(true);
+  const [ isMenuOpen, setIsMenuOpen ] = useState(false);
+  const [ anchorElement, setAnchorElement ] = useState<null | HTMLElement>(null);
 
   return (
     <Drawer
@@ -473,12 +439,47 @@ export function Sidebar({ children, label }: { children?: React.ReactNode, label
       <Box
         sx={{  overflow: 'auto' }}
       >
-        <Typography
-          variant='h6'
-          sx={{ margin: 'auto', textAlign: 'center', height: '48px', alignContent: 'center' }}
+        <Stack
+          direction="row"
+          spacing={0}
+          sx={{ margin: 'auto', height: '48px', justifyContent: 'center' }}
         >
-          {label}
-        </Typography>
+          <Typography
+            variant='h6'
+            sx={{ textAlign: 'center', alignContent: 'center', marginLeft: '8px' }}
+          >
+            {label}
+          </Typography>
+
+          <IconButton
+            onClick={(e) => {
+              setIsMenuOpen(true);
+              setAnchorElement(e.currentTarget);
+            }}
+          >
+            <MoreVert />
+          </IconButton>
+
+          <Menu
+            anchorEl={anchorElement}
+            open={isMenuOpen}
+            onClose={() => setIsMenuOpen(false)}
+          >
+            {actions.map((action, index) => (
+              <MenuItem
+                onClick={action.action.call}
+              >
+                <ListItemIcon>
+                  <action.icon />
+                </ListItemIcon>
+                  
+                <ListItemText>
+                  {action.label}
+                </ListItemText>
+              </MenuItem>
+            ))}
+          </Menu>
+        </Stack>
 
         <Divider />
 

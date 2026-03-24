@@ -55,6 +55,7 @@ export default function Page({ skill, mode }: { skill: Skill, mode: ViewMode }) 
       >
         <Sidebar
           label="Sub-Skills"
+          actions={[]}
         >
           {subSkills.map((subSkill, index) => (
             <SidebarButton
