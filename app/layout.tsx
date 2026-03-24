@@ -1,23 +1,29 @@
 'use client'
 
 import CssBaseline from '@mui/material/CssBaseline';
-import theme from "./theme";
 import Link from "next/link";
+import theme from "./theme";
 
 import { AppBar, Avatar, Badge, Divider, IconButton, InputAdornment, ListItemIcon, ListItemText, Menu, MenuItem, Stack, TextField, Toolbar, Tooltip, Typography } from "@mui/material";
 import { Logout, Notifications, Person, QuestionMark, Search } from "@mui/icons-material";
 import { Dispatch, SetStateAction, useState } from "react";
 import { ThemeProvider } from '@mui/material/styles';
+import { PageProps } from '@/lib/types/general';
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default async function RootLayout({ children, params, searchParams }: Readonly<{ children: React.ReactNode }> & PageProps) {
+  const urlParams = await searchParams;
+  const hideHeader = urlParams?.hideHeader == "true";
+  
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       
       <header>
-        <Header
-          presetSearchTerms=""
-        />
+        {!hideHeader && (
+          <Header
+            presetSearchTerms=""
+          />
+        )}
       </header>
 
       <html lang="en">

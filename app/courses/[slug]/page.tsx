@@ -28,7 +28,6 @@ export default async function Page({ params, searchParams }: PageProps) {
           slug={slug}
           sharable={course}
           mode={mode as ViewMode}
-          hideLogo={false}
           type="courses"
         >
         </SharablePage>

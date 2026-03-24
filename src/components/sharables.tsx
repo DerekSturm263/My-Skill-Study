@@ -48,7 +48,7 @@ export function SharableCard<T extends Sharable>({ sharable, id, type }: { shara
   );
 }
 
-export function SharablePage<T extends Sharable>({ slug, sharable, mode, hideLogo, type, children }: { slug: string, sharable: T, mode: ViewMode, hideLogo: boolean, type: string, children?: React.ReactNode }) {
+export function SharablePage<T extends Sharable>({ slug, sharable, mode, type, children }: { slug: string, sharable: T, mode: ViewMode, type: string, children?: React.ReactNode }) {
   const [ tabIndex, setTabIndex ] = useState(0);
 
   const tabs = mode == ViewMode.Edit ? [ "About" ] : [ "About", "Recommended", "Reviews" ];

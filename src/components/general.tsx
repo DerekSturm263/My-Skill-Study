@@ -107,12 +107,12 @@ export function DetailsDialog({ value, isOpen, setIsOpen }: { value: Sharable, i
 
 export function ShareDialog({ type, id, isOpen, setIsOpen, setSnackbarText }: { type: string, id: string, isOpen: boolean, setIsOpen: Dispatch<SetStateAction<boolean>>, setSnackbarText: (text: string) => void }) {
   const [ tabIndex, setTabIndex ] = useState(0);
-  const [ hideLogoState, setHideLogoState ] = useState(true);
+  const [ hideHeaderState, setHideHeaderState ] = useState(true);
   const [ width, setWidth ] = useState(800);
   const [ height, setHeight ] = useState(600);
 
-  const link = `https://myskillstudy.com/${type}/${id}?mode=view&hideLogo=${hideLogoState}`;
-  const iframe = `<iframe src="https://myskillstudy.com/${type}/${id}?mode=view&hideLogo=${hideLogoState}" width=${width} height=${height}></iframe>`;
+  const link = `https://myskillstudy.com/${type}/${id}?mode=view&hideHeader=${hideHeaderState}`;
+  const iframe = `<iframe src="https://myskillstudy.com/${type}/${id}?mode=view&hideHeader=${hideHeaderState}" width=${width} height=${height}></iframe>`;
 
   return (
     <Dialog
@@ -152,8 +152,8 @@ export function ShareDialog({ type, id, isOpen, setIsOpen, setSnackbarText }: { 
           <FormControlLabel control={
             <Switch
               defaultChecked={true}
-              value={hideLogoState}
-              onChange={(e, value) => setHideLogoState(value)}
+              value={hideHeaderState}
+              onChange={(e, value) => setHideHeaderState(value)}
             />}
             label="Hide MySkillStudy.com Logo"
           />
