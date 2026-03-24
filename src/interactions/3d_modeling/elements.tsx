@@ -40,7 +40,7 @@ function Component(props: InteractionProps<InteractionType>) {
 }
 
 const interaction: InteractionPackage<InteractionType> = {
-  id: "3d_modeling",
+  id: "3dModeling",
   prettyName: "3D Modeling",
   category: "Art",
   icon: Landscape,

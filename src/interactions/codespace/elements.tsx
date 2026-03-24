@@ -193,7 +193,7 @@ function Component(props: InteractionProps<InteractionType>) {
 
     setIsRunning(false);
 
-    return verify(props.originalText, value, output.response);
+    return verify(props.text, value, output.response);
   }
 
   return (

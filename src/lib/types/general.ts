@@ -30,7 +30,7 @@ export type InteractionWrapper = {
 }
 
 export type InteractionProps<T extends Interaction | Interaction> = {
-  originalText: string,
+  text: string,
   originalValue: T,
   pageIndex: number,
   elementIndex: number,

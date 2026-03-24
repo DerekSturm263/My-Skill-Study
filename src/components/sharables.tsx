@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 
-import { Breadcrumbs, Card, CardActionArea, CardActions, CardContent, Chip, LinearProgress, Rating, Stack, Tab, Tabs, TextField, Toolbar, Typography } from "@mui/material";
+import { Breadcrumbs, Card, CardActionArea, CardActions, CardContent, Chip, LinearProgress, Rating, Stack, Tab, Tabs, TextField, Typography } from "@mui/material";
 import { ViewMode, Sharable } from "@/lib/types/general";
 import { useState } from "react";
 

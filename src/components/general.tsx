@@ -532,34 +532,15 @@ export function ElementComponent({ element, mode, isThinking, elementsCompleted,
     >
       <Toolbar />
 
-      <TextComponent
-        originalText={text}
-        originalValue={element.text}
-        pageIndex={currentPageIndex}
-        elementIndex={currentElementIndex}
-        totalElementsInPage={totalElementsInPage}
-        isThinking={isThinking}
-        elementsCompleted={elementsCompleted}
-        mode={mode}
-        setText={setText}
-        evaluateAndReply={async (promise: Promise<Verification>) => {
-          setIsThinking(true);
-
-          const verification = await promise;
-          setText(verification.feedback);
-    
-          setIsThinking(false);
-        }}
-        setCurrentElementIndex={setCurrentElementIndex}
-      />
-
       <Stack
         direction="row"
+        sx={{ flexGrow: 1 }}
       >
         {element.interactions.map((interaction, index) => (
           <InteractionComponent
             key={index}
-            originalText={element.text.text}
+            thisType={interaction.type}
+            text={element.text.text}
             originalValue={interaction.value}
             pageIndex={currentPageIndex}
             elementIndex={currentElementIndex}
@@ -584,12 +565,33 @@ export function ElementComponent({ element, mode, isThinking, elementsCompleted,
           />
         ))}
       </Stack>
+
+      <TextComponent
+        text={text}
+        originalValue={element.text}
+        pageIndex={currentPageIndex}
+        elementIndex={currentElementIndex}
+        totalElementsInPage={totalElementsInPage}
+        isThinking={isThinking}
+        elementsCompleted={elementsCompleted}
+        mode={mode}
+        setText={setText}
+        evaluateAndReply={async (promise: Promise<Verification>) => {
+          setIsThinking(true);
+
+          const verification = await promise;
+          setText(verification.feedback);
+    
+          setIsThinking(false);
+        }}
+        setCurrentElementIndex={setCurrentElementIndex}
+      />
     </Stack>
   );
 }
 
-export function InteractionComponent(props: InteractionProps<Interaction>) {
-  const [ type, setType ] = useState("text"); // TODO: Get type
+export function InteractionComponent(props: InteractionProps<Interaction> & { thisType: string }) {
+  const [ type, setType ] = useState(props.thisType);
 
   const Component = (interactionMap[type] as InteractionPackage<Interaction>).Component;
 

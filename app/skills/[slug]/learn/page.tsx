@@ -18,14 +18,14 @@ export default async function Page({ params, searchParams }: PageProps) {
   const { slug } = await params;
   const urlParams = await searchParams;
 
-  const skill = await get<Skill>("skills", slug);
+  const skill = await get<Skill>("skills", slug) as Skill;
   const mode = urlParams?.mode ?? "view";
 
   return (
     <div>
       <main>
         <Content
-          skill={skill as Skill}
+          skill={skill}
           mode={mode as ViewMode}
         />
       </main>

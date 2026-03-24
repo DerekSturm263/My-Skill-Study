@@ -66,7 +66,7 @@ function Component(props: InteractionProps<InteractionType>) {
           
             <Button
               variant="contained"
-              onClick={(e) => props.evaluateAndReply(verify(props.originalText, userIsCorrect, value))}
+              onClick={(e) => props.evaluateAndReply(verify(props.text, userIsCorrect, value))}
               sx={{ width: '120px' }}
               disabled={isDisabled}
             >

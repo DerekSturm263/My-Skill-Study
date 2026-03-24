@@ -1,7 +1,7 @@
 'use server'
 
 import { GoogleGenAI, HarmBlockThreshold, HarmCategory } from '@google/genai';
-import { ModelType, Payload } from './types';
+import { Payload } from './types';
 
 const ai = new GoogleGenAI({});
 

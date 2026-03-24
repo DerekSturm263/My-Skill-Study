@@ -2,7 +2,7 @@
 
 import Skill from '@/lib/types/skill';
 
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Stack, Toolbar } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { Sidebar, SidebarButton } from './general';
 import { ViewMode } from '@/lib/types/general';
 import { useState } from 'react';
@@ -70,13 +70,6 @@ export default function Page({ skill, mode }: { skill: Skill, mode: ViewMode }) 
             />
           ))}
         </Sidebar>
-
-        <Stack
-          sx={{ flexGrow: 1 }}
-        >
-          <Toolbar />
-          
-        </Stack>
       </Box>
     </CookiesProvider>
   );

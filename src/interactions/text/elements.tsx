@@ -35,13 +35,26 @@ const schema = {
 
 export function Component(props: InteractionProps<InteractionType>) {
   const [ cookies, setCookie ] = useCookies([ 'autoReadAloud' ]);
-
-  const [ value, setValue ] = useState(props.originalValue);
-  const [ doAutoReadAloud, setDoAutoReadAloud ] = useState(cookies.autoReadAloud);
+  
+  async function rephrase(): Promise<Verification> {
+    return {
+      feedback: await generateText({
+        model: ModelType.Quick,
+        prompt:
+        `TASK:
+        Rephrase a given TEXT. 
+      
+        TEXT:
+        ${props.text}`,
+        systemInstruction: `You are an expert at rephrasing things in a more understandable way. When you rephrase things, it should become easier to understand, but not much longer. If it's possible to make it easier to understand while keeping it short, do so. Use new examples and friendlier language than the original text.`
+      }),
+      isValid: true
+    };
+  }
 
   async function readAloud() {
     const request = {
-      input: { text: value.text },
+      input: { text: props.text },
       voice: { languageCode: 'en-US', ssmlGender: 'NEUTRAL' },
       audioConfig: { audioEncoding: 'MP3' }
     };
@@ -60,26 +73,10 @@ export function Component(props: InteractionProps<InteractionType>) {
   }
 
   async function reset() {
-    setValue({ ... value, text: props.originalValue.text });
+    props.setText(props.originalValue.text);
   }
 
   useEffect(() => { readAloud() },  []);
-  
-  async function rephrase(): Promise<Verification> {
-    return {
-      feedback: await generateText({
-        model: ModelType.Quick,
-        prompt:
-        `TASK:
-        Rephrase a given TEXT. 
-      
-        TEXT:
-        ${value.text}`,
-        systemInstruction: `You are an expert at rephrasing things in a more understandable way. When you rephrase things, it should become easier to understand, but not much longer. If it's possible to make it easier to understand while keeping it short, do so. Use new examples and friendlier language than the original text.`
-      }),
-      isValid: true
-    };
-  }
 
   return (
     <Card>
@@ -92,16 +89,18 @@ export function Component(props: InteractionProps<InteractionType>) {
           <TextField
             hiddenLabel={true}
             multiline
-            defaultValue={value.text}
+            defaultValue={props.text}
             rows={4}
             onChange={(e) => {
-              setValue({ ... value, text: e.target.value });
+              props.setText(e.target.value);
             }}
             fullWidth={true}
           />
         ) : (
-          <MarkdownTypewriter>
-            {props.isThinking ? "Thinking..." : value.text}
+          <MarkdownTypewriter
+            delay={30}
+          >
+            {props.isThinking ? "Thinking..." : props.text}
           </MarkdownTypewriter>
         ))}
       </CardContent>
@@ -180,11 +179,11 @@ export function Component(props: InteractionProps<InteractionType>) {
               </Tooltip>
 
               <Tooltip
-                title={`Turn ${doAutoReadAloud ? "off" : "on"} immediately reading new text aloud`}
+                title={`Turn ${cookies.autoReadAloud ? "off" : "on"} immediately reading new text aloud`}
               >
                 <Chip
-                  icon={doAutoReadAloud ? <VoiceOverOff /> : <RecordVoiceOver />}
-                  label={`Turn ${doAutoReadAloud ? "Off" : "On"} Auto Read`}
+                  icon={cookies.autoReadAloud ? <VoiceOverOff /> : <RecordVoiceOver />}
+                  label={`Turn ${cookies.autoReadAloud ? "Off" : "On"} Auto Read`}
                   onClick={(e) => toggleAutoReadAloud()}
                   disabled={props.isThinking}
                 />

@@ -1,9 +1,9 @@
 import { SchemaUnion, Type } from '@google/genai';
 
 export enum ModelType {
-  Smart = 'gemini-3.1-pro',
-  Quick = 'gemini-3.0-flash-lite',
-  QuickSpeed = 'gemini-3.0-flash-preview-tts'
+  Smart = 'gemini-flash-latest',
+  Quick = 'gemini-flash-lite-latest',
+  TTS = 'gemini-3.0-flash-preview-tts'
 }
 
 export type Payload = {

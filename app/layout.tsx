@@ -18,7 +18,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <Header
           presetSearchTerms=""
         />
-        <Toolbar />
         
         <body>
           {children}
