@@ -95,7 +95,7 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
         >
           {value.questions.map((page, index) => (
             <SidebarButton
-              isDisabled={isThinking}
+              isDisabled={isThinking || (index != 0 && !pagesCompleted[index - 1])}
               selected={currentChapterIndex == index}
               key={index}
               ogTitle={page.title}
