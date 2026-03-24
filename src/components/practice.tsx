@@ -2,7 +2,7 @@
 
 import Skill from '@/lib/types/skill';
 
-import { AutoAwesome, Delete, Edit, Info, Save, Share } from '@mui/icons-material';
+import { AutoAwesome, Delete, Edit, Info, Save, Share, Visibility } from '@mui/icons-material';
 import { DeleteDialog, DetailsDialog, GenerateDialog, PageComponent, ShareDialog, Sidebar, SidebarButton, SuccessDialog } from './general';
 import { CookiesProvider } from 'react-cookie';
 import { Box, Snackbar } from '@mui/material';
@@ -98,29 +98,29 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
             {
               label: "Details",
               icon: Info,
-              action: () => {}
+              action: () => { setDialogOpen("details") }
             },
             {
               label: "Share",
               icon: Share,
-              action: () => {}
+              action: () => { setDialogOpen("share") }
             },
             {
+              label: mode == ViewMode.Edit ? "View" : "Edit",
+              icon: mode == ViewMode.Edit ? Visibility : Edit,
+              action: async () => {}
+            },
+            ...( mode == ViewMode.Edit ? [ {
               label: "Generate",
               icon: AutoAwesome,
-              action: () => {}
-            },
-            {
-              label: "Edit",
-              icon: Edit,
-              action: async () => {}
+              action: () => { setDialogOpen("generate") }
             },
             {
               label: "Save",
               icon: Save,
               action: async () => {
                 await save("skills", id, skill);
-          
+
                 setSnackbarText("Saved");
                 setIsSnackbarOpen(true);
               }
@@ -128,8 +128,8 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
             {
               label: "Delete",
               icon: Delete,
-              action: () => {}
-            }
+              action: () => { setDialogOpen("delete") }
+            } ] : [])
           ]}
         >
           {value.subSkills.map((subSkill, index) => (

@@ -113,12 +113,12 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
             {
               label: "Details",
               icon: Info,
-              action: () => {}
+              action: () => { setDialogOpen("details") }
             },
             {
               label: "Share",
               icon: Share,
-              action: () => {}
+              action: () => { setDialogOpen("share") }
             },
             {
               label: mode == ViewMode.Edit ? "View" : "Edit",
@@ -128,7 +128,7 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
             ...( mode == ViewMode.Edit ? [ {
               label: "Generate",
               icon: AutoAwesome,
-              action: () => {}
+              action: () => { setDialogOpen("generate") }
             },
             {
               label: "Save",
@@ -143,7 +143,7 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
             {
               label: "Delete",
               icon: Delete,
-              action: () => {}
+              action: () => { setDialogOpen("delete") }
             } ] : [])
           ]}
         >
