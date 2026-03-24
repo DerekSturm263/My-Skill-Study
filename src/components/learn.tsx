@@ -111,7 +111,7 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
                 selected={currentChapterIndex == index}
                 ogTitle={chapter.title}
                 mode={mode}
-                progress={pagesCompleted[currentChapterIndex].filter(item => item).length / pagesCompleted[currentChapterIndex].length}
+                progress={pagesCompleted[index].filter(item => item).length / pagesCompleted[index].length}
                 onClick={(e) => {
                   setCurrentChapterIndex(index);
                   setCurrentPageIndex(0);
