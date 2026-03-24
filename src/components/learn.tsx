@@ -14,7 +14,9 @@ export default function Page({ skill, mode }: { skill: Skill, mode: ViewMode }) 
   const [ currentElementIndex, setCurrentElementIndex ] = useState(0);
   const [ isThinking, setIsThinking ] = useState(false);
   const [ elementsCompleted, setElementsCompleted ] = useState([[]] as boolean[][]);
-  const [ hideDialogue, setHideDialogue ] = useState(false);
+  const [ dialogTitle, setDialogTitle ] = useState("");
+  const [ dialogText, setDialogText ] = useState("");
+  const [ isDialogOpen, setIsDialogOpen ] = useState(false);
   const [ snackbarText, setSnackbarText ] = useState("");
   const [ isSnackbarOpen, setIsSnackbarOpen ] = useState(false);
 
@@ -35,26 +37,22 @@ export default function Page({ skill, mode }: { skill: Skill, mode: ViewMode }) 
   return (
     <CookiesProvider>
       <Dialog
-        open={!hideDialogue && mode == ViewMode.View && elementsCompleted.filter(element => element).length == elementsCompleted.length}
-        onClose={(e) => setHideDialogue(true)}
+        open={isDialogOpen && mode == ViewMode.View && elementsCompleted.filter(element => element).length == elementsCompleted.length}
+        onClose={(e) => setIsDialogOpen(false)}
       >
         <DialogTitle>
-          Module Complete!
+          {dialogTitle}
         </DialogTitle>
 
         <DialogContent>
           <DialogContentText>
-            Good job on completing this module!
-          </DialogContentText>
-          
-          <DialogContentText>
-            ...
+            {dialogText}
           </DialogContentText>
         </DialogContent>
 
         <DialogActions>
           <Button
-            onClick={(e) => setHideDialogue(true)}
+            onClick={(e) => setIsDialogOpen(false)}
           >
             Close
           </Button>
@@ -111,8 +109,15 @@ export default function Page({ skill, mode }: { skill: Skill, mode: ViewMode }) 
           totalElementsInPage={learn.chapters[currentPageIndex].elements.length}
           setIsThinking={setIsThinking}
           setCurrentElementIndex={setCurrentElementIndex}
-          setSnackbarText={setSnackbarText}
-          setIsSnackbarOpen={setIsSnackbarOpen}
+          setDialogText={(title: string, text: string) => {
+            setDialogTitle(title);
+            setDialogText(text);
+            setIsDialogOpen(true);
+          }}
+          setSnackbarText={(text: string) => {
+            setSnackbarText(text);
+            setIsSnackbarOpen(true);
+          }}
           setIsElementComplete={(isComplete: boolean) => {
             const newElementsCompleted = elementsCompleted;
             newElementsCompleted[currentPageIndex][currentElementIndex] = isComplete;

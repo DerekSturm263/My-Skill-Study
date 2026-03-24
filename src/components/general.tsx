@@ -515,13 +515,12 @@ export function SidebarButton({ selected, ogTitle, isDisabled, mode, progress, o
   );
 }
 
-export function ElementComponent({ element, mode, isThinking, elementsCompleted, currentPageIndex, currentElementIndex, totalElementsInPage, setIsThinking, setCurrentElementIndex, setSnackbarText, setIsSnackbarOpen, setIsElementComplete }: { element: Element, mode: ViewMode, isThinking: boolean, elementsCompleted: boolean[][], currentPageIndex: number, currentElementIndex: number, totalElementsInPage: number, setIsThinking: Dispatch<SetStateAction<boolean>>, setCurrentElementIndex: Dispatch<SetStateAction<number>>, setSnackbarText: Dispatch<SetStateAction<string>>, setIsSnackbarOpen: Dispatch<SetStateAction<boolean>>, setIsElementComplete: (isComplete: boolean) => void }) {
+export function ElementComponent({ element, mode, isThinking, elementsCompleted, currentPageIndex, currentElementIndex, totalElementsInPage, setIsThinking, setCurrentElementIndex, setDialogText, setSnackbarText, setIsElementComplete }: { element: Element, mode: ViewMode, isThinking: boolean, elementsCompleted: boolean[][], currentPageIndex: number, currentElementIndex: number, totalElementsInPage: number, setIsThinking: Dispatch<SetStateAction<boolean>>, setCurrentElementIndex: Dispatch<SetStateAction<number>>, setDialogText: (title: string, text: string) => void, setSnackbarText: (text: string) => void, setIsElementComplete: (isComplete: boolean) => void }) {
   const [ text, setText ] = useState(element.text.text);
 
   function complete() {
     if (mode == ViewMode.View) {
       setSnackbarText("Good job! Click the next page to continue");
-      setIsSnackbarOpen(true);
       setIsElementComplete(true);
     }
   }
