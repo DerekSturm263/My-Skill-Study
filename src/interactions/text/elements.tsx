@@ -3,7 +3,7 @@
 import generateText from "@/lib/ai/functions";
 import speakText from "@/lib/tts/functions";
 
-import { TextField, Stack, Card, CardContent, LinearProgress, CardActions, Pagination, PaginationItem, Tooltip, Chip } from '@mui/material';
+import { TextField, Stack, Card, CardContent, LinearProgress, CardActions, Pagination, PaginationItem, Tooltip, Chip, FormGroup, FormControlLabel, Switch } from '@mui/material';
 import { Add, AutoAwesome, Delete, RecordVoiceOver, Refresh, TextSnippet, VoiceOverOff, VolumeUp } from '@mui/icons-material';
 import { ViewMode, InteractionProps, InteractionPackage } from "@/lib/types/general";
 import { ModelType, Verification } from "@/lib/ai/types";
@@ -68,10 +68,6 @@ export function Component(props: InteractionProps<InteractionType>) {
     stream.end();
   }
 
-  async function toggleAutoReadAloud() {
-    setCookie('autoReadAloud', !cookies.autoReadAloud, { path: '/' });
-  }
-
   async function reset() {
     props.setText(props.originalValue.text);
   }
@@ -123,6 +119,36 @@ export function Component(props: InteractionProps<InteractionType>) {
 
         <Stack
           direction="row"
+        >
+          <Tooltip
+            title="Read this text out loud"
+          >
+            <Chip
+              icon={<VolumeUp />}
+              label="Read Aloud"
+              onClick={(e) => readAloud()}
+              disabled={props.isThinking}
+            />
+          </Tooltip>
+
+          <FormGroup>
+            <FormControlLabel
+              control={
+                <Switch
+                  defaultChecked={cookies.autoReadAloud}
+                  checked={cookies.autoReadAloud}
+                  onChange={(e) => {
+                    setCookie('autoReadAloud', e.target.checked, { path: '/' });
+                  }}
+                />
+              }
+              label="Auto Read"
+            />
+          </FormGroup>
+        </Stack>
+
+        <Stack
+          direction="row"
           spacing={1}
         >
           {props.mode == ViewMode.Edit ? (
@@ -163,28 +189,6 @@ export function Component(props: InteractionProps<InteractionType>) {
                   icon={<AutoAwesome />}
                   label="Rephrase"
                   onClick={(e) => props.evaluateAndReply(rephrase())}
-                  disabled={props.isThinking}
-                />
-              </Tooltip>
-
-              <Tooltip
-                title="Read this text out loud"
-              >
-                <Chip
-                  icon={<VolumeUp />}
-                  label="Read Aloud"
-                  onClick={(e) => readAloud()}
-                  disabled={props.isThinking}
-                />
-              </Tooltip>
-
-              <Tooltip
-                title={`Turn ${cookies.autoReadAloud ? "off" : "on"} immediately reading new text aloud`}
-              >
-                <Chip
-                  icon={cookies.autoReadAloud ? <VoiceOverOff /> : <RecordVoiceOver />}
-                  label={`Turn ${cookies.autoReadAloud ? "Off" : "On"} Auto Read`}
-                  onClick={(e) => toggleAutoReadAloud()}
                   disabled={props.isThinking}
                 />
               </Tooltip>

@@ -7,7 +7,7 @@ import { ElementComponent, Sidebar, SidebarButton } from './general';
 import { CookiesProvider } from 'react-cookie';
 import { ViewMode } from '@/lib/types/general';
 import { useState } from 'react';
-import { Info, Share } from '@mui/icons-material';
+import { AutoAwesome, Delete, Info, Save, Share } from '@mui/icons-material';
 
 export default function Page({ skill, mode }: { skill: Skill, mode: ViewMode }) {
   const [ learn, setLearn ] = useState(skill.learn);
@@ -81,6 +81,21 @@ export default function Page({ skill, mode }: { skill: Skill, mode: ViewMode }) 
             {
               label: "Share",
               icon: Share,
+              action: () => {}
+            },
+            {
+              label: "Save",
+              icon: Save,
+              action: () => {}
+            },
+            {
+              label: "Generate",
+              icon: AutoAwesome,
+              action: () => {}
+            },
+            {
+              label: "Delete",
+              icon: Delete,
               action: () => {}
             }
           ]}

@@ -442,11 +442,11 @@ export function Sidebar({ children, label, actions }: { children?: React.ReactNo
         <Stack
           direction="row"
           spacing={0}
-          sx={{ margin: 'auto', height: '48px', justifyContent: 'center' }}
+          sx={{ height: '48px', justifyContent: 'space-between', marginLeft: '8px', marginRight: '8px' }}
         >
           <Typography
             variant='h6'
-            sx={{ textAlign: 'center', alignContent: 'center', marginLeft: '8px' }}
+            sx={{ alignContent: 'center', marginLeft: '8px' }}
           >
             {label}
           </Typography>

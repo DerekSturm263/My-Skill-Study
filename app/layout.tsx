@@ -11,21 +11,25 @@ import { ThemeProvider } from '@mui/material/styles';
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      
+      <header>
         <Header
           presetSearchTerms=""
         />
-        
+      </header>
+
+      <html lang="en">
         <body>
           {children}
         </body>
+      </html>
 
+      <footer>
         <Footer />
-      </ThemeProvider>
-    </html>
+      </footer>
+    </ThemeProvider>
   );
 }
 
