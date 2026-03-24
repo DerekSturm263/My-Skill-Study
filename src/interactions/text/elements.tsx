@@ -3,7 +3,7 @@
 import generateText from "@/lib/ai/functions";
 import speakText from "@/lib/tts/functions";
 
-import { TextField, Stack, Card, CardContent, LinearProgress, CardActions, Pagination, PaginationItem, Tooltip, Chip, IconButton, Slider } from '@mui/material';
+import { TextField, Stack, Card, CardContent, LinearProgress, CardActions, Pagination, PaginationItem, Tooltip, Chip, IconButton, Slider, Typography } from '@mui/material';
 import { Add, AutoAwesome, Delete, MotionPhotosAuto, MotionPhotosOff, Pause, PlayArrow, Refresh, TextSnippet } from '@mui/icons-material';
 import { ViewMode, InteractionProps, InteractionPackage } from "@/lib/types/general";
 import { ModelType, Verification } from "@/lib/ai/types";
@@ -132,19 +132,23 @@ export function Component(props: InteractionProps<InteractionType>) {
             {isPlaying ? <Pause /> : <PlayArrow />}
           </IconButton>
 
-          <Slider
-            disabled={props.isThinking}
-            marks={[
-              {
-                value: 0,
-                label: "0:00"
-              },
-              {
-                value: 100,
-                label: "1:00"
-              }
-            ]}
-          />
+          <Stack spacing={2} direction="row" sx={{ alignItems: 'center', mb: 1 }}>
+            <Typography
+              variant='caption'
+            >
+              0:00
+            </Typography>
+  
+            <Slider
+              disabled={props.isThinking}
+            />
+  
+            <Typography
+              variant='caption'
+            >
+              1:00
+            </Typography>
+          </Stack>
 
           <Tooltip
             title="Automatically read new paragraphs when they appear"
