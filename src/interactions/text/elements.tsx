@@ -98,6 +98,11 @@ export function Component(props: InteractionProps<InteractionType>) {
         ) : (
           <MarkdownTypewriter
             delay={30}
+            motionProps={
+              {
+                characterVariants: { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { opacity: { duration: 0.1 } } } }
+              }
+            }
           >
             {props.isThinking ? "Thinking..." : props.text}
           </MarkdownTypewriter>
