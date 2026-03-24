@@ -134,9 +134,9 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
         >
           {value.subSkills.map((subSkill, index) => (
             <SidebarButton
-              isDisabled={isThinking}
-              selected={currentChapterIndex == index}
               key={index}
+              isDisabled={mode == ViewMode.View && isThinking}
+              selected={currentChapterIndex == index}
               ogTitle={subSkill.title}
               mode={mode}
               progress={pagesCompleted[index] ? 1 : 0}

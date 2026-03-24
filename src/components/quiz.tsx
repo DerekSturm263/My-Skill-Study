@@ -134,9 +134,9 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
         >
           {value.questions.map((page, index) => (
             <SidebarButton
-              isDisabled={isThinking || (index != 0 && !pagesCompleted[index - 1])}
-              selected={currentChapterIndex == index}
               key={index}
+              isDisabled={mode == ViewMode.View && (isThinking || (index != 0 && !pagesCompleted[index - 1]))}
+              selected={currentChapterIndex == index}
               ogTitle={page.title}
               mode={mode}
               progress={pagesCompleted[index] ? 1 : 0}

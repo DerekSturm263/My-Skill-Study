@@ -151,7 +151,7 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
             return (
               <SidebarButton
                 key={index}
-                isDisabled={isThinking || (index != 0 && !pagesCompleted[index - 1][pagesCompleted[index - 1].length - 1])}
+                isDisabled={mode == ViewMode.View && (isThinking || (index != 0 && !pagesCompleted[index - 1][pagesCompleted[index - 1].length - 1]))}
                 selected={currentChapterIndex == index}
                 ogTitle={chapter.title}
                 mode={mode}
