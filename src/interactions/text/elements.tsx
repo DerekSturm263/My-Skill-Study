@@ -123,7 +123,7 @@ export function Component(props: InteractionProps<InteractionType>) {
           renderItem={(item) => (
             <PaginationItem
               {...item}
-              disabled={props.isThinking || (item.page ?? 0) <= 0 || (item.page ?? 0) > props.totalElementsInChapter || (!props.pagesCompleted[props.chapterIndex][props.pageIndex + (item.page ?? 0) - 2] && (item.page ?? 0) != 1)}
+              disabled={props.mode == ViewMode.View && (props.isThinking || (item.page ?? 0) <= 0 || (item.page ?? 0) > props.totalElementsInChapter || (!props.pagesCompleted[props.chapterIndex][props.pageIndex + (item.page ?? 0) - 2] && (item.page ?? 0) != 1))}
               onClick={() => props.setCurrentElementIndex((item.page ?? 0) - 1 )}
             />
           )}
