@@ -8,8 +8,9 @@ import { CookiesProvider } from 'react-cookie';
 import { ViewMode } from '@/lib/types/general';
 import { useState } from 'react';
 import { AutoAwesome, Delete, Info, Save, Share } from '@mui/icons-material';
+import { save } from '@/lib/miscellaneous/database';
 
-export default function Page({ skill, mode }: { skill: Skill, mode: ViewMode }) {
+export default function Page({ skill, id, mode }: { skill: Skill, id: string, mode: ViewMode }) {
   const [ learn, setLearn ] = useState(skill.learn);
   const [ currentPageIndex, setCurrentPageIndex ] = useState(0);
   const [ currentElementIndex, setCurrentElementIndex ] = useState(0);
@@ -86,7 +87,12 @@ export default function Page({ skill, mode }: { skill: Skill, mode: ViewMode }) 
             {
               label: "Save",
               icon: Save,
-              action: () => {}
+              action: async () => {
+                await save("skills", id, skill);
+
+                setSnackbarText("Saved");
+                setIsSnackbarOpen(true);
+              }
             },
             {
               label: "Generate",

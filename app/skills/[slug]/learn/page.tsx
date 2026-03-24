@@ -18,7 +18,10 @@ export default async function Page({ params, searchParams }: PageProps) {
   const { slug } = await params;
   const urlParams = await searchParams;
 
-  const skill = await get<Skill>("skills", slug) as Skill;
+  const skillWithId = await get<Skill>("skills", slug);
+  const skill = skillWithId as Skill;
+  const id = skillWithId._id.toString();
+  
   const mode = urlParams?.mode ?? "view";
 
   return (
@@ -26,6 +29,7 @@ export default async function Page({ params, searchParams }: PageProps) {
       <main>
         <Content
           skill={skill}
+          id={id}
           mode={mode as ViewMode}
         />
       </main>

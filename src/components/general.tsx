@@ -367,51 +367,6 @@ export function SharableInfo<T extends Sharable>({ slug, mode, type, progress, s
                 </Select>
               </FormControl>
             )}
-
-            {(mode == ViewMode.Edit) && (
-              <Tooltip
-                title="Generate using AI"
-              >
-                <IconButton
-                  onClick={(e) => {
-                    setIsAIOpen(true);
-                  }}
-                >
-                  <AutoAwesome />
-                </IconButton>
-              </Tooltip>
-            )}
-
-            {(showSave || mode == ViewMode.Edit) && (
-              <Tooltip
-                title="Save changes"
-              >
-                <IconButton
-                  onClick={async (e) => {
-                    await save(type, slug, value);
-
-                    setSnackbarText("Saved");
-                    setIsSnackbarOpen(true);
-                  }}
-                >
-                  <Save />
-                </IconButton>
-              </Tooltip>
-            )}
-            
-            {(mode == ViewMode.Edit) && (
-              <Tooltip
-                title="Delete permanently"
-              >
-                <IconButton
-                  onClick={(e) => {
-                    setIsDeleteOpen(true);
-                  }}
-                >
-                  <Delete />
-                </IconButton>
-              </Tooltip>
-            )}
           </Stack>
         </Toolbar>
       </AppBar>

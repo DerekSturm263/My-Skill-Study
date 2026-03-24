@@ -8,7 +8,7 @@ import { ViewMode } from '@/lib/types/general';
 import { useState } from 'react';
 import { CookiesProvider } from 'react-cookie';
 
-export default function Page({ skill, mode }: { skill: Skill, mode: ViewMode }) {
+export default function Page({ skill, id, mode }: { skill: Skill, id: string, mode: ViewMode }) {
   const [ subSkills, setSubSkills ] = useState(skill.practice.subSkills);
   const [ isNavigationEnabled, setIsNavigationEnabled ] = useState(true);
   const [ currentSubSkillIndex, setCurrentSubSkillIndex ] = useState(0);
