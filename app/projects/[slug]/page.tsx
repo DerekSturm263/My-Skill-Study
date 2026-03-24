@@ -1,11 +1,11 @@
 import Project from '@/lib/types/project';
 
+import { ViewMode, SlugProps, URLProps } from '@/lib/types/general';
 import { Metadata, ResolvingMetadata } from 'next';
-import { ViewMode, PageProps } from '@/lib/types/general';
 import { SharablePage } from '@/components/sharables';
 import { get } from '@/lib/miscellaneous/database';
 
-export async function generateMetadata({ params, searchParams }: PageProps, parent: ResolvingMetadata): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: SlugProps }, parent: ResolvingMetadata): Promise<Metadata> {
   const { slug } = await params;
   const course = await get<Project>("projects", slug);
 
@@ -14,11 +14,14 @@ export async function generateMetadata({ params, searchParams }: PageProps, pare
   }
 }
 
-export default async function Page({ params, searchParams }: PageProps) {
+export default async function Page({ params, searchParams }: { params: SlugProps, searchParams: URLProps }) {
   const { slug } = await params;
   const urlParams = await searchParams;
 
-  const project = await get<Project>("projects", slug);
+  const valueWithId = await get<Project>("projects", slug);
+  const value = valueWithId as Project;
+  const id = valueWithId._id.toString();
+  
   const mode = urlParams?.mode ?? "view";
 
   return (
@@ -26,7 +29,7 @@ export default async function Page({ params, searchParams }: PageProps) {
       <main>
         <SharablePage
           slug={slug}
-          sharable={project}
+          sharable={value}
           mode={mode as ViewMode}
           type="projects"
         >

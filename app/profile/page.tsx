@@ -1,13 +1,13 @@
 import { Metadata, ResolvingMetadata } from 'next';
-import { PageProps } from '@/lib/types/general';
+import { SlugProps, URLProps } from '@/lib/types/general';
 
-export async function generateMetadata({ params, searchParams }: PageProps, parent: ResolvingMetadata): Promise<Metadata> {
+export async function generateMetadata({ searchParams }: { searchParams: URLProps }, parent: ResolvingMetadata): Promise<Metadata> {
   return {
     title: "Profile"
   }
 }
 
-export default async function Page({ params, searchParams }: PageProps) {
+export default async function Page({ params, searchParams }: { params: SlugProps, searchParams: URLProps }) {
   const { slug } = await params;
   const urlParams = await searchParams;
 

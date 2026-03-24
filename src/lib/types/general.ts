@@ -17,10 +17,8 @@ export enum ViewMode {
   Master = 'master'
 }
 
-export type PageProps = {
-  params: Promise<{ slug: string }>
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
-}
+export type SlugProps = Promise<{ slug: string }>;
+export type URLProps = Promise<{ [key: string]: string | string[] | undefined }>;
 
 export type InteractionWrapper = {
   type: string,
