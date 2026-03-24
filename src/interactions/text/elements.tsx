@@ -125,7 +125,18 @@ export function Component(props: InteractionProps<InteractionType>) {
             <PlayArrow />
           </IconButton>
 
-          <Slider />
+          <Slider
+            marks={[
+              {
+                value: 0,
+                label: "0:00"
+              },
+              {
+                value: 1,
+                label: "1:00"
+              }
+            ]}
+          />
 
           <FormGroup>
             <FormControlLabel
