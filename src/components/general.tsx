@@ -112,8 +112,8 @@ export function ShareDialog({ type, id, isOpen, setIsOpen, setSnackbarText }: { 
   const [ width, setWidth ] = useState(800);
   const [ height, setHeight ] = useState(600);
 
-  const link = `https://myskillstudy.com/${type}/${id}?mode=view&hideHeader=${hideHeaderState}`;
-  const iframe = `<iframe src="https://myskillstudy.com/${type}/${id}?mode=view&hideHeader=${hideHeaderState}" width=${width} height=${height}></iframe>`;
+  const link = `https://myskillstudy.com/${type}/${id}/learn?mode=view&hideHeader=${hideHeaderState}`;
+  const iframe = `<iframe src="https://myskillstudy.com/${type}/${id}/learn?mode=view&hideHeader=${hideHeaderState}" width=${width} height=${height}></iframe>`;
 
   return (
     <Dialog
