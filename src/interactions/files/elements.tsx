@@ -102,15 +102,6 @@ function Component(props: InteractionProps<InteractionType>) {
           />
         ))}
       </Stack>
-
-      {props.mode == ViewMode.Edit && (
-        <Button
-          onClick={(e) => { addFile() }}
-          variant="contained"
-        >
-          Add File
-        </Button>
-      )}
     </Box>
   );
 }
@@ -122,25 +113,6 @@ function FileItem({ props, item, index, removeItem }: { props: InteractionProps<
 
   return (
     <Stack>
-      {props.mode == ViewMode.Edit && (
-        <>
-          <TextField
-            label="Source"
-            autoComplete="off"
-            value={value.source}
-            onChange={(e) => {
-              setValue({ ... value, source: e.target.value });
-            }}
-          />
-
-          <IconButton
-            onClick={(e) => {}}
-          >
-            <Delete />
-          </IconButton>
-        </>
-      )}
-      
       {extension == "png" ? (
         <Image
           src={value.source}

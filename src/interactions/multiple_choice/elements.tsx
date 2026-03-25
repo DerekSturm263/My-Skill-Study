@@ -119,32 +119,6 @@ function Component(props: InteractionProps<InteractionType>) {
       <FormControl
         disabled={isDisabled}
       >
-        {props.mode == ViewMode.Edit && value.items.filter(item => item.isCorrect).length > 1 && (
-          <FormControl
-            size="small"
-          >
-            <InputLabel id="mode-label">Type</InputLabel>
-          
-            <Select
-              labelId="choice-label"
-              value={value.choiceType}
-              label="Choice Type"
-              onChange={(e) => {
-                setValue({ ... value, choiceType: e.target.value as ChoiceType });
-              }}
-            >
-              {(Object.values(ChoiceType).map((item, index) => (
-                <MenuItem
-                  value={item}
-                  key={index}
-                >
-                  {item}
-                </MenuItem>
-              )))}
-            </Select>
-          </FormControl>
-        )}
-        
         <RadioGroup>
           {value.items.map((item, index) => (
             <MultipleChoiceItem
@@ -190,49 +164,22 @@ function MultipleChoiceItem({ props, item, index, isRadio, toggle, setSelected }
   const [ isCorrect, setIsCorrect ] = useState(item.isCorrect);
 
   return (
-    <>
-      {(props.mode == ViewMode.Edit ? (
-        <Stack
-          direction="row"
-        >
-          <TextField
-            label="Value"
-            name="value"
-            value={value}
-            onChange={(e) => {
-              setValue({ ... value, value: e.target.value });
-            }}
-          />
-
-          <FormControlLabel label="Is Correct" control={
-            <Checkbox
-              name="isCorrect"
-              checked={isCorrect}
-              onChange={(e) => {
-                setValue({ ... value, isCorrect: e.target.checked });
-              }}
-            />}
-          />
-        </Stack>
-      ) : (
-        <FormControlLabel
-          value={item.value}
-          control={(isRadio ?
-          <Radio
-            onChange={(e) => {
-              setSelected(item.value);
-            }}
-          />
-          :
-          <Checkbox
-            onChange={(e) => {
-              toggle(item.value, e.target.checked);
-            }}
-          />)}
-          label={<Markdown>{item.value}</Markdown>}
-        />
-      ))}
-    </>
+    <FormControlLabel
+      value={item.value}
+      control={(isRadio ?
+      <Radio
+        onChange={(e) => {
+          setSelected(item.value);
+        }}
+      />
+      :
+      <Checkbox
+        onChange={(e) => {
+          toggle(item.value, e.target.checked);
+        }}
+      />)}
+      label={<Markdown>{item.value}</Markdown>}
+    />
   );
 }
 

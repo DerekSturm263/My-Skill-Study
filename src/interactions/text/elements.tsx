@@ -100,7 +100,7 @@ export function Component(props: InteractionProps<InteractionType>) {
               props.setText(e.target.value);
             }}
             fullWidth={true}
-            sx={{ height: '100%' }}
+            style={{ height: '100%' }}
           />
         ) : (
           <MarkdownTypewriter

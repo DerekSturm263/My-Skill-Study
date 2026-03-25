@@ -43,42 +43,24 @@ function Component(props: InteractionProps<InteractionType>) {
         spacing={2}
         sx={{ marginLeft: '150px', marginRight: '150px' }}
       >
-        {props.mode == ViewMode.Edit ? (
-          <TextField
-            label="Correct Answer"
-            name="correctAnswer"
-            autoComplete="off"
-            value={value.correctAnswer}
-            onChange={(e) => {
-              const newCorrectAnswer = e.target.value === "" ? null : e.target.value;
-              setValue({ ... value, correctAnswer: newCorrectAnswer });
-            }}
-            sx={{ flexGrow: 1, marginLeft: '150px', marginRight: '150px' }}
-          />
-        ) : (
-          <>
-            <TextField
-              label="Write your response here"
-              name="response"
-              autoComplete="off"
-              disabled={isDisabled}
-              value={userResponse}
-              onChange={(e) => setUserResponse(e.target.value)}
-              sx={{ flexGrow: 1 }}
-            />
+        <TextField
+          label="Write your response here"
+          name="response"
+          autoComplete="off"
+          disabled={isDisabled}
+          value={userResponse}
+          onChange={(e) => setUserResponse(e.target.value)}
+          sx={{ flexGrow: 1 }}
+        />
 
-            {props.mode != (ViewMode.Edit as ViewMode) && (
-              <Button
-                variant="contained"
-                onClick={(e) => props.evaluateAndReply(verify(props.text, userResponse, value))}
-                sx={{ width: '120px' }}
-                disabled={isDisabled}
-              >
-                Submit
-              </Button>
-            )}
-          </>
-        )}
+        <Button
+          variant="contained"
+          onClick={(e) => props.evaluateAndReply(verify(props.text, userResponse, value))}
+          sx={{ width: '120px' }}
+          disabled={isDisabled || props.mode != (ViewMode.Edit as ViewMode)}
+        >
+          Submit
+        </Button>
       </Stack>
     </Box>
   );

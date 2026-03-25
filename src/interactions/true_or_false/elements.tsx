@@ -48,33 +48,25 @@ function Component(props: InteractionProps<InteractionType>) {
         <RadioGroup
           defaultValue=""
           name="true-false-group"
-          value={props.mode == ViewMode.Edit ? value.isCorrect : userIsCorrect}
+          value={userIsCorrect}
           onChange={(e) => {
-            if (props.mode == ViewMode.Edit) {
-              setValue({ ... value, isCorrect: e.target.value == "true" });
-            } else {
-              setUserIsCorrect(e.target.value == "true");
-            }
+            setUserIsCorrect(e.target.value == "true");
           }}
         >
           <FormControlLabel value="true" control={<Radio />} label="True" />
           <FormControlLabel value="false" control={<Radio />} label="False" />
         </RadioGroup>
 
-        {props.mode != ViewMode.Edit && (
-          <>
-            <br />
+        <br />
           
-            <Button
-              variant="contained"
-              onClick={(e) => props.evaluateAndReply(verify(props.text, userIsCorrect, value))}
-              sx={{ width: '120px' }}
-              disabled={isDisabled}
-            >
-              Submit
-            </Button>
-          </>
-        )}
+        <Button
+          variant="contained"
+          onClick={(e) => props.evaluateAndReply(verify(props.text, userIsCorrect, value))}
+          sx={{ width: '120px' }}
+          disabled={isDisabled}
+        >
+          Submit
+        </Button>
       </FormControl>
     </Box>
   );

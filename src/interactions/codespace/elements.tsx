@@ -200,165 +200,90 @@ function Component(props: InteractionProps<InteractionType>) {
   return (
     <Stack
       direction="row"
-      sx={{ height: "100%" }}
     >
       <Stack
         sx={{ flexGrow: 1, width: '60%' }}
       >
-        {props.mode == ViewMode.Edit && (
-          <Stack
-            direction="row"
-            spacing={2}
-            sx={{ justifyContent: "center" }}
-          >
-            <FormControl
-              size="small"
-            >
-              <InputLabel id="mode-label">Language</InputLabel>
-
-              <Select
-                labelId="language-label"
-                value={value.language}
-                label="Language"
-                onChange={(e) => {
-                  setValue({ ... value, language: e.target.value as CodespaceLanguage });
-                }}
-              >
-                {(Object.values(CodespaceLanguage).map((item, index) => (
-                  <MenuItem
-                    value={item}
-                    key={index}
-                  >
-                    {item}
-                  </MenuItem>
-                )))}
-              </Select>
-            </FormControl>
-
-            <FormControlLabel label="Is Simplified" control={
-              <Checkbox
-                name="isSimplified"
-                id="isSimplified"
-                checked={value.isSimplified}
-                onChange={(e) => {
-                  setValue({ ... value, isSimplified: e.target.checked });
-                }}
-              />}
-            />
-            
-            <FormControlLabel label="Allow New Files" control={
-              <Checkbox
-                name="allowNewFiles"
-                id="allowNewFiles"
-                checked={value.allowNewFiles}
-                onChange={(e) => {
-                  setValue({ ... value, allowNewFiles: e.target.checked });
-                }}
-              />}
-            />
-          </Stack>
-        )}
-
-        <Stack
-          sx={{ flexGrow: 1 }}
+        <Tabs
+          value={currentTabIndex}
+          onChange={(e, value) => { setTabIndex(value); }}
+          variant="scrollable"
+          scrollButtons="auto"
         >
-          <Tabs
-            value={currentTabIndex}
-            onChange={(e, value) => { setTabIndex(value); }}
-            variant="scrollable"
-            scrollButtons="auto"
-          >
-            {value.files.map((file, index) => (
-              <Tab
-                key={index}
-                label={file.name}
-              />
-            ))}
+          {value.files.map((file, index) => (
+            <Tab
+              key={index}
+              label={file.name}
+            />
+          ))}
 
-            {(props.mode == ViewMode.Edit || value.allowNewFiles) && (
-              <Tab
-                icon={<Add />}
-                onClick={(e) => {
-                  const newFiles = value.files;
-                  newFiles.push({ name: "New File", content: "" });
-                  setValue({ ... value, files: newFiles });
-                }}
-              />
-            )}
-          </Tabs>
+          {value.allowNewFiles && (
+            <Tab
+              icon={<Add />}
+              onClick={(e) => {
+                const newFiles = value.files;
+                newFiles.push({ name: "New File", content: "" });
+                setValue({ ... value, files: newFiles });
+              }}
+            />
+          )}
+        </Tabs>
 
-          <Editor
-            path={currentFile.name}
-            defaultLanguage={value.language}
-            defaultValue={currentFile.content}
-            theme="vs-dark"
-            onChange={(e) => {
-              const newFiles = value.files;
-              newFiles[currentTabIndex].content = e ?? '';
-              setValue({ ... value, files: newFiles });
-            }}
-          />
-        </Stack>
+        <Editor
+          path={currentFile.name}
+          defaultLanguage={value.language}
+          defaultValue={currentFile.content}
+          theme="vs-dark"
+          onChange={(e) => {
+            const newFiles = value.files;
+            newFiles[currentTabIndex].content = e ?? '';
+            setValue({ ... value, files: newFiles });
+          }}
+        />
       </Stack>
 
       <Stack
         sx={{ flexGrow: 1 }}
       >
-        {props.mode == ViewMode.Edit ? (
-          <TextField
-            label="Correct Output"
-            name="correctOutput"
-            value={value.correctOutput}
-            multiline
-            rows={22}
-            onChange={(e) => {
-              setValue({ ... value, correctOutput: e.target.value });
-            }}
-            fullWidth={true}
-          />
-        ) : (
-          <>
-            <Stack
-              direction="row"
-              spacing={1}
-              sx={{ height: '48px' }}
-            >
-              <Typography
-                variant="body2"
-                sx={{ textAlign: 'center', flexGrow: 1 }}
-                style={{ margin: 'auto' }}
-              >
-                Press Run to execute your code
-                <br />
-                All output and errors will be printed below
-              </Typography>
+        <Stack
+          direction="row"
+          spacing={1}
+          sx={{ height: '48px' }}
+        >
+          <Typography
+            variant="body2"
+            sx={{ textAlign: 'center', flexGrow: 1 }}
+            style={{ margin: 'auto' }}
+          >
+            Press Run to execute your code
+            <br />
+            All output and errors will be printed below
+          </Typography>
 
-              <Button
-                variant="contained"
-                startIcon={<PlayArrow />}
-                onClick={(e) => props.evaluateAndReply(submit())}
-                sx={{ width: '120px' }}
-                disabled={isRunning}
-              >
-                Run
-              </Button>
-            </Stack>
+          <Button
+            variant="contained"
+            startIcon={<PlayArrow />}
+            onClick={(e) => props.evaluateAndReply(submit())}
+            sx={{ width: '120px' }}
+            disabled={isRunning || props.mode == ViewMode.Edit as ViewMode}
+          >
+            Run
+          </Button>
+        </Stack>
 
-            <Typography
-              variant="body2"
-              sx={{ margin: '16px', fontFamily: 'monospace', whiteSpace: 'pre-wrap' }}
-            >
-              {isRunning && (
-                <Fragment>
-                  <LinearProgress />
-                  <br />
-                </Fragment>
-              )}
+        <Typography
+          variant="body2"
+          sx={{ margin: '16px', fontFamily: 'monospace', whiteSpace: 'pre-wrap' }}
+        >
+          {isRunning && (
+            <Fragment>
+              <LinearProgress />
+              <br />
+            </Fragment>
+          )}
 
-              {isRunning ? 'Running...' : output}
-            </Typography>
-          </>
-        )}
+          {isRunning ? 'Running...' : output}
+        </Typography>
       </Stack>
     </Stack>
   );

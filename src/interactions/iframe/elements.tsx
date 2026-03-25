@@ -38,19 +38,6 @@ function Component(props: InteractionProps<InteractionType>) {
     <Stack
       sx={{ height: "100%" }}
     >
-      {props.mode == ViewMode.Edit && (
-        <TextField
-          label="Source"
-          name="source"
-          autoComplete="off"
-          disabled={isDisabled}
-          value={value.source}
-          onChange={(e) => {
-            setValue({ ... value, source: e.target.value });
-          }}
-        />
-      )}
-
       <iframe
         src={value.source}
         width="100%"
