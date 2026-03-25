@@ -35,7 +35,7 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
       />
 
       <ShareDialog
-        type="skill"
+        type="skills"
         id={id}
         isOpen={dialogOpen == "share"}
         setIsOpen={() => setDialogOpen(null)}
