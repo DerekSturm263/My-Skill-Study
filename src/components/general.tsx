@@ -16,9 +16,9 @@ import IFrame from '@/interactions/iframe/elements';
 
 import { IconButton, Dialog, Typography, Stack, List, ListItem, ListItemButton, ListItemText, Button, TextField, LinearProgress, Drawer, MenuItem, DialogActions, Divider, FormControl, InputLabel, Toolbar, Select, Box, Tabs, Tab, Switch, FormControlLabel, ListItemIcon, Link, DialogTitle, DialogContentText, DialogContent, SpeedDial, SpeedDialAction, SpeedDialIcon, Menu, ToggleButtonGroup, ToggleButton, Tooltip } from '@mui/material';
 import { ViewMode, InteractionProps, InteractionPackageBase, InteractionPackage, Sharable, Interaction } from '../lib/types/general';
-import { Delete, MoreVert, Refresh, Settings, SvgIconComponent } from '@mui/icons-material';
 import { Fragment, Children, useState, MouseEventHandler, Dispatch, SetStateAction, useEffect } from 'react';
 import { Component as TextComponent } from '@/interactions/text/elements'; 
+import { Delete, DragHandle, MoreVert, SvgIconComponent } from '@mui/icons-material';
 import { remove } from '../lib/miscellaneous/database';
 import { Verification } from '@/lib/ai/types';
 import { Page } from '@/lib/types/skill';
@@ -426,13 +426,25 @@ export function SidebarButton({ selected, ogTitle, isDisabled, mode, progress, o
 
   return (
     <ListItem
-      secondaryAction={ mode == ViewMode.Edit ? <IconButton><MoreVert /></IconButton> : null }
+        secondaryAction={ mode == ViewMode.Edit ?
+        <IconButton
+          onClick={() => {}}
+        >
+          <Delete />
+        </IconButton>
+        :
+        null
+      }
     >
       <ListItemButton
         disabled={isDisabled}
         selected={selected}
         onClick={onClick}
       >
+        <ListItemIcon>
+          <DragHandle />
+        </ListItemIcon>
+        
         <ListItemText
           primary={title}
           secondary={mode == ViewMode.View ? <LinearProgress variant="determinate" value={progress * 100} /> : <Fragment></Fragment> }
@@ -540,14 +552,6 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
     <Stack
       sx={{ flexGrow: 1 }}
     >
-      {props.mode == ViewMode.Edit && (
-        <IconButton
-          onClick={() => setIsSettingsOpen(true)}
-        >
-          <Settings />
-        </IconButton>
-      )}
-
       <Component
         {...props}
       />

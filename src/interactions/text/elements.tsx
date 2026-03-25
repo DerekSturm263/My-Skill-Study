@@ -4,7 +4,7 @@ import generateText from "@/lib/ai/functions";
 import speakText from "@/lib/tts/functions";
 
 import { TextField, Stack, Card, CardContent, LinearProgress, CardActions, Pagination, PaginationItem, Tooltip, Chip, IconButton, Slider, Typography } from '@mui/material';
-import { Add, AutoAwesome, Delete, MotionPhotosAuto, MotionPhotosOff, Pause, PlayArrow, Refresh, TextSnippet } from '@mui/icons-material';
+import { Add, AutoAwesome, Delete, MotionPhotosAuto, MotionPhotosOff, Pause, PlayArrow, Refresh, Settings, TextSnippet } from '@mui/icons-material';
 import { ViewMode, InteractionProps, InteractionPackage, Interaction } from "@/lib/types/general";
 import { ModelType, Verification } from "@/lib/ai/types";
 import { useEffect, useState } from "react";
@@ -198,29 +198,38 @@ export function Component(props: InteractionProps<InteractionType>) {
           {props.mode == ViewMode.Edit ? (
             <>
               <Tooltip
-                title="Insert a new element after this one"
+                title="Insert a new page after this one"
               >
                 <Chip
                   icon={<Add />}
-                  label="Insert Element Before"
+                  label="Insert Page Before"
                 />
               </Tooltip>
 
               <Tooltip
-                title="Insert a new element after this one"
+                title="Insert a new page after this one"
               >
                 <Chip
                   icon={<Add />}
-                  label="Insert Element After"
+                  label="Insert Page After"
                 />
               </Tooltip>
 
               <Tooltip
-                title="Delete this element"
+                title="Edit this page's settings"
+              >
+                <Chip
+                  icon={<Settings />}
+                  label="Page Settings"
+                />
+              </Tooltip>
+
+              <Tooltip
+                title="Delete this page"
               >
                 <Chip
                   icon={<Delete />}
-                  label="Delete"
+                  label="Delete Page"
                 />
               </Tooltip>
             </>
