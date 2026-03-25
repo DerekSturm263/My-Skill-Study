@@ -1,3 +1,5 @@
+'use server'
+
 import generateText from '@/lib/ai/functions';
 import ky from 'ky';
 

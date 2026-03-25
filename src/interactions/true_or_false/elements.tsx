@@ -61,7 +61,7 @@ function Component(props: InteractionProps<InteractionType>) {
           <FormControlLabel value="false" control={<Radio />} label="False" />
         </RadioGroup>
 
-        {props.mode == ViewMode.View && (
+        {props.mode != ViewMode.Edit && (
           <>
             <br />
           

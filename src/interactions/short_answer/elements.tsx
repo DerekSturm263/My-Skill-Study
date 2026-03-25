@@ -67,14 +67,16 @@ function Component(props: InteractionProps<InteractionType>) {
               sx={{ flexGrow: 1 }}
             />
 
-            <Button
-              variant="contained"
-              onClick={(e) => props.evaluateAndReply(verify(props.text, userResponse, value))}
-              sx={{ width: '120px' }}
-              disabled={isDisabled}
-            >
-              Submit
-            </Button>
+            {props.mode != (ViewMode.Edit as ViewMode) && (
+              <Button
+                variant="contained"
+                onClick={(e) => props.evaluateAndReply(verify(props.text, userResponse, value))}
+                sx={{ width: '120px' }}
+                disabled={isDisabled}
+              >
+                Submit
+              </Button>
+            )}
           </>
         )}
       </Stack>
