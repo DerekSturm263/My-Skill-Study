@@ -6,24 +6,22 @@ import theme from "./theme";
 
 import { AppBar, Avatar, Badge, Divider, IconButton, InputAdornment, ListItemIcon, ListItemText, Menu, MenuItem, Stack, TextField, Toolbar, Tooltip, Typography } from "@mui/material";
 import { Logout, Notifications, Person, QuestionMark, Search } from "@mui/icons-material";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, Suspense, useState } from "react";
 import { ThemeProvider } from '@mui/material/styles';
 import { useSearchParams } from 'next/navigation';
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  const searchParams = useSearchParams();
-  const hideHeader = searchParams.get('hideHeader') === 'true';
-  
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       
       <header>
-        {!hideHeader && (
+        <Suspense>
           <Header
             presetSearchTerms=""
           />
-        )}
+        </Suspense>
       </header>
 
       <html lang="en">
@@ -40,12 +38,15 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 }
 
 function Header({ presetSearchTerms }: { presetSearchTerms: string }) {
+  const searchParams = useSearchParams();
+  const hideHeader = searchParams.get('hideHeader') === 'true';
+  
   const [ searchTerms, setSearchTerms ] = useState(presetSearchTerms);
   const [ isNotificationsOpen, setIsNotificationsOpen ] = useState(false);
   const [ isProfileOpen, setIsProfileOpen ] = useState(false);
   const [ anchorElement, setAnchorElement ] = useState<null | HTMLElement>(null);
 
-  return (
+  return ( !hideHeader &&
     <AppBar
       position="fixed"
       sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
