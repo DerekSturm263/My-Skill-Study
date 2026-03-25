@@ -563,7 +563,9 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
               const Icon = interactionMap[value].icon;
 
               return (
-                <>
+                <Stack
+                  direction="row"
+                >
                   <ListItemIcon>
                     <Icon />
                   </ListItemIcon>
@@ -571,7 +573,7 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
                   <ListItemText>
                     {interactionMap[value].prettyName}
                   </ListItemText>
-                </>
+                </Stack>
               );
             }}
           >
