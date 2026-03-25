@@ -6,7 +6,7 @@ import Graph from '@/interactions/graph/elements';
 import DAW from '@/interactions/daw/elements';
 import Codespace from '@/interactions/codespace/elements';
 import ThreeDModeling from '@/interactions/3d_modeling/elements';
-import Engine from '@/interactions/engine/elements';
+import GameEngine from '@/interactions/game_engine/elements';
 import ShortAnswer from '@/interactions/short_answer/elements';
 import TrueOrFalse from '@/interactions/true_or_false/elements';
 import MultipleChoice from '@/interactions/multiple_choice/elements';
@@ -16,7 +16,7 @@ import IFrame from '@/interactions/iframe/elements';
 
 import { IconButton, Dialog, Typography, Stack, List, ListItem, ListItemButton, ListItemText, Button, TextField, LinearProgress, Drawer, MenuItem, DialogActions, Divider, FormControl, InputLabel, Toolbar, Select, Box, Tabs, Tab, Switch, FormControlLabel, ListItemIcon, Link, DialogTitle, DialogContentText, DialogContent, SpeedDial, SpeedDialAction, SpeedDialIcon, Menu, ToggleButtonGroup, ToggleButton, Tooltip } from '@mui/material';
 import { ViewMode, InteractionProps, InteractionPackageBase, InteractionPackage, Sharable, Interaction } from '../lib/types/general';
-import { Delete, MoreVert, Refresh, SwapHoriz, SvgIconComponent } from '@mui/icons-material';
+import { Delete, MoreVert, Refresh, SvgIconComponent } from '@mui/icons-material';
 import { Fragment, Children, useState, MouseEventHandler, Dispatch, SetStateAction, useEffect } from 'react';
 import { Component as TextComponent } from '@/interactions/text/elements'; 
 import { remove } from '../lib/miscellaneous/database';
@@ -31,7 +31,7 @@ const interactionMap: Record<string, InteractionPackageBase> = {
   "daw": DAW,
   "codespace": Codespace,
   "3d_modeling": ThreeDModeling,
-  "engine": Engine,
+  "engine": GameEngine,
   "shortAnswer": ShortAnswer,
   "trueOrFalse": TrueOrFalse,
   "multipleChoice": MultipleChoice,

@@ -30,7 +30,7 @@ export async function create<T extends Sharable>(collection: string): Promise<{ 
 }
 
 export async function save<T extends Sharable>(collection: string, id: string, value: T) {
-  const result = await client.db('database').collection(collection).updateOne(
+  const result = await client.db('database').collection(collection).replaceOne(
     { _id: new ObjectId(id) },
     { $set: value }
   );
