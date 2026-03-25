@@ -80,10 +80,10 @@ export function Component(props: InteractionProps<InteractionType>) {
 
   return (
     <Card
-      sx={{ height: "100%" }}
+      sx={{ height: '100%' }}
     >
       <CardContent
-        style={{ overflowY: 'auto' }}
+        style={{ height: 'calc(100% - 48px)', overflowY: 'auto' }}
       >
         {props.isThinking && (
           <LinearProgress
