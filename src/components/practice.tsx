@@ -2,7 +2,7 @@
 
 import Skill from '@/lib/types/skill';
 
-import { AutoAwesome, Delete, Edit, Info, Save, Share, Visibility } from '@mui/icons-material';
+import { AutoAwesome, Delete, Edit, Info, Refresh, Save, Share, Visibility } from '@mui/icons-material';
 import { DeleteDialog, DetailsDialog, GenerateDialog, PageComponent, ShareDialog, Sidebar, SidebarButton } from './general';
 import { CookiesProvider } from 'react-cookie';
 import { Box, Snackbar } from '@mui/material';

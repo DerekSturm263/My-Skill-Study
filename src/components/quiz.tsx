@@ -2,7 +2,7 @@
 
 import Skill from '@/lib/types/skill';
 
-import { AutoAwesome, Delete, Edit, Info, Save, Share, Visibility } from '@mui/icons-material';
+import { AutoAwesome, Delete, Edit, Info, Refresh, Save, Share, Visibility } from '@mui/icons-material';
 import { DeleteDialog, DetailsDialog, GenerateDialog, PageComponent, ShareDialog, Sidebar, SidebarButton, SuccessDialog } from './general';
 import { CookiesProvider } from 'react-cookie';
 import { Box, Snackbar } from '@mui/material';
@@ -104,6 +104,11 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
               label: "Share",
               icon: Share,
               action: () => { setDialogOpen("share") }
+            },
+            {
+              label: "Reset Progress",
+              icon: Refresh,
+              action: () => { setDialogOpen("resetProgress") }
             },
             {
               label: mode == ViewMode.Edit ? "View" : "Edit",

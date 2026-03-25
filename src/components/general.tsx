@@ -545,6 +545,20 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
         <Stack
           direction="row"
         >
+          <Select>
+            {Object.values(interactionMap).map(interaction => (
+              <MenuItem>
+                <ListItemIcon>
+                  <interaction.icon />
+                </ListItemIcon>
+                  
+                <ListItemText>
+                  {interaction.prettyName}
+                </ListItemText>
+              </MenuItem>
+            ))}
+          </Select>
+
           <IconButton>
             <SwapHoriz />
           </IconButton>
