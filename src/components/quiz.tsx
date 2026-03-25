@@ -147,27 +147,29 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
           ))}
         </Sidebar>
 
-        <PageComponent
-          element={value.questions[currentChapterIndex].page}
-          mode={mode}
-          isThinking={isThinking}
-          elementsCompleted={[[]] as boolean[][]}
-          currentPageIndex={currentChapterIndex}
-          currentElementIndex={0}
-          totalElementsInPage={1}
-          setIsThinking={setIsThinking}
-          setCurrentElementIndex={setCurrentChapterIndex}
-          setSnackbarText={(text: string) => {
-            setSnackbarText(text);
-            setIsSnackbarOpen(true);
-          }}
-          setIsElementComplete={(isComplete: boolean) => {
-            const newPagesCompleted = pagesCompleted;
-            newPagesCompleted[currentChapterIndex] = isComplete;
+        {value.questions.map((chapter, index) => (
+          (index == currentChapterIndex && (<PageComponent
+            element={value.questions[currentChapterIndex].page}
+            mode={mode}
+            isThinking={isThinking}
+            elementsCompleted={[[]] as boolean[][]}
+            currentPageIndex={currentChapterIndex}
+            currentElementIndex={0}
+            totalElementsInPage={1}
+            setIsThinking={setIsThinking}
+            setCurrentElementIndex={setCurrentChapterIndex}
+            setSnackbarText={(text: string) => {
+              setSnackbarText(text);
+              setIsSnackbarOpen(true);
+            }}
+            setIsElementComplete={(isComplete: boolean) => {
+              const newPagesCompleted = pagesCompleted;
+              newPagesCompleted[currentChapterIndex] = isComplete;
 
-            setPagesCompleted(newPagesCompleted);
-          }}
-        />
+              setPagesCompleted(newPagesCompleted);
+            }}
+          />)
+        )))}
 
         <Snackbar
           anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
