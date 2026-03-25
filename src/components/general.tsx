@@ -549,7 +549,7 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
             value={type}
             label="Type"
             onChange={(e) => setType(e.target.value)}
-            sx={{ width: "200px" }}
+            sx={{ width: "250px" }}
           >
             {Object.values(interactionMap).map(interaction => (
               <MenuItem
