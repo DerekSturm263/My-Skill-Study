@@ -426,15 +426,15 @@ export function SidebarButton({ selected, ogTitle, isDisabled, mode, progress, o
 
   return (
     <ListItem
-        secondaryAction={ mode == ViewMode.Edit ?
+      secondaryAction={ mode == ViewMode.Edit ? (
         <IconButton
           onClick={() => {}}
         >
           <Delete />
         </IconButton>
-        :
+      ) : (
         null
-      }
+      )}
     >
       <ListItemButton
         disabled={isDisabled}
@@ -449,11 +449,19 @@ export function SidebarButton({ selected, ogTitle, isDisabled, mode, progress, o
           <TextField
             value={title}
             fullWidth
+            onChange={(e) => setTitle(e.target.value)}
           />
         ) : (
           <ListItemText
             primary={title}
-            secondary={mode == ViewMode.View ? <LinearProgress variant="determinate" value={progress * 100} /> : <Fragment></Fragment> }
+            secondary={mode == ViewMode.View ? (
+              <LinearProgress
+                variant="determinate"
+                value={progress * 100}
+              />
+            ) : (
+              <></>
+            )}
           />
         )}
       </ListItemButton>
