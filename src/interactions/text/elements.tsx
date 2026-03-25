@@ -130,7 +130,7 @@ export function Component(props: InteractionProps<InteractionType>) {
               onClick={() => props.setCurrentElementIndex((item.page ?? 0) - 1 )}
             />
           )}
-          sx={{ width: "350px" }}
+          sx={{ width: "300px" }}
         />
 
         {props.mode != ViewMode.Edit && (
@@ -193,7 +193,7 @@ export function Component(props: InteractionProps<InteractionType>) {
           direction="row"
           spacing={1}
           sx={{ width: "350px" }}
-          alignContent="end"
+          justifyContent="end"
         >
           {props.mode == ViewMode.Edit ? (
             <>
