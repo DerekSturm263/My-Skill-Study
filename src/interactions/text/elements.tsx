@@ -172,7 +172,7 @@ export function Component(props: InteractionProps<InteractionType>) {
                 disabled={props.isThinking}
                 max={60}
                 valueLabelDisplay="auto"
-                valueLabelFormat={(value: number) => `${value / 60}:${value % 60}`}
+                valueLabelFormat={(value: number) => `${value / 60}:${(value % 60).toString().padStart(2, "0")}`}
                 sx={{ flexGrow: 1 }}
               />
   
