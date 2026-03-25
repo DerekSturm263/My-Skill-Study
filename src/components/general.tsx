@@ -450,6 +450,7 @@ export function SidebarButton({ selected, ogTitle, isDisabled, mode, progress, o
             value={title}
             fullWidth
             onChange={(e) => setTitle(e.target.value)}
+            size="small"
           />
         ) : (
           <ListItemText
