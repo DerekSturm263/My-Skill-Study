@@ -170,6 +170,7 @@ export function Component(props: InteractionProps<InteractionType>) {
   
               <Slider
                 disabled={props.isThinking}
+                valueLabelDisplay="auto"
                 sx={{ flexGrow: 1 }}
               />
   
