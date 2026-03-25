@@ -22,6 +22,7 @@ import { Component as TextComponent } from '@/interactions/text/elements';
 import { remove } from '../lib/miscellaneous/database';
 import { Verification } from '@/lib/ai/types';
 import { Page } from '@/lib/types/skill';
+import { useSearchParams } from 'next/navigation';
 
 const interactionMap: Record<string, InteractionPackageBase> = {
   "text": Text,
@@ -324,6 +325,9 @@ export function DeleteDialog({ type, id, isOpen, setIsOpen, setSnackbarText }: {
 }
 
 export function Sidebar({ children, label, options, selectedOption, actions }: { children?: React.ReactNode, label: string, options: { label: string, tooltip: string, link: string, id: string }[], selectedOption: string, actions: { label: string, icon: SvgIconComponent, action: () => void }[] }) {
+  const searchParams = useSearchParams();
+  const hideHeader = searchParams.get('hideHeader') === 'true';
+    
   const [ isOpen, setIsOpen ] = useState(true);
   const [ isMenuOpen, setIsMenuOpen ] = useState(false);
   const [ anchorElement, setAnchorElement ] = useState<null | HTMLElement>(null);
@@ -338,7 +342,7 @@ export function Sidebar({ children, label, options, selectedOption, actions }: {
         [`& .MuiDrawer-paper`]: { width: 300, boxSizing: 'border-box' }
       }}
     >
-      <Toolbar />
+      {!hideHeader && <Toolbar />}
 
       <Box
         sx={{ overflow: 'auto' }}
@@ -445,6 +449,9 @@ export function SidebarButton({ selected, ogTitle, isDisabled, mode, progress, o
 }
 
 export function PageComponent({ element, mode, isThinking, pagesCompleted: elementsCompleted, currentChapterIndex: currentPageIndex, currentPageIndex: currentElementIndex, totalPagesInChapter: totalElementsInPage, setIsThinking, setCurrentPageIndex: setCurrentElementIndex, setSnackbarText, setIsPageComplete: setIsElementComplete }: { element: Page, mode: ViewMode, isThinking: boolean, pagesCompleted: boolean[][], currentChapterIndex: number, currentPageIndex: number, totalPagesInChapter: number, setIsThinking: Dispatch<SetStateAction<boolean>>, setCurrentPageIndex: Dispatch<SetStateAction<number>>, setSnackbarText: (text: string) => void, setIsPageComplete: (isComplete: boolean) => void }) {
+  const searchParams = useSearchParams();
+  const hideHeader = searchParams.get('hideHeader') === 'true';
+
   const [ text, setText ] = useState(element.text.text);
 
   useEffect(() => {
@@ -465,7 +472,7 @@ export function PageComponent({ element, mode, isThinking, pagesCompleted: eleme
     <Stack
       sx={{ flexGrow: 1 }}
     >
-      <Toolbar />
+      {!hideHeader && <Toolbar />}
 
       <Stack
         direction="row"
