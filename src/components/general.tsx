@@ -1,11 +1,11 @@
 'use client'
 
-import Text from '@/interactions/text/elements';
 import Files from '@/interactions/files/elements';
 import Drawing from '@/interactions/drawing/elements';
 import Graph from '@/interactions/graph/elements';
 import DAW from '@/interactions/daw/elements';
 import Codespace from '@/interactions/codespace/elements';
+import ThreeDModeling from '@/interactions/3d_modeling/elements';
 import Engine from '@/interactions/engine/elements';
 import ShortAnswer from '@/interactions/short_answer/elements';
 import TrueOrFalse from '@/interactions/true_or_false/elements';
@@ -25,12 +25,12 @@ import { Page } from '@/lib/types/skill';
 import { useSearchParams } from 'next/navigation';
 
 const interactionMap: Record<string, InteractionPackageBase> = {
-  "text": Text,
   "files": Files,
   "drawing": Drawing,
   "graph": Graph,
   "daw": DAW,
   "codespace": Codespace,
+  "3d_modeling": ThreeDModeling,
   "engine": Engine,
   "shortAnswer": ShortAnswer,
   "trueOrFalse": TrueOrFalse,
@@ -535,6 +535,15 @@ export function PageComponent({ element, mode, isThinking, pagesCompleted: eleme
 export function InteractionComponent(props: InteractionProps<Interaction> & { thisType: string }) {
   const [ type, setType ] = useState(props.thisType);
 
+  function reset() {
+    props.originalValue = (interactionMap[type] as InteractionPackage<Interaction>).defaultValue;
+  }
+
+  function setTypeAndReset(type: string) {
+    setType(type);
+    reset();
+  }
+
   const Component = (interactionMap[type] as InteractionPackage<Interaction>).Component;
 
   return (
@@ -548,8 +557,23 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
           <Select
             value={type}
             label="Type"
-            onChange={(e) => setType(e.target.value)}
-            sx={{ width: "250px" }}
+            onChange={(e) => setTypeAndReset(e.target.value)}
+            autoWidth={true}
+            renderValue={(value: string) => {
+              const Icon = interactionMap[value].icon;
+
+              return (
+                <>
+                  <ListItemIcon>
+                    <Icon />
+                  </ListItemIcon>
+                  
+                  <ListItemText>
+                    {interactionMap[value].prettyName}
+                  </ListItemText>
+                </>
+              );
+            }}
           >
             {Object.values(interactionMap).map(interaction => (
               <MenuItem
@@ -567,7 +591,9 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
             ))}
           </Select>
 
-          <IconButton>
+          <IconButton
+            onClick={reset}
+          >
             <Refresh />
           </IconButton>
 
