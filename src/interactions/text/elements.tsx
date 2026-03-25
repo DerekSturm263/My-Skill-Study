@@ -170,7 +170,9 @@ export function Component(props: InteractionProps<InteractionType>) {
   
               <Slider
                 disabled={props.isThinking}
+                max={60}
                 valueLabelDisplay="auto"
+                valueLabelFormat={(value: number) => `${value / 60}:${value % 60}`}
                 sx={{ flexGrow: 1 }}
               />
   
