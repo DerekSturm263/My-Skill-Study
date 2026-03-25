@@ -156,7 +156,7 @@ export function ShareDialog({ type, id, isOpen, setIsOpen, setSnackbarText }: { 
               value={hideHeaderState}
               onChange={(e, value) => setHideHeaderState(value)}
             />}
-            label="Hide MySkillStudy.com Logo"
+            label="Hide Header"
           />
 
           {tabIndex == 1 && (
