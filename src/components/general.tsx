@@ -62,12 +62,6 @@ export function SuccessDialog({ title, text, isOpen, setIsOpen }: { title: strin
         >
           Close
         </Button>
-    
-        <Button
-          href="./practice"
-        >
-          Practice Skill
-        </Button>
       </DialogActions>
     </Dialog>
   )
@@ -271,17 +265,17 @@ export function GenerateDialog({ type, id, isOpen, setIsOpen, setSnackbarText }:
 
       <DialogActions>
         <Button
-          onClick={(e) => setIsOpen(false)}
-        >
-          Cancel
-        </Button>
-
-        <Button
           onClick={async (e) => {
             
           }}
         >
           Generate
+        </Button>
+
+        <Button
+          onClick={(e) => setIsOpen(false)}
+        >
+          Cancel
         </Button>
       </DialogActions>
     </Dialog>
@@ -306,18 +300,18 @@ export function DeleteDialog({ type, id, isOpen, setIsOpen, setSnackbarText }: {
 
       <DialogActions>
         <Button
-          onClick={(e) => setIsOpen(false)}
-        >
-          Cancel
-        </Button>
-
-        <Button
           onClick={async (e) => {
             await remove(type, id);
             setSnackbarText("Content deleted");
           }}
         >
           Delete
+        </Button>
+
+        <Button
+          onClick={(e) => setIsOpen(false)}
+        >
+          Cancel
         </Button>
       </DialogActions>
     </Dialog>
@@ -534,14 +528,10 @@ export function PageComponent({ element, mode, isThinking, pagesCompleted: eleme
 
 export function InteractionComponent(props: InteractionProps<Interaction> & { thisType: string }) {
   const [ type, setType ] = useState(props.thisType);
+  const [ isSettingsOpen, setIsSettingsOpen ] = useState(false);
 
   function reset() {
     props.originalValue = (interactionMap[type] as InteractionPackage<Interaction>).defaultValue;
-  }
-
-  function setTypeAndReset(type: string) {
-    setType(type);
-    reset();
   }
 
   const Component = (interactionMap[type] as InteractionPackage<Interaction>).Component;
@@ -551,113 +541,101 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
       sx={{ flexGrow: 1 }}
     >
       {props.mode == ViewMode.Edit && (
-        <Stack
-          direction="row"
+        <IconButton
+          onClick={() => setIsSettingsOpen(true)}
         >
-          <Select
-            value={type}
-            label="Type"
-            onChange={(e) => setTypeAndReset(e.target.value)}
-            autoWidth={true}
-            renderValue={(value: string) => {
-              const Icon = interactionMap[value].icon;
-
-              return (
-                <Stack
-                  direction="row"
-                >
-                  <ListItemIcon>
-                    <Icon />
-                  </ListItemIcon>
-                  
-                  <ListItemText>
-                    {interactionMap[value].prettyName}
-                  </ListItemText>
-                </Stack>
-              );
-            }}
-          >
-            {Object.values(interactionMap).map(interaction => (
-              <MenuItem
-                key={interaction.id}
-                value={interaction.id}
-              >
-                <ListItemIcon>
-                  <interaction.icon />
-                </ListItemIcon>
-                  
-                <ListItemText>
-                  {interaction.prettyName}
-                </ListItemText>
-              </MenuItem>
-            ))}
-          </Select>
-
-          <IconButton
-            onClick={reset}
-          >
-            <Refresh />
-          </IconButton>
-
-          <IconButton>
-            <Delete />
-          </IconButton>
-
-          <IconButton>
-            <Settings />
-          </IconButton>
-        </Stack>
+          <Settings />
+        </IconButton>
       )}
 
       <Component
         {...props}
       />
+
+      <SettingsDialog
+        props={props}
+        type={type}
+        isOpen={isSettingsOpen}
+        setType={setType}
+        setIsOpen={setIsSettingsOpen}
+      />
     </Stack>
   );
 }
 
+export function SettingsDialog({ props, type, isOpen, setType, setIsOpen }: { props: InteractionProps<Interaction>, type: string, isOpen: boolean, setType: Dispatch<SetStateAction<string>>, setIsOpen: Dispatch<SetStateAction<boolean>> }) {
+  return (
+    <Dialog
+      open={isOpen}
+      onClose={(e) => setIsOpen(false)}
+    >
+      <DialogTitle>
+        Interaction Settings
+      </DialogTitle>
+
+      <DialogContent>
+        <TypeSwitcher
+          props={props}
+          type={type}
+          setType={setType}
+        />
+      </DialogContent>
+
+      <DialogActions>
+        <Button
+          onClick={(e) => setIsOpen(false)}
+        >
+          Close
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+}
+
 export function TypeSwitcher({ props, type, setType }: { props: InteractionProps<Interaction>, type: string, setType: Dispatch<SetStateAction<string>> }) {
-  function setTypeAndUpdate(type: string) {
+  function setTypeAndReset(type: string) {
     setType(type);
     props.originalValue = (interactionMap[type] as InteractionPackage<Interaction>).defaultValue;
   }
 
   return (
-    <FormControl
-      size="small"
-    >
-      <InputLabel id="type-label">Type</InputLabel>
+    <Select
+      value={type}
+      label="Type"
+      onChange={(e) => setTypeAndReset(e.target.value)}
+      autoWidth={true}
+      renderValue={(value: string) => {
+        const Icon = interactionMap[value].icon;
 
-      <Select
-        labelId="type-label"
-        value={type}
-        label="Type"
-        onChange={(e) => setTypeAndUpdate(e.target.value)}
-        MenuProps={{
-          PaperProps: {
-            style: {
-              maxHeight: '400px'
-            }
-          }
-        }}
-      >
-        {(Object.values(interactionMap).map((item, index) => (
-          <MenuItem
-            key={index}
-            value={item.id}
+        return (
+          <Stack
+            direction="row"
           >
-            <ListItemButton>
-              <ListItemIcon>
-                <item.icon />
-              </ListItemIcon>
-
-              <ListItemText>
-                {item.prettyName}
-              </ListItemText>
-            </ListItemButton>
-          </MenuItem>
-        )))}
-      </Select>
-    </FormControl>
+            <ListItemIcon>
+              <Icon />
+            </ListItemIcon>
+                  
+            <ListItemText>
+              {interactionMap[value].prettyName}
+            </ListItemText>
+          </Stack>
+        );
+      }}
+    >
+      {Object.values(interactionMap).map(interaction => (
+        <MenuItem
+          key={interaction.id}
+          value={interaction.id}
+        >
+          <ListItemIcon>
+            <interaction.icon />
+          </ListItemIcon>
+                  
+          <ListItemText>
+            {interaction.prettyName}
+          </ListItemText>
+        </MenuItem>
+      ))}
+    </Select>
   );
 }
