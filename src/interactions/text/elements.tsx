@@ -130,13 +130,14 @@ export function Component(props: InteractionProps<InteractionType>) {
               onClick={() => props.setCurrentElementIndex((item.page ?? 0) - 1 )}
             />
           )}
+          sx={{ width: "200px" }}
         />
 
         {props.mode != ViewMode.Edit && (
           <Stack
             direction="row"
             spacing={1}
-            sx={{ width: '500px' }}
+            sx={{ flexGrow: 1 }}
           >
             <Tooltip
               title="Play/pause the text-to-speech"
@@ -191,6 +192,7 @@ export function Component(props: InteractionProps<InteractionType>) {
         <Stack
           direction="row"
           spacing={1}
+          sx={{ width: "200px" }}
         >
           {props.mode == ViewMode.Edit ? (
             <>
