@@ -80,10 +80,10 @@ export function Component(props: InteractionProps<InteractionType>) {
 
   return (
     <Card
-      sx={{ height: '100%' }}
+      sx={{ height: '200px' }}
     >
       <CardContent
-        style={{ height: 'calc(100% - 48px)', overflowY: 'auto' }}
+        style={{ height: 'calc(100% - 56px)', overflowY: 'auto' }}
       >
         {props.isThinking && (
           <LinearProgress
@@ -96,11 +96,11 @@ export function Component(props: InteractionProps<InteractionType>) {
             hiddenLabel={true}
             multiline
             defaultValue={props.text}
-            rows={3}
             onChange={(e) => {
               props.setText(e.target.value);
             }}
             fullWidth={true}
+            sx={{ height: '100%' }}
           />
         ) : (
           <MarkdownTypewriter
