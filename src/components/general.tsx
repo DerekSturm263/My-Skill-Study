@@ -545,9 +545,16 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
         <Stack
           direction="row"
         >
-          <Select>
+          <Select
+            value={type}
+            label="Type"
+            onChange={(e) => setType(e.target.value)}
+          >
             {Object.values(interactionMap).map(interaction => (
-              <MenuItem>
+              <MenuItem
+                key={interaction.id}
+                value={interaction.id}
+              >
                 <ListItemIcon>
                   <interaction.icon />
                 </ListItemIcon>
@@ -558,10 +565,6 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
               </MenuItem>
             ))}
           </Select>
-
-          <IconButton>
-            <SwapHoriz />
-          </IconButton>
 
           <IconButton>
             <Refresh />
