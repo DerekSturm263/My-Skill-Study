@@ -9,8 +9,8 @@ import { Logout, Notifications, Person, QuestionMark, Search } from "@mui/icons-
 import { Dispatch, SetStateAction, useState } from "react";
 import { ThemeProvider } from '@mui/material/styles';
 
-export default function RootLayout({ children, params }: Readonly<{ children: React.ReactNode }> & { params: { hideHeader: string } }) {
-  const hideHeader = params.hideHeader == "true";
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const hideHeader = false;
   
   return (
     <ThemeProvider theme={theme}>
