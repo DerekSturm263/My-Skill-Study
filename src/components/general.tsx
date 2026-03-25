@@ -541,44 +541,27 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
     <Stack
       sx={{ flexGrow: 1 }}
     >
+      {props.mode == ViewMode.Edit && (
+        <Stack
+          direction="row"
+        >
+          <IconButton>
+            <SwapHoriz />
+          </IconButton>
+
+          <IconButton>
+            <Refresh />
+          </IconButton>
+
+          <IconButton>
+            <Delete />
+          </IconButton>
+        </Stack>
+      )}
+
       <Component
         {...props}
       />
-
-      {props.mode == ViewMode.Edit && (
-        <SpeedDial
-          ariaLabel="Interaction Options"
-          sx={{ position: 'absolute', bottom: 16, right: 16 }}
-          icon={<SpeedDialIcon />}
-        >
-          <SpeedDialAction
-            icon={<Delete />}
-            slotProps={{
-              tooltip: {
-                title: "Delete",
-              },
-            }}
-          />
-
-          <SpeedDialAction
-            icon={<Refresh />}
-            slotProps={{
-              tooltip: {
-                title: "Reset",
-              },
-            }}
-          />
-
-          <SpeedDialAction
-            icon={<SwapHoriz />}
-            slotProps={{
-              tooltip: {
-                title: "Replace",
-              },
-            }}
-          />
-        </SpeedDial>
-      )}
     </Stack>
   );
 }
