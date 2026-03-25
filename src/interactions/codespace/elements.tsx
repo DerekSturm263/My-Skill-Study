@@ -200,6 +200,7 @@ function Component(props: InteractionProps<InteractionType>) {
   return (
     <Stack
       direction="row"
+      sx={{ flexGrow: 1 }}
     >
       <Stack
         sx={{ flexGrow: 1, width: '60%' }}
