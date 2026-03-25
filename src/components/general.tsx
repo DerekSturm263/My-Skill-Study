@@ -445,10 +445,17 @@ export function SidebarButton({ selected, ogTitle, isDisabled, mode, progress, o
           <DragHandle />
         </ListItemIcon>
         
-        <ListItemText
-          primary={title}
-          secondary={mode == ViewMode.View ? <LinearProgress variant="determinate" value={progress * 100} /> : <Fragment></Fragment> }
-        />
+        {mode == ViewMode.Edit ? (
+          <TextField
+            value={title}
+            fullWidth
+          />
+        ) : (
+          <ListItemText
+            primary={title}
+            secondary={mode == ViewMode.View ? <LinearProgress variant="determinate" value={progress * 100} /> : <Fragment></Fragment> }
+          />
+        )}
       </ListItemButton>
     </ListItem>
   );
