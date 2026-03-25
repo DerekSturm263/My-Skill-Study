@@ -441,9 +441,11 @@ export function SidebarButton({ selected, ogTitle, isDisabled, mode, progress, o
         selected={selected}
         onClick={onClick}
       >
-        <ListItemIcon>
-          <DragHandle />
-        </ListItemIcon>
+        {mode == ViewMode.Edit && (
+          <ListItemIcon>
+            <DragHandle />
+          </ListItemIcon>
+        )}
         
         {mode == ViewMode.Edit ? (
           <TextField
