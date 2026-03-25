@@ -177,6 +177,7 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
 
         {value.chapters.map((chapter, cIndex) => chapter.pages.map((page, pIndex) => (
           (cIndex == currentChapterIndex && pIndex == currentPageIndex && <PageComponent
+            key={`${cIndex},${pIndex}`}
             element={page}
             mode={mode}
             isThinking={isThinking}
