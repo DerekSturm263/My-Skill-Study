@@ -181,17 +181,17 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
             element={page}
             mode={mode}
             isThinking={isThinking}
-            elementsCompleted={pagesCompleted}
-            currentPageIndex={cIndex}
-            currentElementIndex={pIndex}
-            totalElementsInPage={chapter.pages.length}
+            pagesCompleted={pagesCompleted}
+            currentChapterIndex={cIndex}
+            currentPageIndex={pIndex}
+            totalPagesInChapter={chapter.pages.length}
             setIsThinking={setIsThinking}
-            setCurrentElementIndex={setCurrentPageIndex}
+            setCurrentPageIndex={setCurrentPageIndex}
             setSnackbarText={(text: string) => {
               setSnackbarText(text);
               setIsSnackbarOpen(true);
             }}
-            setIsElementComplete={(isComplete: boolean) => {
+            setIsPageComplete={(isComplete: boolean) => {
               const newPagesCompleted = pagesCompleted;
               newPagesCompleted[cIndex][pIndex] = isComplete;
 

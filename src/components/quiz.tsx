@@ -149,20 +149,21 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
 
         {value.questions.map((chapter, index) => (
           (index == currentChapterIndex && (<PageComponent
+            key={index}
             element={value.questions[currentChapterIndex].page}
             mode={mode}
             isThinking={isThinking}
-            elementsCompleted={[[]] as boolean[][]}
-            currentPageIndex={currentChapterIndex}
-            currentElementIndex={0}
-            totalElementsInPage={1}
+            pagesCompleted={[[]] as boolean[][]}
+            currentChapterIndex={currentChapterIndex}
+            currentPageIndex={0}
+            totalPagesInChapter={1}
             setIsThinking={setIsThinking}
-            setCurrentElementIndex={setCurrentChapterIndex}
+            setCurrentPageIndex={setCurrentChapterIndex}
             setSnackbarText={(text: string) => {
               setSnackbarText(text);
               setIsSnackbarOpen(true);
             }}
-            setIsElementComplete={(isComplete: boolean) => {
+            setIsPageComplete={(isComplete: boolean) => {
               const newPagesCompleted = pagesCompleted;
               newPagesCompleted[currentChapterIndex] = isComplete;
 

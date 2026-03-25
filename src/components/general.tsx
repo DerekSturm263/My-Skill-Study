@@ -444,7 +444,7 @@ export function SidebarButton({ selected, ogTitle, isDisabled, mode, progress, o
   );
 }
 
-export function PageComponent({ element, mode, isThinking, elementsCompleted, currentPageIndex, currentElementIndex, totalElementsInPage, setIsThinking, setCurrentElementIndex, setSnackbarText, setIsElementComplete }: { element: Page, mode: ViewMode, isThinking: boolean, elementsCompleted: boolean[][], currentPageIndex: number, currentElementIndex: number, totalElementsInPage: number, setIsThinking: Dispatch<SetStateAction<boolean>>, setCurrentElementIndex: Dispatch<SetStateAction<number>>, setSnackbarText: (text: string) => void, setIsElementComplete: (isComplete: boolean) => void }) {
+export function PageComponent({ element, mode, isThinking, pagesCompleted: elementsCompleted, currentChapterIndex: currentPageIndex, currentPageIndex: currentElementIndex, totalPagesInChapter: totalElementsInPage, setIsThinking, setCurrentPageIndex: setCurrentElementIndex, setSnackbarText, setIsPageComplete: setIsElementComplete }: { element: Page, mode: ViewMode, isThinking: boolean, pagesCompleted: boolean[][], currentChapterIndex: number, currentPageIndex: number, totalPagesInChapter: number, setIsThinking: Dispatch<SetStateAction<boolean>>, setCurrentPageIndex: Dispatch<SetStateAction<number>>, setSnackbarText: (text: string) => void, setIsPageComplete: (isComplete: boolean) => void }) {
   const [ text, setText ] = useState(element.text.text);
 
   function complete() {

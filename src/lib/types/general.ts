@@ -1,7 +1,7 @@
 import { SvgIconComponent } from "@mui/icons-material";
+import { Verification } from "../ai/types";
 import { SchemaUnion } from "@google/genai";
 import { JSX } from "react";
-import { Verification } from "../ai/types";
 
 export interface Sharable {
   title: string,
