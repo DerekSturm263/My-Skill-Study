@@ -1,17 +1,18 @@
 'use client'
 
-import { ViewMode, InteractionPackage, InteractionProps } from '@/lib/types/general';
+import { ViewMode, InteractionPackage, InteractionProps, Interaction } from '@/lib/types/general';
 import { Stack, TextField } from '@mui/material';
 import { FilterFrames } from '@mui/icons-material';
 import { useState } from 'react';
 import { Type } from '@google/genai';
 
-export type InteractionType = {
+export interface InteractionType extends Interaction {
   source: string
 };
 
 const defaultValue: InteractionType = {
-  source: ""
+  source: "",
+  requiresCompletion: false
 }
 
 const schema = {

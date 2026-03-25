@@ -3,17 +3,18 @@
 import verify from './functions';
 
 import { Box, Button, FormControl, Radio, RadioGroup, FormControlLabel } from '@mui/material';
-import { ViewMode, InteractionPackage, InteractionProps } from '@/lib/types/general';
+import { ViewMode, InteractionPackage, InteractionProps, Interaction } from '@/lib/types/general';
 import { ToggleOn } from '@mui/icons-material';
 import { useState } from 'react';
 import { Type } from '@google/genai';
 
-export type InteractionType = {
+export interface InteractionType extends Interaction {
   isCorrect: boolean
 };
 
 const defaultValue: InteractionType = {
-  isCorrect: true
+  isCorrect: true,
+  requiresCompletion: true
 }
 
 const schema = {

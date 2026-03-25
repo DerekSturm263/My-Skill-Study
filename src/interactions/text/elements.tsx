@@ -5,19 +5,20 @@ import speakText from "@/lib/tts/functions";
 
 import { TextField, Stack, Card, CardContent, LinearProgress, CardActions, Pagination, PaginationItem, Tooltip, Chip, IconButton, Slider, Typography } from '@mui/material';
 import { Add, AutoAwesome, Delete, MotionPhotosAuto, MotionPhotosOff, Pause, PlayArrow, Refresh, TextSnippet } from '@mui/icons-material';
-import { ViewMode, InteractionProps, InteractionPackage } from "@/lib/types/general";
+import { ViewMode, InteractionProps, InteractionPackage, Interaction } from "@/lib/types/general";
 import { ModelType, Verification } from "@/lib/ai/types";
 import { useEffect, useState } from "react";
 import { MarkdownTypewriter } from "react-markdown-typewriter";
 import { useCookies } from "react-cookie";
 import { Type } from '@google/genai';
 
-export interface InteractionType {
+export interface InteractionType extends Interaction {
   text: string
 };
 
 const defaultValue: InteractionType = {
-  text: ""
+  text: "",
+  requiresCompletion: false
 }
 
 const schema = {
@@ -35,7 +36,7 @@ const schema = {
 export function Component(props: InteractionProps<InteractionType>) {
   const [ cookies, setCookie ] = useCookies([ 'autoReadAloud' ]);
   const [ isPlaying, setIsPlaying ] = useState(false);
-  
+
   async function rephrase(): Promise<Verification> {
     return {
       feedback: await generateText({

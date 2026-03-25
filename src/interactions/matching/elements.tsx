@@ -1,12 +1,12 @@
 'use client'
 
-import { InteractionPackage, InteractionProps } from "@/lib/types/general";
+import { Interaction, InteractionPackage, InteractionProps } from "@/lib/types/general";
 import { useState } from 'react';
 import { SyncAlt } from '@mui/icons-material';
 import { Type } from '@google/genai';
 import { Box } from '@mui/material';
 
-export type InteractionType = {
+export interface InteractionType extends Interaction {
   items: MatchingItem[]
 };
 
@@ -21,7 +21,8 @@ const defaultValue: InteractionType = {
       leftSide: "New Item",
       rightSide: "New Item"
     }
-  ]
+  ],
+  requiresCompletion: true
 }
 
 const schema = {

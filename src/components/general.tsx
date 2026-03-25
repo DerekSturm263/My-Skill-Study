@@ -15,9 +15,9 @@ import Matching from '@/interactions/matching/elements';
 import IFrame from '@/interactions/iframe/elements';
 
 import { IconButton, Dialog, Typography, Stack, List, ListItem, ListItemButton, ListItemText, Button, TextField, LinearProgress, Drawer, MenuItem, DialogActions, Divider, FormControl, InputLabel, Toolbar, Select, Box, Tabs, Tab, Switch, FormControlLabel, ListItemIcon, Link, DialogTitle, DialogContentText, DialogContent, SpeedDial, SpeedDialAction, SpeedDialIcon, Menu, ToggleButtonGroup, ToggleButton, Tooltip } from '@mui/material';
-import { ViewMode, InteractionProps, InteractionPackageBase, InteractionPackage, Sharable } from '../lib/types/general';
+import { ViewMode, InteractionProps, InteractionPackageBase, InteractionPackage, Sharable, Interaction } from '../lib/types/general';
 import { Delete, MoreVert, Refresh, SwapHoriz, SvgIconComponent } from '@mui/icons-material';
-import { Fragment, Children, useState, MouseEventHandler, Dispatch, SetStateAction } from 'react';
+import { Fragment, Children, useState, MouseEventHandler, Dispatch, SetStateAction, useEffect } from 'react';
 import { Component as TextComponent } from '@/interactions/text/elements'; 
 import { remove } from '../lib/miscellaneous/database';
 import { Verification } from '@/lib/ai/types';
@@ -447,10 +447,17 @@ export function SidebarButton({ selected, ogTitle, isDisabled, mode, progress, o
 export function PageComponent({ element, mode, isThinking, pagesCompleted: elementsCompleted, currentChapterIndex: currentPageIndex, currentPageIndex: currentElementIndex, totalPagesInChapter: totalElementsInPage, setIsThinking, setCurrentPageIndex: setCurrentElementIndex, setSnackbarText, setIsPageComplete: setIsElementComplete }: { element: Page, mode: ViewMode, isThinking: boolean, pagesCompleted: boolean[][], currentChapterIndex: number, currentPageIndex: number, totalPagesInChapter: number, setIsThinking: Dispatch<SetStateAction<boolean>>, setCurrentPageIndex: Dispatch<SetStateAction<number>>, setSnackbarText: (text: string) => void, setIsPageComplete: (isComplete: boolean) => void }) {
   const [ text, setText ] = useState(element.text.text);
 
-  function complete() {
-    if (mode == ViewMode.View) {
+  useEffect(() => {
+    if (element.interactions.every(interaction => !interaction.value.requiresCompletion)) {
+      setIsComplete(true, false);
+    }
+  }, []);
+    
+  function setIsComplete(isComplete: boolean, showSnackbar: boolean) {
+    setIsElementComplete(isComplete);
+
+    if (showSnackbar && mode == ViewMode.View) {
       setSnackbarText("Good job! Click the next page to continue");
-      setIsElementComplete(true);
     }
   }
 
@@ -486,7 +493,7 @@ export function PageComponent({ element, mode, isThinking, pagesCompleted: eleme
               setIsThinking(false);
 
               if (verification.isValid) {
-                complete();
+                setIsComplete(true, true);
               }
             }}
             setCurrentElementIndex={setCurrentElementIndex}
@@ -518,10 +525,10 @@ export function PageComponent({ element, mode, isThinking, pagesCompleted: eleme
   );
 }
 
-export function InteractionComponent(props: InteractionProps<object> & { thisType: string }) {
+export function InteractionComponent(props: InteractionProps<Interaction> & { thisType: string }) {
   const [ type, setType ] = useState(props.thisType);
 
-  const Component = (interactionMap[type] as InteractionPackage<object>).Component;
+  const Component = (interactionMap[type] as InteractionPackage<Interaction>).Component;
 
   return (
     <Stack
@@ -569,10 +576,10 @@ export function InteractionComponent(props: InteractionProps<object> & { thisTyp
   );
 }
 
-export function TypeSwitcher({ props, type, setType }: { props: InteractionProps<object>, type: string, setType: Dispatch<SetStateAction<string>> }) {
+export function TypeSwitcher({ props, type, setType }: { props: InteractionProps<Interaction>, type: string, setType: Dispatch<SetStateAction<string>> }) {
   function setTypeAndUpdate(type: string) {
     setType(type);
-    props.originalValue = (interactionMap[type] as InteractionPackage<object>).defaultValue;
+    props.originalValue = (interactionMap[type] as InteractionPackage<Interaction>).defaultValue;
   }
 
   return (

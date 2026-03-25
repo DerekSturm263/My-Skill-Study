@@ -2,18 +2,19 @@
 
 import verify from "./functions";
 
-import { ViewMode, InteractionProps, InteractionPackage } from "@/lib/types/general";
+import { ViewMode, InteractionProps, InteractionPackage, Interaction } from "@/lib/types/general";
 import { Box, TextField, Button, Stack } from '@mui/material';
 import { FormatQuote } from '@mui/icons-material';
 import { useState } from 'react';
 import { Type } from '@google/genai';
 
-export type InteractionType = {
+export interface InteractionType extends Interaction {
   correctAnswer: string | null
 };
 
 const defaultValue: InteractionType = {
-  correctAnswer: null
+  correctAnswer: null,
+  requiresCompletion: true
 }
 
 const schema = {

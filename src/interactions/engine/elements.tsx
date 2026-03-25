@@ -1,11 +1,11 @@
 'use client'
 
 import { CSSProperties, PureComponent, useState } from 'react';
-import { InteractionPackage, InteractionProps } from '@/lib/types/general';
+import { Interaction, InteractionPackage, InteractionProps } from '@/lib/types/general';
 import { SportsEsports } from '@mui/icons-material';
 import { Type } from '@google/genai';
 
-export type InteractionType = {
+export interface InteractionType extends Interaction {
   properties: CSSProperties,
   entities: Entity[]
 };
@@ -41,7 +41,8 @@ const defaultValue: InteractionType = {
       properties: { backgroundColor: "red" },
       renderer: undefined
     }
-  ]
+  ],
+  requiresCompletion: true
 }
 
 const schema = {

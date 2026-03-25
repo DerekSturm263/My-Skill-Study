@@ -2,13 +2,13 @@
 
 import Image from 'next/image';
 
-import { ViewMode, InteractionProps, InteractionPackage } from "@/lib/types/general";
+import { ViewMode, InteractionProps, InteractionPackage, Interaction } from "@/lib/types/general";
 import { Box, Button, IconButton, Stack, TextField } from '@mui/material';
 import { Delete, Folder } from '@mui/icons-material';
 import { useState } from "react";
 import { Type } from '@google/genai';
 
-export type InteractionType = {
+export interface InteractionType extends Interaction {
   files: File[]
 };
 
@@ -23,7 +23,8 @@ const defaultValue: InteractionType = {
       source: "",
       isDownloadable: false
     }
-  ]
+  ],
+  requiresCompletion: false
 }
 
 const schema = {

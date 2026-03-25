@@ -20,12 +20,16 @@ export enum ViewMode {
 export type SlugProps = Promise<{ slug: string }>;
 export type URLProps = Promise<{ [key: string]: string | string[] | undefined }>;
 
-export type InteractionWrapper = {
-  type: string,
-  value: object
+export interface Interaction {
+  requiresCompletion: boolean
 }
 
-export type InteractionProps<T extends object> = {
+export type InteractionWrapper = {
+  type: string,
+  value: Interaction
+}
+
+export type InteractionProps<T extends Interaction> = {
   text: string,
   originalValue: T,
   chapterIndex: number,
@@ -47,7 +51,7 @@ export interface InteractionPackageBase {
   schema: SchemaUnion
 }
 
-export interface InteractionPackage<T extends object> extends InteractionPackageBase {
+export interface InteractionPackage<T extends Interaction> extends InteractionPackageBase {
   defaultValue: T,
   Component: (props: InteractionProps<T>) => JSX.Element
 }

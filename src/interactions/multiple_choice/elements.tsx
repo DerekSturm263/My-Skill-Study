@@ -4,12 +4,12 @@ import Markdown from 'react-markdown';
 import verify from './functions';
 
 import { Box, Stack, Button, TextField, InputLabel, MenuItem, Radio, RadioGroup, Select, Checkbox, FormControl, FormControlLabel } from '@mui/material';
-import { ViewMode, InteractionProps, InteractionPackage } from '@/lib/types/general';
+import { ViewMode, InteractionProps, InteractionPackage, Interaction } from '@/lib/types/general';
 import { useEffect, useState } from 'react';
 import { CheckBox } from '@mui/icons-material';
 import { Type } from '@google/genai';
 
-export type InteractionType = {
+export interface InteractionType extends Interaction {
   items: MultipleChoiceItem[],
   choiceType: ChoiceType
 };
@@ -32,6 +32,7 @@ const defaultValue: InteractionType = {
     }
   ],
   choiceType: ChoiceType.NeedsAllCorrect,
+  requiresCompletion: true
 }
 
 const schema = {

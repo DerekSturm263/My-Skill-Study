@@ -3,19 +3,19 @@
 import verify, { compile } from './functions';
 
 import { Stack,  Tabs, Tab, Button, Typography, TextField, Checkbox, FormControlLabel, LinearProgress, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
-import { ViewMode, InteractionPackage, InteractionProps } from '@/lib/types/general';
+import { ViewMode, InteractionPackage, InteractionProps, Interaction } from '@/lib/types/general';
 import { Add, Code, PlayArrow } from '@mui/icons-material';
 import { Fragment, useState } from 'react';
 import { Verification } from '@/lib/ai/types';
 import { Editor } from '@monaco-editor/react';
 import { Type } from '@google/genai';
 
-export type InteractionType = {
+export interface InteractionType extends Interaction {
   language: CodespaceLanguage,
   files: CodespaceFile[],
   isSimplified: boolean,
   allowNewFiles: boolean,
-  correctOutput: string | undefined
+  correctOutput: string | null
 };
 
 enum CodespaceLanguage {
@@ -94,7 +94,8 @@ const defaultValue: InteractionType = {
   ],
   isSimplified: false,
   allowNewFiles: false,
-  correctOutput: undefined
+  correctOutput: null,
+  requiresCompletion: true
 }
 
 const schema = {
