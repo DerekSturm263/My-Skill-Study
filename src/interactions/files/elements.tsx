@@ -85,7 +85,7 @@ function Component(props: InteractionProps<InteractionType>) {
 
   return (
     <Box
-      sx={{ flexGrow: 1, alignSelf: "center", alignContent: "center" }}
+      sx={{ height: "100%", alignSelf: "center", alignContent: "center" }}
     >
       <Stack
         sx={{ flexGrow: 1, justifyContent: 'center' }}

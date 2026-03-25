@@ -199,8 +199,8 @@ function Component(props: InteractionProps<InteractionType>) {
 
   return (
     <Stack
-      sx={{ flexGrow: 1 }}
       direction="row"
+      sx={{ height: "100%" }}
     >
       <Stack
         sx={{ flexGrow: 1, width: '60%' }}

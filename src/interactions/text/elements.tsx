@@ -79,9 +79,11 @@ export function Component(props: InteractionProps<InteractionType>) {
   useEffect(() => { readAloud() },  []);
 
   return (
-    <Card>
+    <Card
+      sx={{ height: "100%" }}
+    >
       <CardContent
-        style={{ height: '20vh', overflowY: 'auto' }}
+        style={{ overflowY: 'auto' }}
       >
         {props.isThinking && (
           <LinearProgress

@@ -36,7 +36,7 @@ function Component(props: InteractionProps<InteractionType>) {
 
   return (
     <Stack
-      sx={{ flexGrow: 1 }}
+      sx={{ height: "100%" }}
     >
       {props.mode == ViewMode.Edit && (
         <TextField

@@ -33,7 +33,7 @@ function Component(props: InteractionProps<InteractionType>) {
   
   return (
     <Box
-      sx={{ flexGrow: 1 }}
+      sx={{ height: "100%" }}
     >
       
     </Box>

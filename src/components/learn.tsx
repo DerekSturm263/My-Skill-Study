@@ -37,8 +37,8 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
   return (
     <CookiesProvider>
       <SuccessDialog
-        title=''
-        text=''
+        title='Lesson Complete!'
+        text={`Now that you know about ${skill.title}, try out Practice mode to strengthen your understanding and quiz yourself when you're ready.`}
         isOpen={dialogOpen == "success"}
         setIsOpen={() => setDialogOpen(null)}
       />

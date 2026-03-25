@@ -21,13 +21,6 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
 
   return (
     <CookiesProvider>
-      <SuccessDialog
-        title=''
-        text=''
-        isOpen={dialogOpen == "success"}
-        setIsOpen={() => setDialogOpen(null)}
-      />
-
       <DetailsDialog
         value={skill}
         isOpen={dialogOpen == "details"}
