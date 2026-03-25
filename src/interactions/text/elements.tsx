@@ -80,7 +80,7 @@ export function Component(props: InteractionProps<InteractionType>) {
 
   return (
     <Card
-      sx={{ height: '200px' }}
+      sx={{ minHeight: '200px', maxHeight: "100%" }}
     >
       <CardContent
         style={{ height: 'calc(100% - 56px)', overflowY: 'auto' }}
