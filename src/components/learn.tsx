@@ -175,27 +175,29 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
           )}
         </Sidebar>
 
-        <PageComponent
-          element={value.chapters[currentChapterIndex].pages[currentPageIndex]}
-          mode={mode}
-          isThinking={isThinking}
-          elementsCompleted={pagesCompleted}
-          currentPageIndex={currentChapterIndex}
-          currentElementIndex={currentPageIndex}
-          totalElementsInPage={value.chapters[currentChapterIndex].pages.length}
-          setIsThinking={setIsThinking}
-          setCurrentElementIndex={setCurrentPageIndex}
-          setSnackbarText={(text: string) => {
-            setSnackbarText(text);
-            setIsSnackbarOpen(true);
-          }}
-          setIsElementComplete={(isComplete: boolean) => {
-            const newPagesCompleted = pagesCompleted;
-            newPagesCompleted[currentChapterIndex][currentPageIndex] = isComplete;
+        {value.chapters.map((chapter, cIndex) => chapter.pages.map((page, pIndex) => (
+          (cIndex == currentChapterIndex && pIndex == currentPageIndex && <PageComponent
+            element={page}
+            mode={mode}
+            isThinking={isThinking}
+            elementsCompleted={pagesCompleted}
+            currentPageIndex={cIndex}
+            currentElementIndex={pIndex}
+            totalElementsInPage={chapter.pages.length}
+            setIsThinking={setIsThinking}
+            setCurrentElementIndex={setCurrentPageIndex}
+            setSnackbarText={(text: string) => {
+              setSnackbarText(text);
+              setIsSnackbarOpen(true);
+            }}
+            setIsElementComplete={(isComplete: boolean) => {
+              const newPagesCompleted = pagesCompleted;
+              newPagesCompleted[cIndex][pIndex] = isComplete;
 
-            setPagesCompleted(newPagesCompleted);
-          }}
-        />
+              setPagesCompleted(newPagesCompleted);
+            }}
+          />)
+        )))}
 
         <Snackbar
           anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
