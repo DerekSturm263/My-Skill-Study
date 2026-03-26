@@ -388,7 +388,7 @@ export function NewInteractionDialog({ isOpen, setIsOpen }: { isOpen: boolean, s
           orientation="horizontal"
           value={type}
           exclusive
-          onChange={(e) => setType("")}
+          onChange={(e, type) => setType(type)}
         >
           {Object.values(interactionMap).map(interaction => (
             <ToggleButton
