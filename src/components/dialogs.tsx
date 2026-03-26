@@ -352,6 +352,12 @@ export function SettingsDialog({ props, type, isOpen, setType, setIsOpen }: { pr
 
       <DialogActions>
         <Button
+          onClick={(e) => {}}
+        >
+          Delete Interaction
+        </Button>
+
+        <Button
           onClick={(e) => setIsOpen(false)}
         >
           Done

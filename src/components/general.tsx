@@ -20,7 +20,7 @@ import Embed from '@/interactions/embed/elements';
 import { IconButton, Typography, Stack, ListItemText, MenuItem, Toolbar, Select, ListItemIcon, Tooltip } from '@mui/material';
 import { ViewMode, InteractionProps, InteractionPackageBase, InteractionPackage, Interaction } from '../lib/types/general';
 import { useState, Dispatch, SetStateAction, useEffect } from 'react';
-import { Delete, DragHandle, Settings } from '@mui/icons-material';
+import { DragHandle, Settings } from '@mui/icons-material';
 import { Component as TextComponent } from '@/interactions/text/elements'; 
 import { useSearchParams } from 'next/navigation';
 import { SettingsDialog } from './dialogs';
@@ -181,14 +181,6 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
               onClick={() => setIsSettingsOpen(true)}
             >
               <Settings />
-            </IconButton>
-          </Tooltip>
-          
-          <Tooltip
-            title="Delete this interaction"
-          >
-            <IconButton>
-              <Delete />
             </IconButton>
           </Tooltip>
         </Stack>
