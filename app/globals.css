@@ -27,11 +27,6 @@
   }
 }
 
-body {
-  background-attachment: fixed;
-  color: var(--foreground);
-}
-
 .reorderableList > div {
   flex-grow: 1;
 }
