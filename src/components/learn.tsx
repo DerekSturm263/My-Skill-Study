@@ -131,17 +131,17 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
               icon: Share,
               action: () => { setDialogOpen("share") }
             },
-            {
+            ... (mode == ViewMode.View ? [ {
               label: "Reset Progress",
               icon: Refresh,
               action: () => { setDialogOpen("resetProgress") }
-            },
+            } ] : [] ),
             {
               label: mode == ViewMode.Edit ? "View" : "Edit",
               icon: mode == ViewMode.Edit ? Visibility : Edit,
               action: async () => {}
             },
-            ...( mode == ViewMode.Edit ? [ {
+            ... (mode == ViewMode.Edit ? [ {
               label: "Generate",
               icon: AutoAwesome,
               action: () => { setDialogOpen("generate") }

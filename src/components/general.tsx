@@ -135,21 +135,21 @@ export function ShareDialog({ type, id, isOpen, setIsOpen, setSnackbarText }: { 
 
         <br />
 
-        <DialogContentText>
-          <Typography
-            variant="h6"
-          >
-            Settings
-          </Typography>
+        <DialogContentText
+          variant="h6"
+        >
+          Settings
         </DialogContentText>
       
         <Stack>
-          <FormControlLabel control={
-            <Switch
-              defaultChecked={true}
-              value={hideHeaderState}
-              onChange={(e, value) => setHideHeaderState(value)}
-            />}
+          <FormControlLabel
+            control={
+              <Switch
+                defaultChecked={true}
+                value={hideHeaderState}
+                onChange={(e, value) => setHideHeaderState(value)}
+              />
+            }
             label="Hide Header"
           />
 
@@ -571,11 +571,11 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
 
   return (
     <Stack
-      sx={{ flexGrow: 1 }}
+      sx={{ flexGrow: 1, backgroundColor: (theme) => theme.palette.grey[900] }}
     >
-      <Stack
+      {props.mode == ViewMode.Edit && (<Stack
         direction="row"
-        sx={{ justifyContent: "space-between", backgroundColor: (theme) => theme.palette.grey[900] }}
+        sx={{ justifyContent: "space-between", backgroundColor: (theme) => theme.palette.grey[800] }}
       >
         <Stack
           direction="row"
@@ -606,7 +606,9 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
           <Tooltip
             title="Edit this interaction"
           >
-            <IconButton>
+            <IconButton
+              onClick={() => setIsSettingsOpen(true)}
+            >
               <Settings />
             </IconButton>
           </Tooltip>
@@ -619,7 +621,7 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
             </IconButton>
           </Tooltip>
         </Stack>
-      </Stack>
+      </Stack>)}
 
       <Component
         {...props}
@@ -637,28 +639,68 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
 }
 
 export function SettingsDialog({ props, type, isOpen, setType, setIsOpen }: { props: InteractionProps<Interaction>, type: string, isOpen: boolean, setType: Dispatch<SetStateAction<string>>, setIsOpen: Dispatch<SetStateAction<boolean>> }) {
+  const interactionPackage = interactionMap[type] as InteractionPackage<Interaction>;
+
   return (
     <Dialog
       open={isOpen}
       onClose={(e) => setIsOpen(false)}
     >
       <DialogTitle>
-        Interaction Settings
+        {`${interactionPackage.prettyName} Settings`}
       </DialogTitle>
 
       <DialogContent>
-        <TypeSwitcher
-          props={props}
-          type={type}
-          setType={setType}
-        />
+        <Stack
+          spacing={1}
+        >
+          {Object.keys(props.originalValue).map(key => {
+            const value = props.originalValue[key as keyof Interaction];
+            const type = typeof value;
+
+            return (
+              type == "boolean" ? (
+                <FormControlLabel
+                  key={key}
+                  control={
+                    <Switch
+                      defaultChecked={true}
+                      value={value}
+                    />
+                  }
+                  label={key}
+                />
+              ) : type == "string" ? (
+                <TextField
+                  key={key}
+                  label={key}
+                  value={value}
+                  fullWidth
+                  multiline
+                />
+              ) : type == "number" ? (
+                <TextField
+                  key={key}
+                  label={key}
+                  value={value}
+                  fullWidth
+                  multiline
+                  type="number"
+                />
+              ) : (
+                <>
+                </>
+              )
+            );
+          })}
+        </Stack>
       </DialogContent>
 
       <DialogActions>
         <Button
           onClick={(e) => setIsOpen(false)}
         >
-          Close
+          Done
         </Button>
       </DialogActions>
     </Dialog>

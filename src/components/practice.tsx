@@ -126,7 +126,7 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
               icon: mode == ViewMode.Edit ? Visibility : Edit,
               action: async () => {}
             },
-            ...( mode == ViewMode.Edit ? [ {
+            ... (mode == ViewMode.Edit ? [ {
               label: "Generate",
               icon: AutoAwesome,
               action: () => { setDialogOpen("generate") }
