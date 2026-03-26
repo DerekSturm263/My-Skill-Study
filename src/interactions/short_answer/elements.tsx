@@ -50,6 +50,7 @@ function Component(props: InteractionProps<InteractionType>) {
           disabled={isDisabled}
           value={userResponse}
           onChange={(e) => setUserResponse(e.target.value)}
+          onSubmit={(e) => props.evaluateAndReply(verify(props.text, userResponse, value))}
           slotProps={{
             input: {
               endAdornment: <InputAdornment position="end">
@@ -58,6 +59,7 @@ function Component(props: InteractionProps<InteractionType>) {
                 >
                   <IconButton
                     onClick={(e) => props.evaluateAndReply(verify(props.text, userResponse, value))}
+                    disabled={isDisabled || props.mode == ViewMode.Edit}
                   >
                     <Done />
                   </IconButton>
