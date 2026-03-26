@@ -69,14 +69,10 @@ export function PageComponent({ element, mode, isThinking, pagesCompleted: eleme
     >
       {!hideHeader && <Toolbar />}
 
-      <Reorder
-        reorderId={`interactions${currentPageIndex},${currentElementIndex}`}
-        component={<Stack
+      <Stack
         direction="row"
         spacing={ mode == ViewMode.Edit ? 1 : 0 }
         sx={{ flexGrow: 1, padding: mode == ViewMode.Edit ? "8px" : "0px" }}
-        ></Stack>}
-        lock="vertical"
       >
         {element.interactions.map((interaction, index) => (
           <InteractionComponent
@@ -106,7 +102,7 @@ export function PageComponent({ element, mode, isThinking, pagesCompleted: eleme
             setCurrentElementIndex={setCurrentElementIndex}
           />
         ))}
-      </Reorder>
+      </Stack>
 
       <TextComponent
         text={text}
