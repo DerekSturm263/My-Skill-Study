@@ -47,7 +47,7 @@ export function PageComponent({ page, mode, isThinking, pagesCompleted, currentC
   const searchParams = useSearchParams();
   const hideHeader = searchParams.get('hideHeader') === 'true';
 
-  const [ text, setText ] = useState(page.text.text);
+  const [ value, setValue ] = useState(page);
   const [ isNewOpen, setIsNewOpen ] = useState(false);
 
   useEffect(() => {
@@ -88,12 +88,12 @@ export function PageComponent({ page, mode, isThinking, pagesCompleted, currentC
             isThinking={isThinking}
             pagesCompleted={pagesCompleted}
             mode={mode}
-            setText={setText}
+            setText={(text) => setValue({ ... value, text: { text: text,  requiresCompletion: false } })}
             evaluateAndReply={async (promise: Promise<Verification>) => {
               setIsThinking(true);
 
               const verification = await promise;
-              setText(verification.feedback);
+              setValue({ ... value, text: { text: verification.feedback,  requiresCompletion: false } })
     
               setIsThinking(false);
 
@@ -117,7 +117,7 @@ export function PageComponent({ page, mode, isThinking, pagesCompleted, currentC
       </ReorderList>
 
       <TextComponent
-        text={text}
+        text={value.text.text}
         originalValue={page.text}
         chapterIndex={currentChapterIndex}
         pageIndex={currentPageIndex}
@@ -125,12 +125,12 @@ export function PageComponent({ page, mode, isThinking, pagesCompleted, currentC
         isThinking={isThinking}
         pagesCompleted={pagesCompleted}
         mode={mode}
-        setText={setText}
+        setText={(text) => setValue({ ... value, text: { text: text,  requiresCompletion: false } })}
         evaluateAndReply={async (promise: Promise<Verification>) => {
           setIsThinking(true);
 
           const verification = await promise;
-          setText(verification.feedback);
+          setValue({ ... value, text: { text: verification.feedback,  requiresCompletion: false } })
     
           setIsThinking(false);
         }}
