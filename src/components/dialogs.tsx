@@ -309,7 +309,8 @@ export function SettingsDialog({ props, type, isOpen, setType, setIsOpen }: { pr
           spacing={1}
         >
           {Object.keys(props.originalValue).map(key => {
-            const value = props.originalValue[key as keyof Interaction];
+            const keyof = key as keyof Interaction;
+            const value = props.originalValue[keyof];
             const type = typeof value;
 
             return (
@@ -320,6 +321,7 @@ export function SettingsDialog({ props, type, isOpen, setType, setIsOpen }: { pr
                     <Switch
                       defaultChecked={true}
                       value={value}
+                      onChange={(e) => props.originalValue[keyof] = e.target.checked}
                     />
                   }
                   label={key}
@@ -331,6 +333,7 @@ export function SettingsDialog({ props, type, isOpen, setType, setIsOpen }: { pr
                   value={value}
                   fullWidth
                   multiline
+                  onChange={(e) => /*props.originalValue[keyof] = e.target.value()*/ {}}
                 />
               ) : type == "number" ? (
                 <TextField
@@ -340,6 +343,7 @@ export function SettingsDialog({ props, type, isOpen, setType, setIsOpen }: { pr
                   fullWidth
                   multiline
                   type="number"
+                  onChange={(e) => /*props.originalValue[keyof] = e.target.value*/ {}}
                 />
               ) : (
                 <>

@@ -8,7 +8,7 @@ import { Children, MouseEventHandler, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { ViewMode } from '@/lib/types/general';
 
-export function Sidebar({ children, label, options, selectedOption, actions }: { children?: React.ReactNode, label: string, options: { label: string, tooltip: string, link: string, id: string }[], selectedOption: string, actions: { label: string, icon: SvgIconComponent, action: () => void }[] }) {
+export function Sidebar({ children, label, options, selectedOption, actions }: { children?: React.ReactNode, label: string, options: { label: string, tooltip: string, link: string, id: string }[], selectedOption: string, actions: { label: string, icon: SvgIconComponent, link: string, action: () => void }[] }) {
   const searchParams = useSearchParams();
   const hideHeader = searchParams.get('hideHeader') === 'true';
     
@@ -60,6 +60,7 @@ export function Sidebar({ children, label, options, selectedOption, actions }: {
             {actions.map((action, index) => (
               <MenuItem
                 key={index}
+                href={action.link}
                 onClick={(e) => action.action()}
               >
                 <ListItemIcon>
