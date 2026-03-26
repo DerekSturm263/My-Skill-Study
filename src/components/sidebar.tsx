@@ -133,11 +133,11 @@ export function SidebarButton({ selected, ogTitle, isDisabled, mode, progress, S
         onClick={primaryAction}
       >
         {mode == ViewMode.Edit && (
-          <ReorderIcon>
-            <ListItemIcon>
+          <ListItemIcon>
+            <ReorderIcon>
               <DragHandle />
-            </ListItemIcon>
-          </ReorderIcon>
+            </ReorderIcon>
+          </ListItemIcon>
         )}
         
         {mode == ViewMode.Edit ? (

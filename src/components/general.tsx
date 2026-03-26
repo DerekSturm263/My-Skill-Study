@@ -142,7 +142,7 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
   return (
     <Stack
       sx={{ flexGrow: 1, backgroundColor: (theme) => theme.palette.grey[900] }}
-      style={{ flexGrow: 1, height: "100%" }}
+      style={{ height: "100%" }}
     >
       {props.mode == ViewMode.Edit && (<Stack
         direction="row"
