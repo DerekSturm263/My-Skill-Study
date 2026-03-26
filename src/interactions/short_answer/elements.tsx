@@ -57,7 +57,7 @@ function Component(props: InteractionProps<InteractionType>) {
           variant="contained"
           onClick={(e) => props.evaluateAndReply(verify(props.text, userResponse, value))}
           sx={{ width: '120px' }}
-          disabled={isDisabled || props.mode != (ViewMode.Edit as ViewMode)}
+          disabled={isDisabled || props.mode == (ViewMode.Edit as ViewMode)}
         >
           Submit
         </Button>
