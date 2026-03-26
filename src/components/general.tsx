@@ -573,32 +573,40 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
     >
       <Stack
         direction="row"
-        spacing={0}
-        sx={{ backgroundColor: (theme) => theme.palette.grey[900], justifyContent: "end" }}
+        sx={{ justifyContent: "space-between", backgroundColor: (theme) => theme.palette.grey[900] }}
       >
-        <Tooltip
-          title="Move this interaction"
+        <Typography>
+          {(interactionMap[type] as InteractionPackage<Interaction>).prettyName}
+        </Typography>
+
+        <Stack
+          direction="row"
+          spacing={0}
         >
-          <IconButton>
-            <DragHandle />
-          </IconButton>
-        </Tooltip>
+          <Tooltip
+            title="Move this interaction"
+          >
+            <IconButton>
+              <DragHandle />
+            </IconButton>
+          </Tooltip>
           
-        <Tooltip
-          title="Edit this interaction"
-        >
-          <IconButton>
-            <Settings />
-          </IconButton>
-        </Tooltip>
+          <Tooltip
+            title="Edit this interaction"
+          >
+            <IconButton>
+              <Settings />
+            </IconButton>
+          </Tooltip>
           
-        <Tooltip
-          title="Delete this interaction"
-        >
-          <IconButton>
-            <Delete />
-          </IconButton>
-        </Tooltip>
+          <Tooltip
+            title="Delete this interaction"
+          >
+            <IconButton>
+              <Delete />
+            </IconButton>
+          </Tooltip>
+        </Stack>
       </Stack>
 
       <Component
