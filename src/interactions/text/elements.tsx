@@ -120,13 +120,13 @@ export function Component(props: InteractionProps<InteractionType>) {
         sx={{ justifyContent: 'space-between', flexWrap: 'wrap' }}
       >
         <Pagination
-          count={props.totalElementsInChapter}
+          count={props.totalPagesInChapter}
           page={props.pageIndex + 1}
           disabled={props.isThinking}
           renderItem={(item) => (
             <PaginationItem
               {...item}
-              disabled={props.isThinking || (item.page ?? 0) <= 0 || (item.page ?? 0) > props.totalElementsInChapter || (props.mode == ViewMode.View && (!props.pagesCompleted[props.chapterIndex][props.pageIndex + (item.page ?? 0) - 2] && (item.page ?? 0) != 1))}
+              disabled={props.isThinking || (item.page ?? 0) <= 0 || (item.page ?? 0) > props.totalPagesInChapter || (props.mode == ViewMode.View && (!props.pagesCompleted[props.chapterIndex][props.pageIndex + (item.page ?? 0) - 2] && (item.page ?? 0) != 1))}
               onClick={() => props.setCurrentElementIndex((item.page ?? 0) - 1 )}
             />
           )}

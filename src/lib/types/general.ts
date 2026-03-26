@@ -34,7 +34,7 @@ export type InteractionProps<T extends Interaction> = {
   originalValue: T,
   chapterIndex: number,
   pageIndex: number,
-  totalElementsInChapter: number,
+  totalPagesInChapter: number,
   isThinking: boolean,
   pagesCompleted: boolean[][],
   mode: ViewMode,

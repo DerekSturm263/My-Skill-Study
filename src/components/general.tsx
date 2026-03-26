@@ -41,7 +41,7 @@ export const interactionMap: Record<string, InteractionPackageBase> = {
   "embed": Embed
 };
 
-export function PageComponent({ element, mode, isThinking, pagesCompleted: elementsCompleted, currentChapterIndex: currentPageIndex, currentPageIndex: currentElementIndex, totalPagesInChapter: totalElementsInPage, setIsThinking, setCurrentPageIndex: setCurrentElementIndex, setSnackbarText, setIsPageComplete: setIsElementComplete }: { element: Page, mode: ViewMode, isThinking: boolean, pagesCompleted: boolean[][], currentChapterIndex: number, currentPageIndex: number, totalPagesInChapter: number, setIsThinking: Dispatch<SetStateAction<boolean>>, setCurrentPageIndex: Dispatch<SetStateAction<number>>, setSnackbarText: (text: string) => void, setIsPageComplete: (isComplete: boolean) => void }) {
+export function PageComponent({ element, mode, isThinking, pagesCompleted, currentChapterIndex, currentPageIndex, totalPagesInChapter, setIsThinking, setCurrentPageIndex: setCurrentElementIndex, setSnackbarText, setIsPageComplete: setIsElementComplete }: { element: Page, mode: ViewMode, isThinking: boolean, pagesCompleted: boolean[][], currentChapterIndex: number, currentPageIndex: number, totalPagesInChapter: number, setIsThinking: Dispatch<SetStateAction<boolean>>, setCurrentPageIndex: Dispatch<SetStateAction<number>>, setSnackbarText: (text: string) => void, setIsPageComplete: (isComplete: boolean) => void }) {
   const searchParams = useSearchParams();
   const hideHeader = searchParams.get('hideHeader') === 'true';
 
@@ -79,11 +79,11 @@ export function PageComponent({ element, mode, isThinking, pagesCompleted: eleme
             thisType={interaction.type}
             text={element.text.text}
             originalValue={interaction.value}
-            chapterIndex={currentPageIndex}
-            pageIndex={currentElementIndex}
-            totalElementsInChapter={totalElementsInPage}
+            chapterIndex={currentChapterIndex}
+            pageIndex={currentPageIndex}
+            totalPagesInChapter={totalPagesInChapter}
             isThinking={isThinking}
-            pagesCompleted={elementsCompleted}
+            pagesCompleted={pagesCompleted}
             mode={mode}
             setText={setText}
             evaluateAndReply={async (promise: Promise<Verification>) => {
@@ -106,11 +106,11 @@ export function PageComponent({ element, mode, isThinking, pagesCompleted: eleme
       <TextComponent
         text={text}
         originalValue={element.text}
-        chapterIndex={currentPageIndex}
-        pageIndex={currentElementIndex}
-        totalElementsInChapter={totalElementsInPage}
+        chapterIndex={currentChapterIndex}
+        pageIndex={currentPageIndex}
+        totalPagesInChapter={totalPagesInChapter}
         isThinking={isThinking}
-        pagesCompleted={elementsCompleted}
+        pagesCompleted={pagesCompleted}
         mode={mode}
         setText={setText}
         evaluateAndReply={async (promise: Promise<Verification>) => {
@@ -166,13 +166,17 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
           direction="row"
           spacing={0}
         >
-          <ReorderIcon
-            draggable={true}
+          <Tooltip
+            title="Drag to move interaction"
           >
-            <DragHandle
-              sx={{ height: "100%" }}
-            />
-          </ReorderIcon>
+            <ReorderIcon
+              draggable={true}
+            >
+              <DragHandle
+                sx={{ height: "100%" }}
+              />
+            </ReorderIcon>
+          </Tooltip>
           
           <Tooltip
             title="Edit this interaction"
