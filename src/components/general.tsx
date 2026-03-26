@@ -574,10 +574,29 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
         direction="row"
       >
         <IconButton>
-          <ArrowLeft />
-          <ArrowRight />
-          <Settings />
-          <Delete />
+          <Tooltip
+            title="Move this interaction left"
+          >
+            <ArrowLeft />
+          </Tooltip>
+          
+          <Tooltip
+            title="Move this interaction right"
+          >
+            <ArrowRight />
+          </Tooltip>
+          
+          <Tooltip
+            title="Edit this interaction"
+          >
+            <Settings />
+          </Tooltip>
+          
+          <Tooltip
+            title="Delete this interaction"
+          >
+            <Delete />
+          </Tooltip>
         </IconButton>
       </Stack>
 
