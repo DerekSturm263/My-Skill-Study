@@ -5,6 +5,7 @@ import { DragHandle, MoreVert, SvgIconComponent } from "@mui/icons-material";
 import { Children, MouseEventHandler, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { ViewMode } from '@/lib/types/general';
+import ReorderList, { ReorderIcon } from "react-reorder-list";
 
 export function Sidebar({ children, label, options, selectedOption, actions }: { children?: React.ReactNode, label: string, options: { label: string, tooltip: string, link: string, id: string }[], selectedOption: string, actions: { label: string, icon: SvgIconComponent, action: () => void }[] }) {
   const searchParams = useSearchParams();
@@ -97,13 +98,15 @@ export function Sidebar({ children, label, options, selectedOption, actions }: {
 
         <Divider />
 
-        <List>
+        <ReorderList
+          useOnlyIconToDrag={true}
+        >
           {Children.map(children, child => 
             <li>
               {child}
             </li>
           )}
-        </List>
+        </ReorderList>
       </Box>
     </Drawer>
   );
@@ -130,9 +133,11 @@ export function SidebarButton({ selected, ogTitle, isDisabled, mode, progress, S
         onClick={primaryAction}
       >
         {mode == ViewMode.Edit && (
-          <ListItemIcon>
-            <DragHandle />
-          </ListItemIcon>
+          <ReorderIcon>
+            <ListItemIcon>
+              <DragHandle />
+            </ListItemIcon>
+          </ReorderIcon>
         )}
         
         {mode == ViewMode.Edit ? (
