@@ -69,11 +69,7 @@ export function PageComponent({ element, mode, isThinking, pagesCompleted: eleme
 
       <ReorderList
         useOnlyIconToDrag={true}
-      >
-      <Stack
-        direction="row"
-        spacing={ mode == ViewMode.Edit ? 1 : 0 }
-        sx={{ flexGrow: 1, padding: mode == ViewMode.Edit ? "8px" : "0px" }}
+        props={{ style: { display: "flex", flexDirection: "row", gap: 8, flexGrow: 1, padding: mode == ViewMode.Edit ? "8px" : "0px" }}}
       >
         {element.interactions.map((interaction, index) => (
           <InteractionComponent
@@ -103,7 +99,6 @@ export function PageComponent({ element, mode, isThinking, pagesCompleted: eleme
             setCurrentElementIndex={setCurrentElementIndex}
           />
         ))}
-      </Stack>
       </ReorderList>
 
       <TextComponent
