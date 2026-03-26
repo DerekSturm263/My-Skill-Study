@@ -396,8 +396,11 @@ export function NewInteractionDialog({ isOpen, setIsOpen }: { isOpen: boolean, s
               key={interaction.id}
               value={interaction.id}
             >
-              <interaction.icon />
-              {interaction.prettyName}
+              <Stack>
+                <interaction.icon />
+
+                {interaction.prettyName}
+              </Stack>
             </ToggleButton>
           ))}
         </ToggleButtonGroup>
