@@ -48,7 +48,7 @@ function Component(props: InteractionProps<InteractionType>) {
     <Box
       sx={{ height: "100%", alignContent: 'center' }}
     >
-      {/*<Reorder>
+      {<Reorder>
         {items.map((item, index) => (
           <li
             key={index}
@@ -56,7 +56,7 @@ function Component(props: InteractionProps<InteractionType>) {
             {item}
           </li>
         ))}
-      </Reorder>*/}
+      </Reorder>}
     </Box>
   );
 }

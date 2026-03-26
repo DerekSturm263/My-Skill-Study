@@ -171,7 +171,7 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
                 selected={currentChapterIndex == index}
                 ogTitle={chapter.title}
                 mode={mode}
-                progress={pagesCompleted[index].filter(item => item).length / pagesCompleted[index].length}
+                progress={mode == ViewMode.View ? pagesCompleted[index].filter(item => item).length / pagesCompleted[index].length : 1}
                 SecondaryIcon={Delete}
                 primaryAction={(e) => {
                   setCurrentChapterIndex(index);
