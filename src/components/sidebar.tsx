@@ -99,7 +99,9 @@ export function Sidebar({ children, label, options, selectedOption, actions }: {
         <Divider />
 
         <Reorder
+          reorderId="sidebar"
           component={List}
+          lock="horizontal"
         >
           {Children.map(children, child => 
             <li>
