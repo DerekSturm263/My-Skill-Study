@@ -167,7 +167,9 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
           spacing={0}
         >
           <ReorderIcon>
-            <DragHandle />
+            <DragHandle
+              sx={{ height: "100%" }}
+            />
           </ReorderIcon>
           
           <Tooltip
