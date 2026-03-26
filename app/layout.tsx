@@ -76,7 +76,7 @@ function Header({ presetSearchTerms }: { presetSearchTerms: string }) {
             input: {
               endAdornment: <InputAdornment position="end">
                 <Tooltip
-                  title="Search for what you typed"
+                  title="Search"
                 >
                   <IconButton
                     href={`/search?query=${searchTerms}`}

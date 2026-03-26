@@ -3,8 +3,8 @@
 import verify from "./functions";
 
 import { ViewMode, InteractionProps, InteractionPackage, Interaction } from "@/lib/types/general";
-import { Box, TextField, Button, Stack } from '@mui/material';
-import { FormatQuote } from '@mui/icons-material';
+import { Box, TextField, Button, Stack, Tooltip, InputAdornment, IconButton } from '@mui/material';
+import { Done, FormatQuote } from '@mui/icons-material';
 import { useState } from 'react';
 import { Type } from '@google/genai';
 
@@ -50,17 +50,23 @@ function Component(props: InteractionProps<InteractionType>) {
           disabled={isDisabled}
           value={userResponse}
           onChange={(e) => setUserResponse(e.target.value)}
+          slotProps={{
+            input: {
+              endAdornment: <InputAdornment position="end">
+                <Tooltip
+                  title="Submit your response"
+                >
+                  <IconButton
+                    onClick={(e) => props.evaluateAndReply(verify(props.text, userResponse, value))}
+                  >
+                    <Done />
+                  </IconButton>
+                </Tooltip>
+              </InputAdornment>,
+            },
+          }}
           sx={{ flexGrow: 1 }}
         />
-
-        <Button
-          variant="contained"
-          onClick={(e) => props.evaluateAndReply(verify(props.text, userResponse, value))}
-          sx={{ width: '120px' }}
-          disabled={isDisabled || props.mode == (ViewMode.Edit as ViewMode)}
-        >
-          Submit
-        </Button>
       </Stack>
     </Box>
   );
