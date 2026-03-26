@@ -501,7 +501,7 @@ export function PageComponent({ element, mode, isThinking, pagesCompleted: eleme
       <Stack
         direction="row"
         spacing={ mode == ViewMode.Edit ? 1 : 0 }
-        sx={{ flexGrow: 1 }}
+        sx={{ flexGrow: 1, padding: mode == ViewMode.Edit ? "8px" : "0px" }}
       >
         {element.interactions.map((interaction, index) => (
           <InteractionComponent
