@@ -104,6 +104,8 @@ export function PageComponent({ page, mode, isThinking, pagesCompleted, currentC
             setCurrentElementIndex={setCurrentElementIndex}
           />
         ))}
+      </ReorderList>
+
 
         {mode == ViewMode.Edit && (
           <IconButton
@@ -114,8 +116,7 @@ export function PageComponent({ page, mode, isThinking, pagesCompleted, currentC
             <Add />
           </IconButton>
         )}
-      </ReorderList>
-
+        
       <TextComponent
         text={value.text.text}
         originalValue={page.text}
