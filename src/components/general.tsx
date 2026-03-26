@@ -150,35 +150,33 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
         direction="row"
         sx={{ justifyContent: "space-between", backgroundColor: (theme) => theme.palette.grey[800] }}
       >
-        <Stack
-          direction="row"
-          spacing={1}
-          sx={{ marginTop: "auto", marginBottom: "auto", marginLeft: "8px", cursor: "grab" }}
-          data-draggable={true}
+        <ReorderIcon
+          draggable={true}
         >
-          <Icon />
-
-          <Typography
-            sx={{ overflow: "hidden", whiteSpace: "nowrap" }}
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{ marginTop: "auto", marginBottom: "auto", marginLeft: "8px" }}
           >
-            {(interactionMap[type] as InteractionPackage<Interaction>).prettyName}
-          </Typography>
-        </Stack>
+            <Icon />
 
-        <Stack
-          direction="row"
-          spacing={0}
-        >
-          <Tooltip
-            title="Edit this interaction"
-          >
-            <IconButton
-              onClick={() => setIsSettingsOpen(true)}
+            <Typography
+              sx={{ overflow: "hidden", whiteSpace: "nowrap" }}
             >
-              <Settings />
-            </IconButton>
-          </Tooltip>
-        </Stack>
+              {(interactionMap[type] as InteractionPackage<Interaction>).prettyName}
+            </Typography>
+          </Stack>
+        </ReorderIcon>
+
+        <Tooltip
+          title="Edit this interaction"
+        >
+          <IconButton
+            onClick={() => setIsSettingsOpen(true)}
+          >
+            <Settings />
+          </IconButton>
+        </Tooltip>
       </Stack>)}
 
       <Component
