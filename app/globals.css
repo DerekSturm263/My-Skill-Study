@@ -32,6 +32,6 @@ body {
   color: var(--foreground);
 }
 
-div[draggable="false"] {
+:global(.reorderableList) > div {
   flex-grow: 1;
 }
