@@ -72,7 +72,7 @@ export function PageComponent({ element, mode, isThinking, pagesCompleted, curre
       <ReorderList
         useOnlyIconToDrag={true}
         props={{ className: "reorderableList", style: {
-          display: "flex", flexDirection: "row", gap: 8, flexGrow: 1, padding: mode == ViewMode.Edit ? "8px" : "0px" }
+          display: "flex", flexDirection: "row", gap: mode == ViewMode.Edit ? 8 : 0, flexGrow: 1, padding: mode == ViewMode.Edit ? "8px" : "0px" }
         }}
       >
         {element.interactions.map((interaction, index) => (
