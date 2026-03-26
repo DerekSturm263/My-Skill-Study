@@ -20,7 +20,7 @@ import Embed from '@/interactions/embed/elements';
 import { IconButton, Typography, Stack, ListItemText, MenuItem, Toolbar, Select, ListItemIcon, Tooltip } from '@mui/material';
 import { ViewMode, InteractionProps, InteractionPackageBase, InteractionPackage, Interaction } from '../lib/types/general';
 import { useState, Dispatch, SetStateAction, useEffect } from 'react';
-import { DragHandle, Settings } from '@mui/icons-material';
+import { Add, DragHandle, Settings } from '@mui/icons-material';
 import { Component as TextComponent } from '@/interactions/text/elements'; 
 import { useSearchParams } from 'next/navigation';
 import { SettingsDialog } from './dialogs';
@@ -48,6 +48,7 @@ export function PageComponent({ element, mode, isThinking, pagesCompleted, curre
   const hideHeader = searchParams.get('hideHeader') === 'true';
 
   const [ text, setText ] = useState(element.text.text);
+  const [ isNewOpen, setIsNewOpen ] = useState(false);
 
   useEffect(() => {
     if (element.interactions.every(interaction => !interaction.value.requiresCompletion)) {
@@ -103,6 +104,14 @@ export function PageComponent({ element, mode, isThinking, pagesCompleted, curre
             setCurrentElementIndex={setCurrentElementIndex}
           />
         ))}
+
+        {mode == ViewMode.Edit && (
+          <IconButton
+            onClick={() => setIsNewOpen(true)}
+          >
+            <Add />
+          </IconButton>
+        )}
       </ReorderList>
 
       <TextComponent
@@ -194,53 +203,5 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
         setIsOpen={setIsSettingsOpen}
       />
     </Stack>
-  );
-}
-
-export function TypeSwitcher({ props, type, setType }: { props: InteractionProps<Interaction>, type: string, setType: Dispatch<SetStateAction<string>> }) {
-  function setTypeAndReset(type: string) {
-    setType(type);
-    props.originalValue = (interactionMap[type] as InteractionPackage<Interaction>).defaultValue;
-  }
-
-  return (
-    <Select
-      value={type}
-      label="Type"
-      onChange={(e) => setTypeAndReset(e.target.value)}
-      autoWidth={true}
-      renderValue={(value: string) => {
-        const Icon = interactionMap[value].icon;
-
-        return (
-          <Stack
-            direction="row"
-          >
-            <ListItemIcon>
-              <Icon />
-            </ListItemIcon>
-                  
-            <ListItemText>
-              {interactionMap[value].prettyName}
-            </ListItemText>
-          </Stack>
-        );
-      }}
-    >
-      {Object.values(interactionMap).map(interaction => (
-        <MenuItem
-          key={interaction.id}
-          value={interaction.id}
-        >
-          <ListItemIcon>
-            <interaction.icon />
-          </ListItemIcon>
-                  
-          <ListItemText>
-            {interaction.prettyName}
-          </ListItemText>
-        </MenuItem>
-      ))}
-    </Select>
   );
 }

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, Stack, Switch, Tab, Tabs, TextField } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, Stack, Switch, Tab, Tabs, TextField, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { Interaction, InteractionPackage, InteractionProps, Sharable } from '@/lib/types/general';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { interactionMap } from './general';
@@ -359,6 +359,54 @@ export function SettingsDialog({ props, type, isOpen, setType, setIsOpen }: { pr
           onClick={(e) => {}}
         >
           Delete Interaction
+        </Button>
+
+        <Button
+          onClick={(e) => setIsOpen(false)}
+        >
+          Done
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+}
+
+export function NewInteractionDialog({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen: Dispatch<SetStateAction<boolean>> }) {
+  const [ type, setType ] = useState("");
+
+  return (
+    <Dialog
+      open={isOpen}
+      onClose={(e) => setIsOpen(false)}
+    >
+      <DialogTitle>
+        Create New Interaction
+      </DialogTitle>
+    
+      <DialogContent>
+        <ToggleButtonGroup
+          orientation="horizontal"
+          value={type}
+          exclusive
+          onChange={(e) => setType("")}
+        >
+          {Object.values(interactionMap).map(interaction => (
+            <ToggleButton
+              key={interaction.id}
+              value={interaction.id}
+            >
+              <interaction.icon />
+              {interaction.prettyName}
+            </ToggleButton>
+          ))}
+        </ToggleButtonGroup>
+      </DialogContent>
+
+      <DialogActions>
+        <Button
+          onClick={(e) => setIsOpen(false)}
+        >
+          Cancel
         </Button>
 
         <Button
