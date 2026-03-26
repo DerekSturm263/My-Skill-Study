@@ -166,13 +166,9 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
           direction="row"
           spacing={0}
         >
-          <Tooltip
-            title="Move this interaction"
-          >
-            <ReorderIcon>
-              <DragHandle />
-            </ReorderIcon>
-          </Tooltip>
+          <ReorderIcon>
+            <DragHandle />
+          </ReorderIcon>
           
           <Tooltip
             title="Edit this interaction"
