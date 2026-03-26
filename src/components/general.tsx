@@ -561,6 +561,8 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
   const [ type, setType ] = useState(props.thisType);
   const [ isSettingsOpen, setIsSettingsOpen ] = useState(false);
 
+  const Icon = (interactionMap[type] as InteractionPackage<Interaction>).icon;
+
   function reset() {
     props.originalValue = (interactionMap[type] as InteractionPackage<Interaction>).defaultValue;
   }
@@ -575,11 +577,18 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
         direction="row"
         sx={{ justifyContent: "space-between", backgroundColor: (theme) => theme.palette.grey[900] }}
       >
-        <Typography
-          sx={{ marginTop: "auto", marginBottom: "auto", marginLeft: "8px" }}
+        <Stack
+          direction="row"
+          spacing={0}
         >
-          {(interactionMap[type] as InteractionPackage<Interaction>).prettyName}
-        </Typography>
+          <Icon />
+
+          <Typography
+            sx={{ marginTop: "auto", marginBottom: "auto", marginLeft: "8px" }}
+          >
+            {(interactionMap[type] as InteractionPackage<Interaction>).prettyName}
+          </Typography>
+        </Stack>
 
         <Stack
           direction="row"
