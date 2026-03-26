@@ -1,3 +1,5 @@
+'use client'
+
 import Link from 'next/link';
 
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, Stack, Switch, Tab, Tabs, TextField } from '@mui/material';

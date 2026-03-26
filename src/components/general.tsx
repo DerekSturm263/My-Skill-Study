@@ -1,5 +1,8 @@
 'use client'
 
+// @ts-expect-error: Reorder isn't made to work with Typescript.
+import Reorder from 'react-reorder';
+
 import Files from '@/interactions/files/elements';
 import Drawing from '@/interactions/drawing/elements';
 import Graph from '@/interactions/graph/elements';
