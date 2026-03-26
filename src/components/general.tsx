@@ -18,7 +18,7 @@ import { IconButton, Dialog, Typography, Stack, List, ListItem, ListItemButton, 
 import { ViewMode, InteractionProps, InteractionPackageBase, InteractionPackage, Sharable, Interaction } from '../lib/types/general';
 import { Fragment, Children, useState, MouseEventHandler, Dispatch, SetStateAction, useEffect } from 'react';
 import { Component as TextComponent } from '@/interactions/text/elements'; 
-import { DragHandle, MoreVert, SvgIconComponent } from '@mui/icons-material';
+import { ArrowLeft, ArrowRight, Delete, DragHandle, MoreVert, Settings, SvgIconComponent } from '@mui/icons-material';
 import { remove } from '../lib/miscellaneous/database';
 import { Verification } from '@/lib/ai/types';
 import { Page } from '@/lib/types/skill';
@@ -570,6 +570,17 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
     <Stack
       sx={{ flexGrow: 1 }}
     >
+      <Stack
+        direction="row"
+      >
+        <IconButton>
+          <ArrowLeft />
+          <ArrowRight />
+          <Settings />
+          <Delete />
+        </IconButton>
+      </Stack>
+
       <Component
         {...props}
       />

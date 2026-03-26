@@ -4,7 +4,7 @@ import generateText from "@/lib/ai/functions";
 import speakText from "@/lib/tts/functions";
 
 import { TextField, Stack, Card, CardContent, LinearProgress, CardActions, Pagination, PaginationItem, Tooltip, Chip, IconButton, Slider, Typography } from '@mui/material';
-import { Add, AutoAwesome, Delete, MotionPhotosAuto, MotionPhotosOff, Pause, PlayArrow, Refresh, Settings, TextSnippet } from '@mui/icons-material';
+import { Add, AutoAwesome, Delete, MotionPhotosAuto, MotionPhotosOff, Pause, PlayArrow, Refresh, TextSnippet } from '@mui/icons-material';
 import { ViewMode, InteractionProps, InteractionPackage, Interaction } from "@/lib/types/general";
 import { ModelType, Verification } from "@/lib/ai/types";
 import { useEffect, useState } from "react";
@@ -212,15 +212,6 @@ export function Component(props: InteractionProps<InteractionType>) {
                 <Chip
                   icon={<Add />}
                   label="Insert Page After"
-                />
-              </Tooltip>
-
-              <Tooltip
-                title="Edit this page's settings"
-              >
-                <Chip
-                  icon={<Settings />}
-                  label="Page Settings"
                 />
               </Tooltip>
 
