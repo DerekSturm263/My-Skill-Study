@@ -153,7 +153,7 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
         <Stack
           direction="row"
           spacing={1}
-          sx={{ marginTop: "auto", marginBottom: "auto", marginLeft: "8px" }}
+          sx={{ marginTop: "auto", marginBottom: "auto", marginLeft: "8px", cursor: "grab" }}
           data-grabbable={true}
         >
           <Icon />
