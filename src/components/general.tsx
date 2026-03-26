@@ -18,11 +18,12 @@ import { IconButton, Dialog, Typography, Stack, List, ListItem, ListItemButton, 
 import { ViewMode, InteractionProps, InteractionPackageBase, InteractionPackage, Sharable, Interaction } from '../lib/types/general';
 import { Fragment, Children, useState, MouseEventHandler, Dispatch, SetStateAction, useEffect } from 'react';
 import { Component as TextComponent } from '@/interactions/text/elements'; 
-import { ArrowLeft, ArrowRight, Delete, DragHandle, MoreVert, Settings, SvgIconComponent } from '@mui/icons-material';
+import { ArrowLeft, ArrowRight, Delete, DragHandle, MoreVert, Reorder, Settings, SvgIconComponent } from '@mui/icons-material';
 import { remove } from '../lib/miscellaneous/database';
 import { Verification } from '@/lib/ai/types';
 import { Page } from '@/lib/types/skill';
 import { useSearchParams } from 'next/navigation';
+import theme from '../../app/theme';
 
 const interactionMap: Record<string, InteractionPackageBase> = {
   "files": Files,
@@ -573,21 +574,13 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
       <Stack
         direction="row"
         spacing={0}
-        sx={{ justifyContent: "end" }}
+        sx={{ backgroundColor: (theme) => theme.palette.primary.dark, justifyContent: "end" }}
       >
         <Tooltip
-          title="Move this interaction left"
+          title="Move this interaction"
         >
           <IconButton>
-            <ArrowLeft />
-          </IconButton>
-        </Tooltip>
-          
-        <Tooltip
-          title="Move this interaction right"
-        >
-          <IconButton>
-            <ArrowRight />
+            <Reorder />
           </IconButton>
         </Tooltip>
           
