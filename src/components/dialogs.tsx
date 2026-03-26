@@ -385,10 +385,11 @@ export function NewInteractionDialog({ isOpen, setIsOpen }: { isOpen: boolean, s
     
       <DialogContent>
         <ToggleButtonGroup
-          orientation="horizontal"
+          orientation="vertical"
           value={type}
           exclusive
           onChange={(e, type) => setType(type)}
+          fullWidth
         >
           {Object.values(interactionMap).map(interaction => (
             <ToggleButton
@@ -412,7 +413,7 @@ export function NewInteractionDialog({ isOpen, setIsOpen }: { isOpen: boolean, s
         <Button
           onClick={(e) => setIsOpen(false)}
         >
-          Done
+          Create
         </Button>
       </DialogActions>
     </Dialog>
