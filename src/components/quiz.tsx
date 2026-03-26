@@ -5,7 +5,7 @@ import Skill from '@/lib/types/skill';
 import { AutoAwesome, Delete, Edit, Info, Refresh, Save, Share, Visibility } from '@mui/icons-material';
 import { DeleteDialog, DetailsDialog, GenerateDialog, PageComponent, ShareDialog, Sidebar, SidebarButton, SuccessDialog } from './general';
 import { CookiesProvider } from 'react-cookie';
-import { Box, ListItem, ListItemButton, ListItemText, Snackbar } from '@mui/material';
+import { Box, Divider, ListItem, ListItemButton, ListItemText, Snackbar } from '@mui/material';
 import { ViewMode } from "@/lib/types/general";
 import { useState } from 'react';
 import { save } from '@/lib/miscellaneous/database';
@@ -176,12 +176,16 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
             />
           ))}
 
+          <Divider />
+
           {mode == ViewMode.Edit && (
             <ListItem>
               <ListItemButton
                 onClick={(e) => addChapter()}
               >
-                <ListItemText>
+                <ListItemText
+                  sx={{ textAlign: 'center' }}
+                >
                   New Question
                 </ListItemText>
               </ListItemButton>
