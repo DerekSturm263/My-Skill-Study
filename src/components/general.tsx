@@ -17,7 +17,7 @@ import Ordering from '@/interactions/ordering/elements';
 import Matching from '@/interactions/matching/elements';
 import Embed from '@/interactions/embed/elements';
 
-import { IconButton, Typography, Stack, ListItemText, MenuItem, Toolbar, Select, ListItemIcon, Tooltip } from '@mui/material';
+import { IconButton, Typography, Stack, ListItemText, MenuItem, Toolbar, Select, ListItemIcon, Tooltip, Button } from '@mui/material';
 import { ViewMode, InteractionProps, InteractionPackageBase, InteractionPackage, Interaction } from '../lib/types/general';
 import { useState, Dispatch, SetStateAction, useEffect } from 'react';
 import { Add, DragHandle, Settings } from '@mui/icons-material';
@@ -111,13 +111,13 @@ export function PageComponent({ page, mode, isThinking, pagesCompleted, currentC
         </ReorderList>
 
         {mode == ViewMode.Edit && (
-          <IconButton
+          <Button
             onClick={() => setIsNewOpen(true)}
             sx={{ flexGrow: 1, backgroundColor: (theme) => theme.palette.grey[900], width: '100px' }}
             style={{ height: "100%" }}
+            startIcon={<Add />}
           >
-            <Add />
-          </IconButton>
+          </Button>
         )}
       </Stack>
 
