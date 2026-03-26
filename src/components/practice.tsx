@@ -5,7 +5,7 @@ import Skill from '@/lib/types/skill';
 import { AutoAwesome, Delete, Edit, Info, Refresh, Save, Share, Visibility } from '@mui/icons-material';
 import { DeleteDialog, DetailsDialog, GenerateDialog, PageComponent, ShareDialog, Sidebar, SidebarButton } from './general';
 import { CookiesProvider } from 'react-cookie';
-import { Box, Snackbar } from '@mui/material';
+import { Box, ListItem, ListItemButton, ListItemText, Snackbar } from '@mui/material';
 import { ViewMode } from '@/lib/types/general';
 import { useState } from 'react';
 import { save } from '@/lib/miscellaneous/database';
@@ -18,6 +18,29 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
   const [ snackbarText, setSnackbarText ] = useState("");
   const [ isSnackbarOpen, setIsSnackbarOpen ] = useState(false);
   const [ dialogOpen, setDialogOpen ] = useState<string | null>(null);
+
+  function addChapter() {
+    const newChapters = value.subSkills;
+    newChapters.push({
+      title: "New Sub-Skill",
+      page: {
+        text: {
+          text: "",
+          requiresCompletion: false
+        },
+        interactions: []
+      }
+    });
+
+    setValue({ ... value, subSkills: newChapters });
+  }
+
+  function deleteChapter(index: number) {
+    const newChapters = value.subSkills;
+    newChapters.splice(index, 1);
+
+    setValue({ ... value, subSkills: newChapters });
+  }
 
   return (
     <CookiesProvider>
@@ -133,11 +156,25 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
               ogTitle={subSkill.title}
               mode={mode}
               progress={pagesCompleted[index] ? 1 : 0}
-              onClick={(e) => {
+              SecondaryIcon={Delete}
+              primaryAction={(e) => {
                 setCurrentChapterIndex(index);
               }}
+              secondaryAction={() => deleteChapter(index)}
             />
           ))}
+
+          {mode == ViewMode.Edit && (
+            <ListItem>
+              <ListItemButton
+                onClick={(e) => addChapter()}
+              >
+                <ListItemText>
+                  New Sub-Skill
+                </ListItemText>
+              </ListItemButton>
+            </ListItem>
+          )}
         </Sidebar>
 
         {value.subSkills.map((chapter, index) => (

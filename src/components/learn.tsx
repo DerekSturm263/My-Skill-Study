@@ -4,7 +4,7 @@ import Skill from '@/lib/types/skill';
 
 import { DeleteDialog, DetailsDialog, GenerateDialog, PageComponent, ShareDialog, Sidebar, SidebarButton, SuccessDialog } from './general';
 import { AutoAwesome, Delete, Edit, Info, Refresh, Save, Share, Visibility } from '@mui/icons-material';
-import { Box, Button, Snackbar } from '@mui/material';
+import { Box, Button, ListItem, ListItemButton, ListItemText, Snackbar } from '@mui/material';
 import { CookiesProvider } from 'react-cookie';
 import { ViewMode } from '@/lib/types/general';
 import { useState } from 'react';
@@ -22,12 +22,23 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
 
   function addChapter() {
     const newChapters = value.chapters;
-    newChapters.push();
+    newChapters.push({
+      title: "New Chapter",
+      pages: [
+        {
+          text: {
+            text: "",
+            requiresCompletion: false
+          },
+          interactions: []
+        }
+      ]
+    });
 
     setValue({ ... value, chapters: newChapters });
   }
 
-  function removeChapter(index: number) {
+  function deleteChapter(index: number) {
     const newChapters = value.chapters;
     newChapters.splice(index, 1);
 
@@ -161,22 +172,26 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
                 ogTitle={chapter.title}
                 mode={mode}
                 progress={pagesCompleted[index].filter(item => item).length / pagesCompleted[index].length}
-                onClick={(e) => {
+                SecondaryIcon={Delete}
+                primaryAction={(e) => {
                   setCurrentChapterIndex(index);
                   setCurrentPageIndex(0);
                 }}
+                secondaryAction={() => deleteChapter(index)}
               />
             );
           })}
 
           {mode == ViewMode.Edit && (
-            <Button
-              variant="contained"
-              onClick={(e) => addChapter()}
-              fullWidth
-            >
-              New Chapter
-            </Button>
+            <ListItem>
+              <ListItemButton
+                onClick={(e) => addChapter()}
+              >
+                <ListItemText>
+                  New Chapter
+                </ListItemText>
+              </ListItemButton>
+            </ListItem>
           )}
         </Sidebar>
 

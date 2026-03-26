@@ -18,7 +18,7 @@ import { IconButton, Dialog, Typography, Stack, List, ListItem, ListItemButton, 
 import { ViewMode, InteractionProps, InteractionPackageBase, InteractionPackage, Sharable, Interaction } from '../lib/types/general';
 import { Fragment, Children, useState, MouseEventHandler, Dispatch, SetStateAction, useEffect } from 'react';
 import { Component as TextComponent } from '@/interactions/text/elements'; 
-import { Delete, DragHandle, MoreVert, SvgIconComponent } from '@mui/icons-material';
+import { DragHandle, MoreVert, SvgIconComponent } from '@mui/icons-material';
 import { remove } from '../lib/miscellaneous/database';
 import { Verification } from '@/lib/ai/types';
 import { Page } from '@/lib/types/skill';
@@ -421,16 +421,16 @@ export function Sidebar({ children, label, options, selectedOption, actions }: {
   );
 }
 
-export function SidebarButton({ selected, ogTitle, isDisabled, mode, progress, onClick }: { selected: boolean, ogTitle: string, isDisabled: boolean, mode: ViewMode, progress: number, onClick: MouseEventHandler<HTMLDivElement> | undefined }) {
+export function SidebarButton({ selected, ogTitle, isDisabled, mode, progress, SecondaryIcon, primaryAction, secondaryAction }: { selected: boolean, ogTitle: string, isDisabled: boolean, mode: ViewMode, progress: number, SecondaryIcon: SvgIconComponent, primaryAction: MouseEventHandler<HTMLDivElement> | undefined, secondaryAction: () => void }) {
   const [ title, setTitle ] = useState(ogTitle);
 
   return (
     <ListItem
       secondaryAction={ mode == ViewMode.Edit ? (
         <IconButton
-          onClick={() => {}}
+          onClick={() => secondaryAction()}
         >
-          <Delete />
+          <SecondaryIcon />
         </IconButton>
       ) : (
         null
@@ -439,7 +439,7 @@ export function SidebarButton({ selected, ogTitle, isDisabled, mode, progress, o
       <ListItemButton
         disabled={isDisabled}
         selected={selected}
-        onClick={onClick}
+        onClick={primaryAction}
       >
         {mode == ViewMode.Edit && (
           <ListItemIcon>
