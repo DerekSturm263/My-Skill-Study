@@ -1,4 +1,4 @@
-// @ts-expect-error
+// @ts-expect-error: Reorder isn't made to work with Typescript.
 import Reorder from 'react-reorder';
 
 import { Box, Divider, Drawer, IconButton, LinearProgress, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Menu, MenuItem, Stack, TextField, ToggleButton, ToggleButtonGroup, Toolbar, Tooltip, Typography } from "@mui/material";
