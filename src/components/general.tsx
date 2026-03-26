@@ -572,32 +572,40 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
     >
       <Stack
         direction="row"
+        spacing={1}
+        sx={{ justifyContent: "end" }}
       >
-        <IconButton>
-          <Tooltip
-            title="Move this interaction left"
-          >
+        <Tooltip
+          title="Move this interaction left"
+        >
+          <IconButton>
             <ArrowLeft />
-          </Tooltip>
+          </IconButton>
+        </Tooltip>
           
-          <Tooltip
-            title="Move this interaction right"
-          >
+        <Tooltip
+          title="Move this interaction right"
+        >
+          <IconButton>
             <ArrowRight />
-          </Tooltip>
+          </IconButton>
+        </Tooltip>
           
-          <Tooltip
-            title="Edit this interaction"
-          >
+        <Tooltip
+          title="Edit this interaction"
+        >
+          <IconButton>
             <Settings />
-          </Tooltip>
+          </IconButton>
+        </Tooltip>
           
-          <Tooltip
-            title="Delete this interaction"
-          >
+        <Tooltip
+          title="Delete this interaction"
+        >
+          <IconButton>
             <Delete />
-          </Tooltip>
-        </IconButton>
+          </IconButton>
+        </Tooltip>
       </Stack>
 
       <Component
