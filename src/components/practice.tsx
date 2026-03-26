@@ -116,31 +116,26 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
             {
               label: "Details",
               icon: Info,
-              link: "",
               action: () => { setDialogOpen("details") }
             },
             {
               label: "Share",
               icon: Share,
-              link: "",
               action: () => { setDialogOpen("share") }
             },
             {
               label: mode == ViewMode.Edit ? "View" : "Edit",
               icon: mode == ViewMode.Edit ? Visibility : Edit,
-              link: mode == ViewMode.Edit ? "/?mode=view" : "/?mode=edit",
-              action: async () => {}
+              action: mode == ViewMode.Edit ? "/?mode=view" : "/?mode=edit",
             },
             ... (mode == ViewMode.Edit ? [ {
               label: "Generate",
               icon: AutoAwesome,
-              link: "",
               action: () => { setDialogOpen("generate") }
             },
             {
               label: "Save",
               icon: Save,
-              link: "",
               action: async () => {
                 await save("skills", id, skill);
 
@@ -151,7 +146,6 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
             {
               label: "Delete",
               icon: Delete,
-              link: "",
               action: () => { setDialogOpen("delete") }
             } ] : [])
           ]}
