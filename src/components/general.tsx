@@ -144,7 +144,6 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
   return (
     <Stack
       sx={{ flexGrow: 1, backgroundColor: (theme) => theme.palette.grey[900] }}
-      data-grabbable={true}
       style={{ height: "100%" }}
     >
       {props.mode == ViewMode.Edit && (<Stack
@@ -155,6 +154,7 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
           direction="row"
           spacing={1}
           sx={{ marginTop: "auto", marginBottom: "auto", marginLeft: "8px" }}
+          data-grabbable={true}
         >
           <Icon />
 

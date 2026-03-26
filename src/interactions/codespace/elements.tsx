@@ -2,7 +2,7 @@
 
 import verify, { compile } from './functions';
 
-import { Stack,  Tabs, Tab, Button, Typography, TextField, Checkbox, FormControlLabel, LinearProgress, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { Stack,  Tabs, Tab, Button, Typography, TextField, Checkbox, FormControlLabel, LinearProgress, FormControl, InputLabel, MenuItem, Select, Box } from '@mui/material';
 import { ViewMode, InteractionPackage, InteractionProps, Interaction } from '@/lib/types/general';
 import { Add, Code, PlayArrow } from '@mui/icons-material';
 import { Verification } from '@/lib/ai/types';
@@ -272,19 +272,23 @@ function Component(props: InteractionProps<InteractionType>) {
           </Button>
         </Stack>
 
-        <Typography
-          variant="body2"
-          sx={{ margin: '16px', fontFamily: 'monospace', whiteSpace: 'pre-wrap' }}
+        <Box
+          sx={{ overflowY: "auto" }}
         >
-          {isRunning && (
-            <>
-              <LinearProgress />
-              <br />
-            </>
-          )}
+          <Typography
+            variant="body2"
+            sx={{ margin: '16px', fontFamily: 'monospace', whiteSpace: 'pre-wrap' }}
+          >
+            {isRunning && (
+              <>
+                <LinearProgress />
+                <br />
+              </>
+            )}
 
-          {isRunning ? 'Running...' : output}
-        </Typography>
+            {isRunning ? 'Running...' : output}
+          </Typography>
+        </Box>
       </Stack>
     </Stack>
   );
