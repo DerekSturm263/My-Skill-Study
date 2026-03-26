@@ -32,6 +32,6 @@ body {
   color: var(--foreground);
 }
 
-:global(.reorderableList) > div {
+.reorderableList > div {
   flex-grow: 1;
 }
