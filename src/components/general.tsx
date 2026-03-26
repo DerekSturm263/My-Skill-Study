@@ -105,13 +105,11 @@ export function PageComponent({ element, mode, isThinking, pagesCompleted, curre
           />
         ))}
 
-        {mode == ViewMode.Edit && (
           <IconButton
             onClick={() => setIsNewOpen(true)}
           >
             <Add />
           </IconButton>
-        )}
       </ReorderList>
 
       <TextComponent
