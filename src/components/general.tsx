@@ -575,7 +575,9 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
         direction="row"
         sx={{ justifyContent: "space-between", backgroundColor: (theme) => theme.palette.grey[900] }}
       >
-        <Typography>
+        <Typography
+          sx={{ marginTop: "auto", marginBottom: "auto", marginLeft: "8px" }}
+        >
           {(interactionMap[type] as InteractionPackage<Interaction>).prettyName}
         </Typography>
 
