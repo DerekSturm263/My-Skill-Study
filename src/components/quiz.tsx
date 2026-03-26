@@ -2,11 +2,13 @@
 
 import Skill from '@/lib/types/skill';
 
+import { DeleteDialog, DetailsDialog, GenerateDialog, ShareDialog, SuccessDialog } from './dialogs';
 import { AutoAwesome, Delete, Edit, Info, Refresh, Save, Share, Visibility } from '@mui/icons-material';
-import { DeleteDialog, DetailsDialog, GenerateDialog, PageComponent, ShareDialog, Sidebar, SidebarButton, SuccessDialog } from './general';
-import { CookiesProvider } from 'react-cookie';
 import { Box, Divider, ListItem, ListItemButton, ListItemText, Snackbar } from '@mui/material';
-import { ViewMode } from "@/lib/types/general";
+import { Sidebar, SidebarButton } from './sidebar';
+import { CookiesProvider } from 'react-cookie';
+import { PageComponent } from './general';
+import { ViewMode } from '@/lib/types/general';
 import { useState } from 'react';
 import { save } from '@/lib/miscellaneous/database';
 
