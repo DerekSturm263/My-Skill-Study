@@ -33,6 +33,6 @@ body {
   color: var(--foreground);
 }
 
-.reorderableList div {
+.reorderableList > div {
   flex-grow: 1;
 }
