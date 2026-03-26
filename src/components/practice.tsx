@@ -166,8 +166,6 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
             />
           ))}
 
-          <Divider />
-
           {mode == ViewMode.Edit && (
             <ListItem>
               <ListItemButton
