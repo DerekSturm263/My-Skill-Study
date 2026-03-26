@@ -135,7 +135,11 @@ export function SidebarButton({ selected, ogTitle, isDisabled, mode, progress, S
       >
         {mode == ViewMode.Edit && (
           <ListItemIcon>
-            <ReorderIcon />
+            <ReorderIcon>
+              <DragHandle
+                sx={{ height: "100%" }}
+              />
+            </ReorderIcon>
           </ListItemIcon>
         )}
         
