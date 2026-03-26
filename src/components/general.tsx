@@ -69,7 +69,7 @@ export function PageComponent({ element, mode, isThinking, pagesCompleted, curre
 
       <ReorderList
         useOnlyIconToDrag={true}
-        props={{ style: {
+        props={{ className: "reorderableList", style: {
           display: "flex", flexDirection: "row", gap: 8, flexGrow: 1, padding: mode == ViewMode.Edit ? "8px" : "0px" }
         }}
       >
