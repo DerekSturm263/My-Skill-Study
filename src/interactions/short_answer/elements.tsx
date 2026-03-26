@@ -47,7 +47,7 @@ function Component(props: InteractionProps<InteractionType>) {
           label="Write your response here"
           name="response"
           autoComplete="off"
-          disabled={isDisabled}
+          disabled={isDisabled || props.mode == ViewMode.Edit}
           value={userResponse}
           onChange={(e) => setUserResponse(e.target.value)}
           onSubmit={(e) => props.evaluateAndReply(verify(props.text, userResponse, value))}

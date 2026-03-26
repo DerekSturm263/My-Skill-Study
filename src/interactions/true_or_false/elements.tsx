@@ -43,7 +43,7 @@ function Component(props: InteractionProps<InteractionType>) {
     >
       <FormControl
         sx={{ alignItems: "center" }}
-        disabled={isDisabled}
+        disabled={isDisabled || props.mode == ViewMode.Edit}
       >
         <RadioGroup
           defaultValue=""
