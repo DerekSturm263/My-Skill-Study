@@ -69,7 +69,9 @@ export function PageComponent({ element, mode, isThinking, pagesCompleted: eleme
 
       <ReorderList
         useOnlyIconToDrag={true}
-        props={{ style: { display: "flex", flexDirection: "row", gap: 8, flexGrow: 1, padding: mode == ViewMode.Edit ? "8px" : "0px" }}}
+        props={{ style: {
+          display: "flex", flexDirection: "row", gap: 8, flexGrow: 1, padding: mode == ViewMode.Edit ? "8px" : "0px" }
+        }}
       >
         {element.interactions.map((interaction, index) => (
           <InteractionComponent
@@ -140,6 +142,7 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
   return (
     <Stack
       sx={{ flexGrow: 1, backgroundColor: (theme) => theme.palette.grey[900] }}
+      style={{ flexGrow: 1, height: "100%" }}
     >
       {props.mode == ViewMode.Edit && (<Stack
         direction="row"
