@@ -5,8 +5,8 @@ import verify, { compile } from './functions';
 import { Stack,  Tabs, Tab, Button, Typography, TextField, Checkbox, FormControlLabel, LinearProgress, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { ViewMode, InteractionPackage, InteractionProps, Interaction } from '@/lib/types/general';
 import { Add, Code, PlayArrow } from '@mui/icons-material';
-import { Fragment, useState } from 'react';
 import { Verification } from '@/lib/ai/types';
+import { useState } from 'react';
 import { Editor } from '@monaco-editor/react';
 import { Type } from '@google/genai';
 
@@ -277,10 +277,10 @@ function Component(props: InteractionProps<InteractionType>) {
           sx={{ margin: '16px', fontFamily: 'monospace', whiteSpace: 'pre-wrap' }}
         >
           {isRunning && (
-            <Fragment>
+            <>
               <LinearProgress />
               <br />
-            </Fragment>
+            </>
           )}
 
           {isRunning ? 'Running...' : output}

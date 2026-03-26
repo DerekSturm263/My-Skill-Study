@@ -13,10 +13,12 @@ import MultipleChoice from '@/interactions/multiple_choice/elements';
 import Ordering from '@/interactions/ordering/elements';
 import Matching from '@/interactions/matching/elements';
 import Embed from '@/interactions/embed/elements';
+// @ts-ignore
+import Reorder from 'react-reorder';
 
 import { IconButton, Dialog, Typography, Stack, List, ListItem, ListItemButton, ListItemText, Button, TextField, LinearProgress, Drawer, MenuItem, DialogActions, Divider, FormControl, InputLabel, Toolbar, Select, Box, Tabs, Tab, Switch, FormControlLabel, ListItemIcon, Link, DialogTitle, DialogContentText, DialogContent, SpeedDial, SpeedDialAction, SpeedDialIcon, Menu, ToggleButtonGroup, ToggleButton, Tooltip } from '@mui/material';
 import { ViewMode, InteractionProps, InteractionPackageBase, InteractionPackage, Sharable, Interaction } from '../lib/types/general';
-import { Fragment, Children, useState, MouseEventHandler, Dispatch, SetStateAction, useEffect } from 'react';
+import { Children, useState, MouseEventHandler, Dispatch, SetStateAction, useEffect } from 'react';
 import { Delete, DragHandle, MoreVert, Settings, SvgIconComponent } from '@mui/icons-material';
 import { Component as TextComponent } from '@/interactions/text/elements'; 
 import { useSearchParams } from 'next/navigation';
@@ -409,13 +411,15 @@ export function Sidebar({ children, label, options, selectedOption, actions }: {
 
         <Divider />
 
-        <List>
+        <Reorder
+          component={List}
+        >
           {Children.map(children, child => 
-            <Fragment>
+            <li>
               {child}
-            </Fragment>
+            </li>
           )}
-        </List>
+        </Reorder>
       </Box>
     </Drawer>
   );
