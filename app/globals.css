@@ -28,11 +28,10 @@
 }
 
 body {
-  background-image: linear-gradient(var(--background-1), var(--background-2));
   background-attachment: fixed;
   color: var(--foreground);
 }
 
-.reorderableList > div {
+div[draggable="false"] {
   flex-grow: 1;
 }
