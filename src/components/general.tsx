@@ -43,15 +43,15 @@ export const interactionMap: Record<string, InteractionPackageBase> = {
   "embed": Embed
 };
 
-export function PageComponent({ element, mode, isThinking, pagesCompleted, currentChapterIndex, currentPageIndex, totalPagesInChapter, setIsThinking, setCurrentPageIndex: setCurrentElementIndex, setSnackbarText, setIsPageComplete: setIsElementComplete }: { element: Page, mode: ViewMode, isThinking: boolean, pagesCompleted: boolean[][], currentChapterIndex: number, currentPageIndex: number, totalPagesInChapter: number, setIsThinking: Dispatch<SetStateAction<boolean>>, setCurrentPageIndex: Dispatch<SetStateAction<number>>, setSnackbarText: (text: string) => void, setIsPageComplete: (isComplete: boolean) => void }) {
+export function PageComponent({ page, mode, isThinking, pagesCompleted, currentChapterIndex, currentPageIndex, totalPagesInChapter, setIsThinking, setCurrentPageIndex: setCurrentElementIndex, setSnackbarText, setIsPageComplete: setIsElementComplete }: { page: Page, mode: ViewMode, isThinking: boolean, pagesCompleted: boolean[][], currentChapterIndex: number, currentPageIndex: number, totalPagesInChapter: number, setIsThinking: Dispatch<SetStateAction<boolean>>, setCurrentPageIndex: Dispatch<SetStateAction<number>>, setSnackbarText: (text: string) => void, setIsPageComplete: (isComplete: boolean) => void }) {
   const searchParams = useSearchParams();
   const hideHeader = searchParams.get('hideHeader') === 'true';
 
-  const [ text, setText ] = useState(element.text.text);
+  const [ text, setText ] = useState(page.text.text);
   const [ isNewOpen, setIsNewOpen ] = useState(false);
 
   useEffect(() => {
-    if (element.interactions.every(interaction => !interaction.value.requiresCompletion)) {
+    if (page.interactions.every(interaction => !interaction.value.requiresCompletion)) {
       setIsComplete(true, false);
     }
   }, []);
@@ -76,11 +76,11 @@ export function PageComponent({ element, mode, isThinking, pagesCompleted, curre
           display: "flex", flexDirection: "row", gap: mode == ViewMode.Edit ? 8 : 0, flexGrow: 1, padding: mode == ViewMode.Edit ? "8px" : "0px" }
         }}
       >
-        {element.interactions.map((interaction, index) => (
+        {page.interactions.map((interaction, index) => (
           <InteractionComponent
             key={index}
             thisType={interaction.type}
-            text={element.text.text}
+            text={page.text.text}
             originalValue={interaction.value}
             chapterIndex={currentChapterIndex}
             pageIndex={currentPageIndex}
@@ -105,16 +105,20 @@ export function PageComponent({ element, mode, isThinking, pagesCompleted, curre
           />
         ))}
 
+        {mode == ViewMode.Edit && (
           <IconButton
             onClick={() => setIsNewOpen(true)}
+            sx={{ flexGrow: 1, backgroundColor: (theme) => theme.palette.grey[900] }}
+            style={{ height: "100%" }}
           >
             <Add />
           </IconButton>
+        )}
       </ReorderList>
 
       <TextComponent
         text={text}
-        originalValue={element.text}
+        originalValue={page.text}
         chapterIndex={currentChapterIndex}
         pageIndex={currentPageIndex}
         totalPagesInChapter={totalPagesInChapter}

@@ -184,7 +184,7 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
         {value.subSkills.map((chapter, index) => (
           (index == currentChapterIndex && (<PageComponent
             key={index}
-            element={value.subSkills[currentChapterIndex].page}
+            page={value.subSkills[currentChapterIndex].page}
             mode={mode}
             isThinking={isThinking}
             pagesCompleted={[[]] as boolean[][]}
