@@ -273,7 +273,7 @@ function Component(props: InteractionProps<InteractionType>) {
         </Stack>
 
         <Box
-          sx={{ overflowY: "scroll" }}
+          sx={{ overflowY: "scroll", height: "100%" }}
         >
           <Typography
             variant="body2"
