@@ -23,7 +23,7 @@ import { useState, Dispatch, SetStateAction, useEffect } from 'react';
 import { Add, DragHandle, Settings } from '@mui/icons-material';
 import { Component as TextComponent } from '@/interactions/text/elements'; 
 import { useSearchParams } from 'next/navigation';
-import { SettingsDialog } from './dialogs';
+import { NewInteractionDialog, SettingsDialog } from './dialogs';
 import { Verification } from '@/lib/ai/types';
 import { Page } from '@/lib/types/skill';
 
@@ -140,6 +140,11 @@ export function PageComponent({ page, mode, isThinking, pagesCompleted, currentC
           setIsThinking(false);
         }}
         setCurrentElementIndex={setCurrentElementIndex}
+      />
+
+      <NewInteractionDialog
+        isOpen={isNewOpen}
+        setIsOpen={setIsNewOpen}
       />
     </Stack>
   );
