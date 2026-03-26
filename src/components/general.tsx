@@ -153,7 +153,7 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
         >
           <Stack
             direction="row"
-            sx={{ justifyContent: "space-between", backgroundColor: (theme) => theme.palette.grey[800] }}
+            sx={{ justifyContent: "space-between", backgroundColor: (theme) => theme.palette.grey[800], height: "100%" }}
           >
             <Stack
               direction="row"
