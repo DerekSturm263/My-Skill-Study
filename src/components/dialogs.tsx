@@ -385,7 +385,7 @@ export function NewInteractionDialog({ isOpen, setIsOpen }: { isOpen: boolean, s
     
       <DialogContent>
         <ToggleButtonGroup
-          orientation="vertical"
+          orientation="horizontal"
           value={type}
           exclusive
           onChange={(e, type) => setType(type)}
