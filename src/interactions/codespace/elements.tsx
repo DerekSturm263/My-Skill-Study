@@ -293,6 +293,7 @@ function Component(props: InteractionProps<InteractionType>) {
 const interaction: InteractionPackage<InteractionType> = {
   id: "codespace",
   prettyName: "Codespace",
+  description: "Let users write code in an IDE. Feedback will be generated for the user based on their work.",
   category: "Computer Science",
   icon: Code,
   defaultValue: defaultValue,

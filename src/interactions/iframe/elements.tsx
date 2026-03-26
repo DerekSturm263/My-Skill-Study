@@ -50,6 +50,7 @@ function Component(props: InteractionProps<InteractionType>) {
 const interaction: InteractionPackage<InteractionType> = {
   id: "iframe",
   prettyName: "IFrame",
+  description: "Display an embed for the user to interact with. Can embed any website with a public link.",
   category: "Miscellaneous",
   icon: FilterFrames,
   defaultValue: defaultValue,

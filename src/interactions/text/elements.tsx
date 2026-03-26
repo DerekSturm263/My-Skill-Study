@@ -258,6 +258,7 @@ export function Component(props: InteractionProps<InteractionType>) {
 const interaction: InteractionPackage<InteractionType> = {
   id: "text",
   prettyName: "Text",
+  description: "Display text to the user. Users can rephrase text to have it explained in simpler terms.",
   category: "General",
   icon: TextSnippet,
   defaultValue: defaultValue,

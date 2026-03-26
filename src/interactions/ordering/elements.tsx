@@ -64,6 +64,7 @@ function Component(props: InteractionProps<InteractionType>) {
 const interaction: InteractionPackage<InteractionType> = {
   id: "ordering",
   prettyName: "Ordering",
+  description: "Let users order a list of text. Feedback will be generated for the user based on their response.",
   category: "Assessments",
   icon: FormatLineSpacing,
   defaultValue: defaultValue,

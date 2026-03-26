@@ -43,6 +43,7 @@ function Component(props: InteractionProps<InteractionType>) {
 const interaction: InteractionPackage<InteractionType> = {
   id: "drawing",
   prettyName: "Drawing",
+  description: "Let users create drawings on a canvas. Feedback will be generated for the user based on their work.",
   category: "Art",
   icon: Brush,
   defaultValue: defaultValue,

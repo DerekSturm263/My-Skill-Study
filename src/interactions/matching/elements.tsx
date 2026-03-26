@@ -97,6 +97,7 @@ function Component(props: InteractionProps<InteractionType>) {
 const interaction: InteractionPackage<InteractionType> = {
   id: "matching",
   prettyName: "Matching",
+  description: "Let users match two lists of text. Feedback will be generated for the user based on their response.",
   category: "Assessments",
   icon: SyncAlt,
   defaultValue: defaultValue,

@@ -43,6 +43,7 @@ function Component(props: InteractionProps<InteractionType>) {
 const interaction: InteractionPackage<InteractionType> = {
   id: "3dModeling",
   prettyName: "3D Modeling",
+  description: "Let users create 3D models in a workspace. Feedback will be generated for the user based on their work.",
   category: "Art",
   icon: Landscape,
   defaultValue: defaultValue,

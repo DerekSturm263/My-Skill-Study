@@ -46,6 +46,7 @@ export type InteractionProps<T extends Interaction> = {
 export interface InteractionPackageBase {
   id: string,
   prettyName: string,
+  description: string,
   category: string,
   icon: SvgIconComponent,
   schema: SchemaUnion

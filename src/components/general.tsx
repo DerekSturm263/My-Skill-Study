@@ -651,6 +651,12 @@ export function SettingsDialog({ props, type, isOpen, setType, setIsOpen }: { pr
       </DialogTitle>
 
       <DialogContent>
+        <DialogContentText>
+          {interactionPackage.description}
+        </DialogContentText>
+
+        <br />
+
         <Stack
           spacing={1}
         >

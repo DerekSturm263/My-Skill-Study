@@ -53,8 +53,17 @@ function Component(props: InteractionProps<InteractionType>) {
             setUserIsCorrect(e.target.value == "true");
           }}
         >
-          <FormControlLabel value="true" control={<Radio />} label="True" />
-          <FormControlLabel value="false" control={<Radio />} label="False" />
+          <FormControlLabel
+            value="true"
+            control={<Radio />}
+            label="True"
+          />
+          
+          <FormControlLabel
+            value="false"
+            control={<Radio />}
+            label="False"
+          />
         </RadioGroup>
 
         <br />
@@ -75,6 +84,7 @@ function Component(props: InteractionProps<InteractionType>) {
 const interaction: InteractionPackage<InteractionType> = {
   id: "trueOrFalse",
   prettyName: "True or False",
+  description: "Ask users true or false questions. Feedback will be generated for the user based on their response.",
   category: "Assessments",
   icon: ToggleOn,
   defaultValue: defaultValue,

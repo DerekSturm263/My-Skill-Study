@@ -48,6 +48,7 @@ function Component(props: InteractionProps<InteractionType>) {
 const interaction: InteractionPackage<InteractionType> = {
   id: "graph",
   prettyName: "Graph",
+  description: "Let users do math problems on a graph. Feedback will be generated for the user based on their work.",
   category: "Mathematics",
   icon: Architecture,
   defaultValue: defaultValue,

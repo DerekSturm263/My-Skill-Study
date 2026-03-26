@@ -99,6 +99,7 @@ class Renderer extends PureComponent {
 const interaction: InteractionPackage<InteractionType> = {
   id: "game_engine",
   prettyName: "Game Engine",
+  description: "Let users create small games in an engine. Feedback will be generated for the user based on their work.",
   category: "Computer Science",
   icon: SportsEsports,
   defaultValue: defaultValue,

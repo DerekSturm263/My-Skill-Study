@@ -69,6 +69,7 @@ function Component(props: InteractionProps<InteractionType>) {
 const interaction: InteractionPackage<InteractionType> = {
   id: "shortAnswer",
   prettyName: "Short Answer",
+  description: "Ask users short answer questions. An optional \"correct answer\" can be specified which the user has to match exactly if used. If not, the response will be validated automatically. Feedback will be generated for the user based on their response.",
   category: "Assessments",
   icon: FormatQuote,
   defaultValue: defaultValue,

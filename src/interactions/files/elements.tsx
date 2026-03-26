@@ -146,6 +146,7 @@ function FileItem({ props, item, index, removeItem }: { props: InteractionProps<
 const interaction: InteractionPackage<InteractionType> = {
   id: "files",
   prettyName: "Files",
+  description: "Provide files for the user to view and optionally download. Certain file types are viewable without downloading.",
   category: "Miscellaneous",
   icon: Folder,
   defaultValue: defaultValue,

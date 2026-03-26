@@ -186,6 +186,7 @@ function MultipleChoiceItem({ props, item, index, isRadio, toggle, setSelected }
 const interaction: InteractionPackage<InteractionType> = {
   id: "multipleChoice",
   prettyName: "Multiple Choice",
+  description: "Ask users multiple choice questions. Can be configured to make certain responses optional or for multiple to be required. Feedback will be generated for the user based on their response.",
   category: "Assessments",
   icon: CheckBox,
   defaultValue: defaultValue,
