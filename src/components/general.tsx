@@ -17,13 +17,12 @@ import IFrame from '@/interactions/iframe/elements';
 import { IconButton, Dialog, Typography, Stack, List, ListItem, ListItemButton, ListItemText, Button, TextField, LinearProgress, Drawer, MenuItem, DialogActions, Divider, FormControl, InputLabel, Toolbar, Select, Box, Tabs, Tab, Switch, FormControlLabel, ListItemIcon, Link, DialogTitle, DialogContentText, DialogContent, SpeedDial, SpeedDialAction, SpeedDialIcon, Menu, ToggleButtonGroup, ToggleButton, Tooltip } from '@mui/material';
 import { ViewMode, InteractionProps, InteractionPackageBase, InteractionPackage, Sharable, Interaction } from '../lib/types/general';
 import { Fragment, Children, useState, MouseEventHandler, Dispatch, SetStateAction, useEffect } from 'react';
+import { Delete, DragHandle, MoreVert, Settings, SvgIconComponent } from '@mui/icons-material';
 import { Component as TextComponent } from '@/interactions/text/elements'; 
-import { ArrowLeft, ArrowRight, Delete, DragHandle, MoreVert, Reorder, Settings, SvgIconComponent } from '@mui/icons-material';
-import { remove } from '../lib/miscellaneous/database';
-import { Verification } from '@/lib/ai/types';
-import { Page } from '@/lib/types/skill';
 import { useSearchParams } from 'next/navigation';
-import theme from '../../app/theme';
+import { Verification } from '@/lib/ai/types';
+import { remove } from '../lib/miscellaneous/database';
+import { Page } from '@/lib/types/skill';
 
 const interactionMap: Record<string, InteractionPackageBase> = {
   "files": Files,
@@ -580,7 +579,7 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
           title="Move this interaction"
         >
           <IconButton>
-            <Reorder />
+            <DragHandle />
           </IconButton>
         </Tooltip>
           
