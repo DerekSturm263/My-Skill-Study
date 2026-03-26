@@ -1,0 +1,3 @@
+.reorderableList > div {
+  flex-grow: 1;
+}

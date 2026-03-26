@@ -1,6 +1,6 @@
 'use client'
 
-import 'globals.css';
+import './style.css';
 
 import ReorderList, { ReorderIcon } from 'react-reorder-list';
 import Files from '@/interactions/files/elements';

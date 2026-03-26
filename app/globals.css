@@ -26,7 +26,3 @@
     --text: rgb(0, 0, 0);
   }
 }
-
-.reorderableList > div {
-  flex-grow: 1;
-}
