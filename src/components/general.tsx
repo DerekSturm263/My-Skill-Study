@@ -573,7 +573,7 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
       <Stack
         direction="row"
         spacing={0}
-        sx={{ backgroundColor: (theme) => theme.palette.grey[500], justifyContent: "end" }}
+        sx={{ backgroundColor: (theme) => theme.palette.grey[900], justifyContent: "end" }}
       >
         <Tooltip
           title="Move this interaction"
