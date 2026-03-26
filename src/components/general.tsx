@@ -70,42 +70,45 @@ export function PageComponent({ page, mode, isThinking, pagesCompleted, currentC
     >
       {!hideHeader && <Toolbar />}
 
-      <ReorderList
-        useOnlyIconToDrag={true}
-        props={{ className: "reorderableList", style: {
-          display: "flex", flexDirection: "row", gap: mode == ViewMode.Edit ? 8 : 0, flexGrow: 1, padding: mode == ViewMode.Edit ? "8px" : "0px" }
-        }}
+      <Stack
+        direction="row"
+        sx={{ flexGrow: 1 }}
       >
-        {page.interactions.map((interaction, index) => (
-          <InteractionComponent
-            key={index}
-            thisType={interaction.type}
-            text={page.text.text}
-            originalValue={interaction.value}
-            chapterIndex={currentChapterIndex}
-            pageIndex={currentPageIndex}
-            totalPagesInChapter={totalPagesInChapter}
-            isThinking={isThinking}
-            pagesCompleted={pagesCompleted}
-            mode={mode}
-            setText={(text) => setValue({ ... value, text: { text: text,  requiresCompletion: false } })}
-            evaluateAndReply={async (promise: Promise<Verification>) => {
-              setIsThinking(true);
+        <ReorderList
+          useOnlyIconToDrag={true}
+          props={{ className: "reorderableList", style: {
+            display: "flex", flexDirection: "row", gap: mode == ViewMode.Edit ? 8 : 0, flexGrow: 1, padding: mode == ViewMode.Edit ? "8px" : "0px" }
+          }}
+        >
+          {page.interactions.map((interaction, index) => (
+            <InteractionComponent
+              key={index}
+              thisType={interaction.type}
+              text={page.text.text}
+              originalValue={interaction.value}
+              chapterIndex={currentChapterIndex}
+              pageIndex={currentPageIndex}
+              totalPagesInChapter={totalPagesInChapter}
+              isThinking={isThinking}
+              pagesCompleted={pagesCompleted}
+              mode={mode}
+              setText={(text) => setValue({ ... value, text: { text: text,  requiresCompletion: false } })}
+              evaluateAndReply={async (promise: Promise<Verification>) => {
+                setIsThinking(true);
 
-              const verification = await promise;
-              setValue({ ... value, text: { text: verification.feedback,  requiresCompletion: false } })
+                const verification = await promise;
+                setValue({ ... value, text: { text: verification.feedback,  requiresCompletion: false } })
     
-              setIsThinking(false);
+                setIsThinking(false);
 
-              if (verification.isValid) {
-                setIsComplete(true, true);
-              }
-            }}
-            setCurrentElementIndex={setCurrentElementIndex}
-          />
-        ))}
-      </ReorderList>
-
+                if (verification.isValid) {
+                  setIsComplete(true, true);
+                }
+              }}
+              setCurrentElementIndex={setCurrentElementIndex}
+            />
+          ))}
+        </ReorderList>
 
         {mode == ViewMode.Edit && (
           <IconButton
@@ -116,7 +119,8 @@ export function PageComponent({ page, mode, isThinking, pagesCompleted, currentC
             <Add />
           </IconButton>
         )}
-        
+      </Stack>
+
       <TextComponent
         text={value.text.text}
         originalValue={page.text}
