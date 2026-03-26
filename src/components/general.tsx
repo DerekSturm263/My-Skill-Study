@@ -146,38 +146,41 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
       sx={{ flexGrow: 1, backgroundColor: (theme) => theme.palette.grey[900] }}
       style={{ height: "100%" }}
     >
-      {props.mode == ViewMode.Edit && (<Stack
-        direction="row"
-        sx={{ justifyContent: "space-between", backgroundColor: (theme) => theme.palette.grey[800] }}
-      >
+        
+      {props.mode == ViewMode.Edit && (
         <ReorderIcon
           draggable={true}
         >
           <Stack
             direction="row"
-            spacing={1}
-            sx={{ marginTop: "auto", marginBottom: "auto", marginLeft: "8px" }}
+            sx={{ justifyContent: "space-between", backgroundColor: (theme) => theme.palette.grey[800] }}
           >
-            <Icon />
-
-            <Typography
-              sx={{ overflow: "hidden", whiteSpace: "nowrap" }}
+            <Stack
+              direction="row"
+              spacing={1}
+              sx={{ marginTop: "auto", marginBottom: "auto", marginLeft: "8px" }}
             >
-              {(interactionMap[type] as InteractionPackage<Interaction>).prettyName}
-            </Typography>
+              <Icon />
+
+              <Typography
+                sx={{ overflow: "hidden", whiteSpace: "nowrap" }}
+              >
+                {(interactionMap[type] as InteractionPackage<Interaction>).prettyName}
+              </Typography>
+            </Stack>
+
+            <Tooltip
+              title="Edit this interaction"
+            >
+              <IconButton
+                onClick={() => setIsSettingsOpen(true)}
+              >
+                <Settings />
+              </IconButton>
+            </Tooltip>
           </Stack>
         </ReorderIcon>
-
-        <Tooltip
-          title="Edit this interaction"
-        >
-          <IconButton
-            onClick={() => setIsSettingsOpen(true)}
-          >
-            <Settings />
-          </IconButton>
-        </Tooltip>
-      </Stack>)}
+      )}
 
       <Component
         {...props}
