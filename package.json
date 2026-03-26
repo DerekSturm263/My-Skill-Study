@@ -32,7 +32,7 @@
     "react-game-engine": "^1.2.0",
     "react-markdown": "^10.1.0",
     "react-markdown-typewriter": "^1.1.4",
-    "react-reorder": "^3.0.0-alpha.7"
+    "react-reorder-list": "^0.10.4"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

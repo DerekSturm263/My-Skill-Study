@@ -1,8 +1,6 @@
 'use client'
 
-// @ts-expect-error: Reorder isn't made to work with Typescript.
-import Reorder from 'react-reorder';
-
+import ReorderList, { ReorderIcon } from 'react-reorder-list';
 import Files from '@/interactions/files/elements';
 import Drawing from '@/interactions/drawing/elements';
 import Graph from '@/interactions/graph/elements';
@@ -69,6 +67,9 @@ export function PageComponent({ element, mode, isThinking, pagesCompleted: eleme
     >
       {!hideHeader && <Toolbar />}
 
+      <ReorderList
+        useOnlyIconToDrag={true}
+      >
       <Stack
         direction="row"
         spacing={ mode == ViewMode.Edit ? 1 : 0 }
@@ -103,6 +104,7 @@ export function PageComponent({ element, mode, isThinking, pagesCompleted: eleme
           />
         ))}
       </Stack>
+      </ReorderList>
 
       <TextComponent
         text={text}
@@ -169,9 +171,9 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
           <Tooltip
             title="Move this interaction"
           >
-            <IconButton>
+            <ReorderIcon>
               <DragHandle />
-            </IconButton>
+            </ReorderIcon>
           </Tooltip>
           
           <Tooltip
