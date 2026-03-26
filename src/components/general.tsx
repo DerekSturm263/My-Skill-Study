@@ -579,12 +579,13 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
       >
         <Stack
           direction="row"
-          spacing={0}
+          spacing={1}
+          sx={{ marginTop: "auto", marginBottom: "auto", marginLeft: "8px" }}
         >
           <Icon />
 
           <Typography
-            sx={{ marginTop: "auto", marginBottom: "auto", marginLeft: "8px" }}
+            sx={{ overflow: "hidden", whiteSpace: "nowrap" }}
           >
             {(interactionMap[type] as InteractionPackage<Interaction>).prettyName}
           </Typography>
