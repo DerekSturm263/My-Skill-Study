@@ -13,7 +13,7 @@ import MultipleChoice from '@/interactions/multiple_choice/elements';
 import Ordering from '@/interactions/ordering/elements';
 import Matching from '@/interactions/matching/elements';
 import Embed from '@/interactions/embed/elements';
-// @ts-ignore
+// @ts-expect-error
 import Reorder from 'react-reorder';
 
 import { IconButton, Dialog, Typography, Stack, List, ListItem, ListItemButton, ListItemText, Button, TextField, LinearProgress, Drawer, MenuItem, DialogActions, Divider, FormControl, InputLabel, Toolbar, Select, Box, Tabs, Tab, Switch, FormControlLabel, ListItemIcon, Link, DialogTitle, DialogContentText, DialogContent, SpeedDial, SpeedDialAction, SpeedDialIcon, Menu, ToggleButtonGroup, ToggleButton, Tooltip } from '@mui/material';
