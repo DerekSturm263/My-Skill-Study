@@ -113,7 +113,7 @@ export function PageComponent({ page, mode, isThinking, pagesCompleted, currentC
         {mode == ViewMode.Edit && (
           <Button
             onClick={() => setIsNewOpen(true)}
-            sx={{ flexGrow: 1, backgroundColor: (theme) => theme.palette.grey[900], width: '100px' }}
+            sx={{ flex: 0, backgroundColor: (theme) => theme.palette.grey[900], width: '200px',  marginTop: '8px', marginBottom: '8px',  marginRight: '8px' }}
             style={{ height: "100%" }}
             startIcon={<Add />}
           >
