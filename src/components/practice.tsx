@@ -126,7 +126,7 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
             {
               label: mode == ViewMode.Edit ? "View" : "Edit",
               icon: mode == ViewMode.Edit ? Visibility : Edit,
-              action: mode == ViewMode.Edit ? "/?mode=view" : "/?mode=edit",
+              action: mode == ViewMode.Edit ? "./practice?mode=view" : "./practice?mode=edit",
             },
             ... (mode == ViewMode.Edit ? [ {
               label: "Generate",

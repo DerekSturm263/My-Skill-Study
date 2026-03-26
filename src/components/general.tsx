@@ -144,6 +144,7 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
   return (
     <Stack
       sx={{ flexGrow: 1, backgroundColor: (theme) => theme.palette.grey[900] }}
+      data-grabbable={true}
       style={{ height: "100%" }}
     >
       {props.mode == ViewMode.Edit && (<Stack
@@ -168,18 +169,6 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
           direction="row"
           spacing={0}
         >
-          <Tooltip
-            title="Drag to move interaction"
-          >
-            <ReorderIcon
-              draggable={true}
-            >
-              <DragHandle
-                sx={{ height: "100%" }}
-              />
-            </ReorderIcon>
-          </Tooltip>
-          
           <Tooltip
             title="Edit this interaction"
           >
