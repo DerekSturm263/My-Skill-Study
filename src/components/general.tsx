@@ -500,6 +500,7 @@ export function PageComponent({ element, mode, isThinking, pagesCompleted: eleme
 
       <Stack
         direction="row"
+        spacing={ mode == ViewMode.Edit ? 1 : 0 }
         sx={{ flexGrow: 1 }}
       >
         {element.interactions.map((interaction, index) => (
