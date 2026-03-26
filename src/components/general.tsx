@@ -12,7 +12,7 @@ import TrueOrFalse from '@/interactions/true_or_false/elements';
 import MultipleChoice from '@/interactions/multiple_choice/elements';
 import Ordering from '@/interactions/ordering/elements';
 import Matching from '@/interactions/matching/elements';
-import IFrame from '@/interactions/iframe/elements';
+import Embed from '@@/interactions/embed/elements
 
 import { IconButton, Dialog, Typography, Stack, List, ListItem, ListItemButton, ListItemText, Button, TextField, LinearProgress, Drawer, MenuItem, DialogActions, Divider, FormControl, InputLabel, Toolbar, Select, Box, Tabs, Tab, Switch, FormControlLabel, ListItemIcon, Link, DialogTitle, DialogContentText, DialogContent, SpeedDial, SpeedDialAction, SpeedDialIcon, Menu, ToggleButtonGroup, ToggleButton, Tooltip } from '@mui/material';
 import { ViewMode, InteractionProps, InteractionPackageBase, InteractionPackage, Sharable, Interaction } from '../lib/types/general';
@@ -37,7 +37,7 @@ const interactionMap: Record<string, InteractionPackageBase> = {
   "multipleChoice": MultipleChoice,
   "ordering": Ordering,
   "matching": Matching,
-  "iframe": IFrame
+  "embed": Embed
 };
 
 export function SuccessDialog({ title, text, isOpen, setIsOpen }: { title: string, text: string, isOpen: boolean, setIsOpen: Dispatch<SetStateAction<boolean>> }) {

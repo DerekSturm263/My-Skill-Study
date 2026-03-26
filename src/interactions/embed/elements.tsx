@@ -48,8 +48,8 @@ function Component(props: InteractionProps<InteractionType>) {
 }
 
 const interaction: InteractionPackage<InteractionType> = {
-  id: "iframe",
-  prettyName: "IFrame",
+  id: "embed",
+  prettyName: "Embed",
   description: "Display an embed for the user to interact with. Can embed any website with a public link.",
   category: "Miscellaneous",
   icon: FilterFrames,

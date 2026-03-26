@@ -24,11 +24,12 @@ const elementSchema = {
         "ordering",
         "files",
         "drawing",
+        "3dModeling",
         "graph",
         "daw",
         "codespace",
         "engine",
-        "iframe"
+        "embed"
       ]
     },
     text: {
@@ -44,11 +45,12 @@ const elementSchema = {
         // orderingSchema,
         // fileSchema,
         // drawingSchema,
+        // 3dModelingSchema,
         // graphSchema,
         // dawSchema,
         // codespaceSchema,
         // engineSchema,
-        // iframeSchema
+        // embedSchema
       ]
     }
   },
