@@ -31,9 +31,7 @@ const schema = {
 };
 
 function Component(props: ElementProps<ElementType>) {
-  const [ value, setValue ] = useState(props.originalValue);
   const [ userResponse, setUserResponse ] = useState("");
-  const [ isDisabled, setIsDisabled ] = useState(false);
 
   return (
     <Box
@@ -48,10 +46,10 @@ function Component(props: ElementProps<ElementType>) {
           label="Write your response here"
           name="response"
           autoComplete="off"
-          disabled={isDisabled || props.mode == ViewMode.Edit}
+          disabled={props.isDisabled}
           value={userResponse}
           onChange={(e) => setUserResponse(e.target.value)}
-          onSubmit={(e) => props.evaluateAndReply(verify(props.text, userResponse, value))}
+          onSubmit={(e) => props.evaluateAndReply(verify(props.text, userResponse, props.currentValue))}
           slotProps={{
             input: {
               endAdornment: <InputAdornment position="end">
@@ -59,8 +57,8 @@ function Component(props: ElementProps<ElementType>) {
                   title="Submit your response"
                 >
                   <IconButton
-                    onClick={(e) => props.evaluateAndReply(verify(props.text, userResponse, value))}
-                    disabled={isDisabled || props.mode == ViewMode.Edit}
+                    onClick={(e) => props.evaluateAndReply(verify(props.text, userResponse, props.currentValue))}
+                    disabled={props.isDisabled}
                   >
                     <Done />
                   </IconButton>

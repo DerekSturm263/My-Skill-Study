@@ -29,8 +29,6 @@ const schema = {
 };
 
 function Component(props: ElementProps<InteractionType>) {
-  const [ value, setValue ] = useState(props.originalValue);
-
   return (
     <Box
       sx={{ height: "100%" }}

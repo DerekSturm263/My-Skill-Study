@@ -287,7 +287,7 @@ export function DeleteDialog({ type, id, isOpen, setIsOpen, setSnackbarText }: {
   );
 }
 
-export function SettingsDialog({ props, type, isOpen, setType, setIsOpen, deleteElement }: { props: ElementProps<Element>, type: string, isOpen: boolean, setType: Dispatch<SetStateAction<string>>, setIsOpen: Dispatch<SetStateAction<boolean>>, deleteElement: () => void }) {
+export function SettingsDialog({ value, type, isOpen, setValue, setIsOpen, resetElement, deleteElement }: { value: Element, type: string, isOpen: boolean, setValue: Dispatch<SetStateAction<Element>>, setIsOpen: Dispatch<SetStateAction<boolean>>, resetElement: () => void, deleteElement: () => void }) {
   const elementPackage = elementMap[type] as ElementPackage<Element>;
 
   return (
@@ -309,10 +309,10 @@ export function SettingsDialog({ props, type, isOpen, setType, setIsOpen, delete
         <Stack
           spacing={1}
         >
-          {Object.keys(props.originalValue).map(key => {
+          {Object.keys(value).map(key => {
             const keyof = key as keyof Element;
-            const value = props.originalValue[keyof];
-            const type = typeof value;
+            const keyValue = value[keyof];
+            const type = typeof keyValue;
 
             return (
               type == "boolean" ? (
@@ -321,8 +321,8 @@ export function SettingsDialog({ props, type, isOpen, setType, setIsOpen, delete
                   control={
                     <Switch
                       defaultChecked={true}
-                      value={value}
-                      onChange={(e) => props.originalValue[keyof] = e.target.checked}
+                      value={keyValue}
+                      onChange={(e) => value[keyof] = e.target.checked}
                     />
                   }
                   label={key}
@@ -331,20 +331,20 @@ export function SettingsDialog({ props, type, isOpen, setType, setIsOpen, delete
                 <TextField
                   key={key}
                   label={key}
-                  value={value}
+                  value={keyValue}
                   fullWidth
                   multiline
-                  onChange={(e) => /*props.originalValue[keyof] = e.target.value()*/ {}}
+                  onChange={(e) => /*originalValue[keyof] = e.target.value()*/ {}}
                 />
               ) : type == "number" ? (
                 <TextField
                   key={key}
                   label={key}
-                  value={value}
+                  value={keyValue}
                   fullWidth
                   multiline
                   type="number"
-                  onChange={(e) => /*props.originalValue[keyof] = e.target.value*/ {}}
+                  onChange={(e) => /*originalValue[keyof] = e.target.value*/ {}}
                 />
               ) : (
                 <>
@@ -356,6 +356,12 @@ export function SettingsDialog({ props, type, isOpen, setType, setIsOpen, delete
       </DialogContent>
 
       <DialogActions>
+        <Button
+          onClick={(e) => resetElement()}
+        >
+          Reset
+        </Button>
+
         <Button
           onClick={(e) => deleteElement()}
         >

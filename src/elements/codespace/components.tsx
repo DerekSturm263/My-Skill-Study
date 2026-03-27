@@ -179,23 +179,21 @@ const schema = {
 };
 
 function Component(props: ElementProps<InteractionType>) {
-  const [ value, setValue ] = useState(props.originalValue);
-
   const [ output, setOutput ] = useState("");
   const [ currentTabIndex, setTabIndex ] = useState(0);
   const [ isRunning, setIsRunning ] = useState(false);
   
-  const currentFile = value.files[currentTabIndex];
+  const currentFile = props.currentValue.files[currentTabIndex];
 
   async function submit(): Promise<Verification> {
     setIsRunning(true);
 
-    const output = await compile(value);
+    const output = await compile(props.currentValue);
     setOutput(output.consoleOutput);
 
     setIsRunning(false);
 
-    return verify(props.text, value, output.response);
+    return verify(props.text, props.currentValue, output.response);
   }
 
   return (
@@ -212,20 +210,20 @@ function Component(props: ElementProps<InteractionType>) {
           variant="scrollable"
           scrollButtons="auto"
         >
-          {value.files.map(file => (
+          {props.currentValue.files.map(file => (
             <Tab
               key={file.name} // TODO: Replace with constant ID. File names can change!
               label={file.name}
             />
           ))}
 
-          {value.allowNewFiles && (
+          {props.currentValue.allowNewFiles && (
             <Tab
               icon={<Add />}
               onClick={(e) => {
-                const newFiles = value.files;
+                const newFiles = props.currentValue.files;
                 newFiles.push({ name: "New File", content: "" });
-                setValue({ ... value, files: newFiles });
+                props.setCurrentValue({ ... props.currentValue, files: newFiles });
               }}
             />
           )}
@@ -233,13 +231,13 @@ function Component(props: ElementProps<InteractionType>) {
 
         <Editor
           path={currentFile.name}
-          defaultLanguage={value.language}
+          defaultLanguage={props.currentValue.language}
           defaultValue={currentFile.content}
           theme="vs-dark"
           onChange={(e) => {
-            const newFiles = value.files;
+            const newFiles = props.currentValue.files;
             newFiles[currentTabIndex].content = e ?? '';
-            setValue({ ... value, files: newFiles });
+            props.setCurrentValue({ ... props.currentValue, files: newFiles });
           }}
         />
       </Stack>
@@ -267,7 +265,7 @@ function Component(props: ElementProps<InteractionType>) {
             startIcon={<PlayArrow />}
             onClick={(e) => props.evaluateAndReply(submit())}
             sx={{ width: '120px' }}
-            disabled={isRunning || props.mode == ViewMode.Edit as ViewMode}
+            disabled={isRunning || props.isDisabled}
           >
             Run
           </Button>

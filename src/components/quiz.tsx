@@ -5,10 +5,11 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { DeleteDialog, DetailsDialog, GenerateDialog, ShareDialog, SuccessDialog } from './dialogs';
 import { AutoAwesome, Delete, Edit, Info, Refresh, Save, Share, Visibility } from '@mui/icons-material';
-import { Box, Divider, ListItem, ListItemButton, ListItemText, Snackbar } from '@mui/material';
+import { Box, ListItem, ListItemButton, ListItemText, Snackbar } from '@mui/material';
 import { Sidebar, SidebarButton } from './sidebar';
 import { CookiesProvider } from 'react-cookie';
 import { PageComponent } from './general';
+import { defaultValue } from './text';
 import { ViewMode } from '@/lib/types/general';
 import { useState } from 'react';
 import { save } from '@/lib/miscellaneous/database';
@@ -27,10 +28,7 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
     newChapters.push({
       title: "New Question",
       page: {
-        text: {
-          text: "",
-          requiresCompletion: false
-        },
+        text: defaultValue,
         elements: [],
         id: uuidv4()
       },

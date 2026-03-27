@@ -17,7 +17,7 @@ import { SvgIconComponent } from "@mui/icons-material"
 import { Verification } from "../ai/types"
 import { SchemaUnion } from "@google/genai"
 import { ViewMode } from "./general"
-import { JSX } from "react";
+import { Dispatch, JSX, SetStateAction } from "react";
 
 export interface Element {
   requiresCompletion: boolean
@@ -29,18 +29,29 @@ export type ElementWrapper = {
   id: string
 }
 
-export type ElementProps<T extends Element> = {
-  text: string,
-  originalValue: T,
+export type TextProps = {
+  originalValue: string,
+  currentValue: string,
   chapterIndex: number,
   pageIndex: number,
   totalPagesInChapter: number,
   isThinking: boolean,
   pagesCompleted: boolean[][],
   mode: ViewMode,
+  setCurrentValue: (newValue: string) => void,
+  setIsThinking: Dispatch<SetStateAction<boolean>>,
+  setCurrentPageIndex: Dispatch<SetStateAction<number>>
+}
+
+export type ElementProps<T extends Element> = {
+  text: string,
+  originalValue: T,
+  currentValue: T,
+  isDisabled: boolean,
   setText: (text: string) => void,
   evaluateAndReply: (promise: Promise<Verification>) => void,
-  setCurrentElementIndex: (index: number) => void
+  setCurrentValue: Dispatch<SetStateAction<T>>,
+  setIsDisabled: Dispatch<SetStateAction<boolean>>
 }
 
 export interface ElementPackageBase {
@@ -63,8 +74,8 @@ export const elementMap: Record<string, ElementPackageBase> = {
   "graph": Graph,
   "daw": DAW,
   "codespace": Codespace,
-  "3d_modeling": ThreeDModeling,
-  "engine": GameEngine,
+  "3dModeling": ThreeDModeling,
+  "gameEngine": GameEngine,
   "shortAnswer": ShortAnswer,
   "trueOrFalse": TrueOrFalse,
   "multipleChoice": MultipleChoice,

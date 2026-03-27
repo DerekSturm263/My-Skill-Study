@@ -59,8 +59,6 @@ const schema = {
 };
 
 function Component(props: ElementProps<ElementType>) {
-  const [ value, setValue ] = useState(props.originalValue);
-  
   //const renderedEntities = entities.map(entity => ({ ...entity, renderer: Renderer }));
 
   return (
@@ -97,7 +95,7 @@ class Renderer extends PureComponent {
 }*/
 
 const elementPackage: ElementPackage<ElementType> = {
-  id: "game_engine",
+  id: "gameEngine",
   prettyName: "Game Engine",
   description: "Let users create small games in an engine. Feedback will be generated for the user based on their work.",
   category: "Computer Science",

@@ -38,8 +38,6 @@ const schema = {
 };
 
 function Component(props: ElementProps<ElementType>) {
-  const [ value, setValue ] = useState(props.originalValue);
-
   /*if (mode != types.ComponentMode.Edit) {
     setItems(items.sort(item => Math.random() - 0.5));
   }*/

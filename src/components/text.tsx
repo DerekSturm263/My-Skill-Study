@@ -4,11 +4,11 @@ import generateText from "@/lib/ai/functions";
 import speakText from "@/lib/tts/functions";
 
 import { TextField, Stack, Card, CardContent, LinearProgress, CardActions, Pagination, PaginationItem, Tooltip, Chip, IconButton, Slider, Typography } from '@mui/material';
-import { Add, AutoAwesome, Delete, MotionPhotosAuto, MotionPhotosOff, Pause, PlayArrow, Refresh, TextSnippet } from '@mui/icons-material';
-import { ElementProps, ElementPackage, Element } from "@/lib/types/element";
+import { Add, AutoAwesome, Delete, MotionPhotosAuto, MotionPhotosOff, Pause, PlayArrow, Refresh } from '@mui/icons-material';
 import { ModelType, Verification } from "@/lib/ai/types";
 import { useEffect, useState } from "react";
 import { MarkdownTypewriter } from "react-markdown-typewriter";
+import { Element, TextProps } from "@/lib/types/element";
 import { useCookies } from "react-cookie";
 import { ViewMode } from "@/lib/types/general";
 import { Type } from '@google/genai';
@@ -17,12 +17,12 @@ export interface ElementType extends Element {
   text: string
 };
 
-const defaultValue: ElementType = {
+export const defaultValue: ElementType = {
   text: "",
   requiresCompletion: false
 }
 
-const schema = {
+export const schema = {
   type: Type.OBJECT,
   properties: {
     correctAnswer: {
@@ -34,24 +34,26 @@ const schema = {
   ]
 };
 
-export function Component(props: ElementProps<ElementType>) {
+export default function Component(props: TextProps) {
   const [ cookies, setCookie ] = useCookies([ 'autoReadAloud' ]);
   const [ isPlaying, setIsPlaying ] = useState(false);
 
-  async function rephrase(): Promise<Verification> {
-    return {
-      feedback: await generateText({
-        model: ModelType.Quick,
-        prompt:
-        `TASK:
-        Rephrase a given TEXT. 
+  async function rephrase() {
+    props.setIsThinking(true);
+    
+    const newText = await generateText({
+      model: ModelType.Quick,
+      prompt:
+      `TASK:
+      Rephrase a given TEXT. 
       
-        TEXT:
-        ${props.text}`,
-        systemInstruction: `You are an expert at rephrasing things in a more understandable way. When you rephrase things, it should become easier to understand, but not much longer. If it's possible to make it easier to understand while keeping it short, do so. Use new examples and friendlier language than the original text.`
-      }),
-      isValid: true
-    };
+      TEXT:
+      ${props.currentValue}`,
+      systemInstruction: `You are an expert at rephrasing things in a more understandable way. When you rephrase things, it should become easier to understand, but not much longer. If it's possible to make it easier to understand while keeping it short, do so. Use new examples and friendlier language than the original text.`
+    });
+
+    props.setCurrentValue(newText);
+    props.setIsThinking(false);
   }
 
   async function readAloud() {
@@ -59,7 +61,7 @@ export function Component(props: ElementProps<ElementType>) {
       return;
 
     const request = {
-      input: { text: props.text },
+      input: { text: props.currentValue },
       voice: { languageCode: 'en-US', ssmlGender: 'NEUTRAL' },
       audioConfig: { audioEncoding: 'MP3' }
     };
@@ -74,7 +76,7 @@ export function Component(props: ElementProps<ElementType>) {
   }
 
   async function reset() {
-    props.setText(props.originalValue.text);
+    props.setCurrentValue(props.originalValue);
   }
 
   useEffect(() => { readAloud() },  []);
@@ -96,9 +98,10 @@ export function Component(props: ElementProps<ElementType>) {
           <TextField
             hiddenLabel={true}
             multiline
-            defaultValue={props.text}
+            defaultValue={props.originalValue}
+            value={props.currentValue}
             onChange={(e) => {
-              props.setText(e.target.value);
+              props.setCurrentValue(e.target.value);
             }}
             fullWidth={true}
             /*slotProps={{
@@ -119,7 +122,7 @@ export function Component(props: ElementProps<ElementType>) {
               }
             }
           >
-            {props.isThinking ? "*Thinking...*" : props.text}
+            {props.isThinking ? "*Thinking...*" : props.currentValue}
           </MarkdownTypewriter>
         ))}
       </CardContent>
@@ -135,7 +138,7 @@ export function Component(props: ElementProps<ElementType>) {
             <PaginationItem // TODO: Make this reorderable
               {...item}
               disabled={props.isThinking || (item.page ?? 0) <= 0 || (item.page ?? 0) > props.totalPagesInChapter || (props.mode == ViewMode.View && (!props.pagesCompleted[props.chapterIndex][props.pageIndex + (item.page ?? 0) - 2] && (item.page ?? 0) != 1))}
-              onClick={() => props.setCurrentElementIndex((item.page ?? 0) - 1 )}
+              onClick={() => props.setCurrentPageIndex((item.page ?? 0) - 1 )}
             />
           )}
           sx={{ width: "300px" }}
@@ -240,7 +243,7 @@ export function Component(props: ElementProps<ElementType>) {
                 <Chip
                   icon={<AutoAwesome />}
                   label="Rephrase"
-                  onClick={(e) => props.evaluateAndReply(rephrase())}
+                  onClick={(e) => rephrase()}
                   disabled={props.isThinking}
                 />
               </Tooltip>
@@ -262,16 +265,3 @@ export function Component(props: ElementProps<ElementType>) {
     </Card>
   );
 }
-
-const elementPackage: ElementPackage<ElementType> = {
-  id: "text",
-  prettyName: "Text",
-  description: "Display text to the user. Users can rephrase text to have it explained in simpler terms.",
-  category: "General",
-  icon: TextSnippet,
-  defaultValue: defaultValue,
-  schema: schema,
-  Component: Component
-};
-
-export default elementPackage;

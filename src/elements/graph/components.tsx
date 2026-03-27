@@ -29,8 +29,6 @@ const schema = {
 };
 
 function Component(props: ElementProps<ElementType>) {
-  const [ value, setValue ] = useState(props.originalValue);
-  
   /*const elt = createElement('div');
 
   const calculator = Desmos.GraphingCalculator(elt);

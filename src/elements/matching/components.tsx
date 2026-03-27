@@ -62,8 +62,6 @@ const schema = {
 };
 
 function Component(props: ElementProps<ElementType>) {
-  const [ value, setValue ] = useState(props.originalValue);
-  
   //const shuffledItemsLeft = useState(items.map(item => item.leftSide).sort(item => Math.random() - 0.5))[0];
   //const shuffledItemsRight = useState(items.map(item => item.rightSide).sort(item => Math.random() - 0.5))[0];
   

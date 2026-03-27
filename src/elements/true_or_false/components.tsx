@@ -34,9 +34,7 @@ const schema = {
 };
 
 function Component(props: ElementProps<ElementType>) {
-  const [ value, setValue ] = useState(props.originalValue);
   const [ userIsCorrect, setUserIsCorrect ] = useState(false);
-  const [ isDisabled, setIsDisabled ] = useState(false);
 
   return (
     <Box
@@ -44,7 +42,7 @@ function Component(props: ElementProps<ElementType>) {
     >
       <FormControl
         sx={{ alignItems: "center" }}
-        disabled={isDisabled || props.mode == ViewMode.Edit}
+        disabled={props.isDisabled}
       >
         <RadioGroup
           defaultValue=""
@@ -71,9 +69,9 @@ function Component(props: ElementProps<ElementType>) {
           
         <Button
           variant="contained"
-          onClick={(e) => props.evaluateAndReply(verify(props.text, userIsCorrect, value))}
+          onClick={(e) => props.evaluateAndReply(verify(props.text, userIsCorrect, props.currentValue))}
           sx={{ width: '120px' }}
-          disabled={isDisabled || props.mode == ViewMode.Edit}
+          disabled={props.isDisabled}
         >
           Submit
         </Button>

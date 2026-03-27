@@ -31,7 +31,6 @@ const schema = {
 };
 
 function Component(props: ElementProps<ElementType>) {
-  const [ value, setValue ] = useState(props.originalValue);
   const [ isDisabled, setIsDisabled ] = useState(false);
 
   return (
@@ -39,7 +38,7 @@ function Component(props: ElementProps<ElementType>) {
       sx={{ height: "100%" }}
     >
       <iframe
-        src={value.source}
+        src={props.currentValue.source}
         width="100%"
         height="100%"
       ></iframe>

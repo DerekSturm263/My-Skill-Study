@@ -3,20 +3,20 @@
 import './style.css';
 
 import ReorderList, { ReorderIcon } from 'react-reorder-list';
+import TextComponent from '@/components/text'; 
 import { v4 as uuidv4 } from 'uuid';
 
 import { IconButton, Typography, Stack, Toolbar, Tooltip, ToggleButton } from '@mui/material';
-import { ElementProps, ElementPackage, Element, elementMap } from '../lib/types/element';
 import { useState, Dispatch, SetStateAction, useEffect } from 'react';
+import { ElementPackage, Element, elementMap } from '../lib/types/element';
 import { NewElementDialog, SettingsDialog } from './dialogs';
-import { Component as TextComponent } from '@/elements/text/components'; 
 import { useSearchParams } from 'next/navigation';
 import { Add, Settings } from '@mui/icons-material';
 import { Verification } from '@/lib/ai/types';
 import { ViewMode } from '../lib/types/general';
 import { Page } from '@/lib/types/skill';
 
-export function PageComponent({ page, mode, isThinking, pagesCompleted, currentChapterIndex, currentPageIndex, totalPagesInChapter, setIsThinking, setCurrentPageIndex: setCurrentElementIndex, setSnackbarText, setIsPageComplete: setIsElementComplete }: { page: Page, mode: ViewMode, isThinking: boolean, pagesCompleted: boolean[][], currentChapterIndex: number, currentPageIndex: number, totalPagesInChapter: number, setIsThinking: Dispatch<SetStateAction<boolean>>, setCurrentPageIndex: Dispatch<SetStateAction<number>>, setSnackbarText: (text: string) => void, setIsPageComplete: (isComplete: boolean) => void }) {
+export function PageComponent({ page, mode, isThinking, pagesCompleted, currentChapterIndex, currentPageIndex, totalPagesInChapter, setIsThinking, setCurrentPageIndex, setSnackbarText, setIsPageComplete: setIsElementComplete }: { page: Page, mode: ViewMode, isThinking: boolean, pagesCompleted: boolean[][], currentChapterIndex: number, currentPageIndex: number, totalPagesInChapter: number, setIsThinking: Dispatch<SetStateAction<boolean>>, setCurrentPageIndex: Dispatch<SetStateAction<number>>, setSnackbarText: (text: string) => void, setIsPageComplete: (isComplete: boolean) => void }) {
   const searchParams = useSearchParams();
   const hideHeader = searchParams.get('hideHeader') === 'true';
 
@@ -63,35 +63,19 @@ export function PageComponent({ page, mode, isThinking, pagesCompleted, currentC
           {page.elements.map((element, index) => (
             <ElementComponent
               key={element.id}
-              thisType={element.type}
               text={page.text.text}
               originalValue={element.value}
-              chapterIndex={currentChapterIndex}
-              pageIndex={currentPageIndex}
-              totalPagesInChapter={totalPagesInChapter}
-              isThinking={isThinking}
-              pagesCompleted={pagesCompleted}
+              type={element.type}
               mode={mode}
               setText={(text) => setValue({ ... value, text: { text: text, requiresCompletion: false } })}
-              evaluateAndReply={async (promise: Promise<Verification>) => {
-                setIsThinking(true);
-
-                const verification = await promise;
-                setValue({ ... value, text: { text: verification.feedback, requiresCompletion: false } })
-    
-                setIsThinking(false);
-
-                if (verification.isValid) {
-                  setIsComplete(true, true);
-                }
-              }}
-              setCurrentElementIndex={setCurrentElementIndex}
               deleteElement={() => {
                 const elements = page.elements;
                 elements.splice(index, 1);
 
                 setValue({ ... value, elements: elements });
               }}
+              setIsThinking={setIsThinking}
+              setIsComplete={setIsComplete}
             />
           ))}
         </ReorderList>
@@ -116,24 +100,17 @@ export function PageComponent({ page, mode, isThinking, pagesCompleted, currentC
       </Stack>
 
       <TextComponent
-        text={value.text.text}
-        originalValue={page.text}
+        originalValue={page.text.text}
+        currentValue={value.text.text}
         chapterIndex={currentChapterIndex}
         pageIndex={currentPageIndex}
         totalPagesInChapter={totalPagesInChapter}
         isThinking={isThinking}
         pagesCompleted={pagesCompleted}
         mode={mode}
-        setText={(text) => setValue({ ... value, text: { text: text,  requiresCompletion: false } })}
-        evaluateAndReply={async (promise: Promise<Verification>) => {
-          setIsThinking(true);
-
-          const verification = await promise;
-          setValue({ ... value, text: { text: verification.feedback,  requiresCompletion: false } })
-    
-          setIsThinking(false);
-        }}
-        setCurrentElementIndex={setCurrentElementIndex}
+        setCurrentValue={(text) => setValue({ ... value, text: { text: text,  requiresCompletion: false } })}
+        setIsThinking={setIsThinking}
+        setCurrentPageIndex={setCurrentPageIndex}
       />
 
       <NewElementDialog
@@ -154,16 +131,29 @@ export function PageComponent({ page, mode, isThinking, pagesCompleted, currentC
   );
 }
 
-export function ElementComponent(props: ElementProps<Element> & { thisType: string, deleteElement: () => void }) {
-  const [ type, setType ] = useState(props.thisType);
+export function ElementComponent({ text, originalValue, type, mode, setText, deleteElement, setIsThinking, setIsComplete }: { text: string, originalValue: Element, type: string, mode: ViewMode, setText: (text: string) => void, deleteElement: () => void, setIsThinking: Dispatch<SetStateAction<boolean>>, setIsComplete: (isComplete: boolean, showSnackbar: boolean) => void }) {
+  const [ value, setValue ] = useState(originalValue);
   const [ isSettingsOpen, setIsSettingsOpen ] = useState(false);
-
-  const Icon = (elementMap[type] as ElementPackage<Element>).icon;
+  const [ isDisabled, setIsDisabled ] = useState(false);
 
   function reset() {
-    props.originalValue = (elementMap[type] as ElementPackage<Element>).defaultValue;
+    setValue((elementMap[type] as ElementPackage<Element>).defaultValue);
   }
 
+  async function evaluateAndReply(promise: Promise<Verification>)  {
+    setIsThinking(true);
+
+    const verification = await promise;
+    setText(verification.feedback);
+    
+    setIsThinking(false);
+
+    if (verification.isValid) {
+      setIsComplete(true, true);
+    }
+  }
+
+  const Icon = (elementMap[type] as ElementPackage<Element>).icon;
   const Component = (elementMap[type] as ElementPackage<Element>).Component;
 
   return (
@@ -172,7 +162,7 @@ export function ElementComponent(props: ElementProps<Element> & { thisType: stri
       style={{ height: "100%" }}
       borderRadius={1}
     >
-      {props.mode == ViewMode.Edit && (
+      {mode == ViewMode.Edit && (
         <ReorderIcon
           draggable={true}
         >
@@ -209,16 +199,24 @@ export function ElementComponent(props: ElementProps<Element> & { thisType: stri
       )}
 
       <Component
-        {...props}
+        text={text}
+        originalValue={originalValue}
+        currentValue={value}
+        isDisabled={isDisabled || mode == ViewMode.Edit}
+        setText={setText}
+        evaluateAndReply={evaluateAndReply}
+        setCurrentValue={setValue}
+        setIsDisabled={setIsDisabled}
       />
 
       <SettingsDialog
-        props={props}
+        value={value}
         type={type}
         isOpen={isSettingsOpen}
-        setType={setType}
+        setValue={setValue}
         setIsOpen={setIsSettingsOpen}
-        deleteElement={props.deleteElement}
+        resetElement={reset}
+        deleteElement={deleteElement}
       />
     </Stack>
   );

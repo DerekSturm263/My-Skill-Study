@@ -1,4 +1,4 @@
-import { ElementType as TextType } from "@/elements/text/components";
+import { ElementType as TextType } from "@/components/text";
 import { ElementWrapper } from "./element";
 import { Sharable } from "./general";
 

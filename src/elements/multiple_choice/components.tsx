@@ -73,30 +73,28 @@ const schema = {
 };
 
 function Component(props: ElementProps<ElementType>) {
-  const [ value, setValue ] = useState(props.originalValue);
   const [ selected, setSelected ] = useState([ ] as string[]);
-  const [ isDisabled, setIsDisabled ] = useState(false);
 
   useEffect(() => {
-    const newItems = value.items.toSorted((item1, item2) => Math.random() - 0.5);
-    setValue({ ... value, items: newItems });
+    const newItems = props.currentValue.items.toSorted((item1, item2) => Math.random() - 0.5);
+    props.setCurrentValue({ ... props.currentValue, items: newItems });
   }, []);
 
   function addItem() {
-    const newItems = value.items;
+    const newItems = props.currentValue.items;
     newItems.push({
       value: "New Multiple Choice Item",
       isCorrect: false
     });
 
-    setValue({ ... value, items: newItems });
+    props.setCurrentValue({ ... props.currentValue, items: newItems });
   }
 
   function removeItem(index: number) {
-    const newItems = value.items;
+    const newItems = props.currentValue.items;
     newItems.splice(index, 1);
 
-    setValue({ ... value, items: newItems });
+    props.setCurrentValue({ ... props.currentValue, items: newItems });
   }
 
   function selectItem(item: string) {
@@ -118,15 +116,15 @@ function Component(props: ElementProps<ElementType>) {
       sx={{ height: "100%", alignSelf: "center", alignContent: "center" }}
     >
       <FormControl
-        disabled={isDisabled || props.mode == ViewMode.Edit}
+        disabled={props.isDisabled}
       >
         <RadioGroup>
-          {value.items.map((item, index) => (
+          {props.currentValue.items.map((item, index) => (
             <MultipleChoiceItem
               key={item.value}
               props={props}
               item={item}
-              isRadio={value.items.filter((item) => item.isCorrect).length == 1}
+              isRadio={props.currentValue.items.filter((item) => item.isCorrect).length == 1}
               index={index}
               toggle={(item: string, toggleState: boolean) => {
                 if (toggleState)
@@ -143,9 +141,9 @@ function Component(props: ElementProps<ElementType>) {
 
         <Button
           variant="contained"
-          onClick={(e) => props.evaluateAndReply(verify(props.text, selected, value))}
+          onClick={(e) => props.evaluateAndReply(verify(props.text, selected, props.currentValue))}
           sx={{ width: '120px' }}
-          disabled={isDisabled || props.mode == ViewMode.Edit}
+          disabled={props.isDisabled}
         >
           Submit
         </Button>
