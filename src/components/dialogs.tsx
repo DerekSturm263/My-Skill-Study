@@ -312,8 +312,7 @@ export function SettingsDialog({ value, type, isOpen, setValue, setIsOpen, reset
         <br />
 
         <ElementValue
-          type={typeof value}
-          id=""
+          name="Properties"
           value={value}
           setValue={newValue => {
             setValue(newValue);
@@ -344,9 +343,9 @@ export function SettingsDialog({ value, type, isOpen, setValue, setIsOpen, reset
   );
 }
 
-function ElementValue({ type, id, value, setValue }: { type: string, id: string, value: any, setValue: (newValue: any) => void }) {
-  console.log(type);
-
+function ElementValue({ name, value, setValue }: { name: string, value: any, setValue: (newValue: any) => void }) {
+  const type = typeof value;
+  
   return (
     <>
       {type == "boolean" ? (
@@ -354,24 +353,24 @@ function ElementValue({ type, id, value, setValue }: { type: string, id: string,
           control={
             <Switch
               defaultChecked={true}
-              value={(value as any)[id]}
+              value={(value as any)[name]}
               onChange={(e) => setValue(e.target.checked)}
             />
           }
-          label={id}
+          label={name}
         />
       ) : type == "string" ? (
         <TextField
-          label={id}
-          value={(value as any)[id]}
+          label={name}
+          value={(value as any)[name]}
           fullWidth
           multiline
           onChange={(e) => setValue(e.target.value)}
         />
       ) : type == "number" ? (
         <NumberField
-          label={id}
-          value={(value as any)[id]}
+          label={name}
+          value={(value as any)[name]}
         />
       ) : Array.isArray(value) ? (
         <Stack
@@ -385,7 +384,7 @@ function ElementValue({ type, id, value, setValue }: { type: string, id: string,
               variant='subtitle1'
               sx={{ marginTop: "auto", marginBottom: "auto" }}
             >
-              {id}
+              {name}
             </Typography>
 
             <IconButton
@@ -421,8 +420,7 @@ function ElementValue({ type, id, value, setValue }: { type: string, id: string,
                 </ReorderIcon>
 
                 <ElementValue
-                  type={item}
-                  id={`Element ${index}`}
+                  name={`Element ${index}`}
                   value={item}
                   setValue={(newValue) => {
                     setValue(newValue);
@@ -446,14 +444,13 @@ function ElementValue({ type, id, value, setValue }: { type: string, id: string,
           spacing={1}
         >
           <Typography>
-            {id}
+            {name}
           </Typography>
 
           {Object.keys(value).map(key => (
             <ElementValue
               key={key}
-              type={typeof (value as any)[key]}
-              id={key}
+              name={key}
               value={(value as any)[key]}
               setValue={(newValue) => {
                 (value as any)[key] = newValue;
