@@ -7,8 +7,8 @@ import theme from "./theme";
 import { AppBar, Avatar, Badge, Divider, IconButton, InputAdornment, ListItemIcon, ListItemText, Menu, MenuItem, Stack, TextField, Toolbar, Tooltip, Typography } from "@mui/material";
 import { Logout, Notifications, Person, QuestionMark, Search } from "@mui/icons-material";
 import { Dispatch, SetStateAction, Suspense, useState } from "react";
-import { ThemeProvider } from '@mui/material/styles';
 import { useSearchParams } from 'next/navigation';
+import { ThemeProvider } from '@mui/material/styles';
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
 

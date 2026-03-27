@@ -1,5 +1,3 @@
-
-
 export interface Sharable {
   title: string,
   tagLine: string,

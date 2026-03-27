@@ -5,11 +5,11 @@ import speakText from "@/lib/tts/functions";
 
 import { TextField, Stack, Card, CardContent, LinearProgress, CardActions, Pagination, PaginationItem, Tooltip, Chip, IconButton, Slider, Typography } from '@mui/material';
 import { Add, AutoAwesome, Delete, MotionPhotosAuto, MotionPhotosOff, Pause, PlayArrow, Refresh } from '@mui/icons-material';
-import { ModelType, Verification } from "@/lib/ai/types";
 import { useEffect, useState } from "react";
 import { MarkdownTypewriter } from "react-markdown-typewriter";
 import { Element, TextProps } from "@/lib/types/element";
 import { useCookies } from "react-cookie";
+import { ModelType } from "@/lib/ai/types";
 import { ViewMode } from "@/lib/types/general";
 import { Type } from '@google/genai';
 

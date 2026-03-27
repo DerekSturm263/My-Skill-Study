@@ -1,8 +1,8 @@
 import generateText from "./functions";
 
+import { embedTypeSchema, skillSchema } from "./schemas";
 import { Learn, Practice } from "../types/skill";
 import { ModelType } from "./types";
-import { embedTypeSchema, skillSchema } from "./schemas";
 
 enum ElementType {
   Drawing = 'Drawing',

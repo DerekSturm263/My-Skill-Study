@@ -5,7 +5,7 @@
 import Link from 'next/link';
 
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, Stack, Switch, Tab, Tabs, TextField, ToggleButton } from '@mui/material';
-import { Element, ElementPackage, ElementProps, elementMap } from '@/lib/types/element';
+import { Element, ElementPackage, elementMap } from '@/lib/types/element';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { Sharable } from '@/lib/types/general';
 import { Masonry } from '@mui/lab';

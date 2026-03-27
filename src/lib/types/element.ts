@@ -13,11 +13,11 @@ import Matching from '@/elements/matching/components';
 import DragAndDrop from '@/elements/drag_and_drop/components';
 import Embed from '@/elements/embed/components';
 
+import { Dispatch, JSX, SetStateAction } from "react";
 import { SvgIconComponent } from "@mui/icons-material"
 import { Verification } from "../ai/types"
 import { SchemaUnion } from "@google/genai"
 import { ViewMode } from "./general"
-import { Dispatch, JSX, SetStateAction } from "react";
 
 export interface Element {
   requiresCompletion: boolean
