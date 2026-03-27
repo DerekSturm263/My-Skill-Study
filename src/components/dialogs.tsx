@@ -2,6 +2,7 @@
 
 'use client'
 
+import NumberField from './helpers';
 import Link from 'next/link';
 
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, Stack, Switch, Tab, Tabs, TextField, ToggleButton, Typography } from '@mui/material';
@@ -308,18 +309,14 @@ export function SettingsDialog({ value, type, isOpen, setValue, setIsOpen, reset
 
         <br />
 
-        <Stack
-          spacing={1}
-        >
-          <ElementValue
-            type={typeof value}
-            id=""
-            value={value}
-            setValue={newValue => {
-              setValue(newValue);
-            }}
-          />
-        </Stack>
+        <ElementValue
+          type={typeof value}
+          id=""
+          value={value}
+          setValue={newValue => {
+            setValue(newValue);
+          }}
+        />
       </DialogContent>
 
       <DialogActions>
@@ -370,18 +367,34 @@ function ElementValue({ type, id, value, setValue }: { type: string, id: string,
           onChange={(e) => setValue(e.target.value)}
         />
       ) : type == "number" ? (
-        <TextField
+        <NumberField
           label={id}
           value={(value as any)[id]}
-          fullWidth
-          type="number"
-          onChange={(e) => setValue(e.target.value)}
         />
-      ) : type == "array" ? (
-        <>
-        </>
+      ) : Array.isArray(value) ? (
+        <Stack>
+          <Typography>
+            {id}
+          </Typography>
+
+          {(value as Array<any>).map((item, index) => (
+            <ElementValue
+              key={item}
+              type={item}
+              id={`Element ${index}`}
+              value={item}
+              setValue={(newValue) => {
+                setValue(newValue);
+              }}
+            />
+          ))}
+        </Stack>
       ) : type == "object" ? (
-        <>
+        <Stack>
+          <Typography>
+            {id}
+          </Typography>
+
           {Object.keys(value).map(key => (
             <ElementValue
               key={key}
@@ -394,7 +407,7 @@ function ElementValue({ type, id, value, setValue }: { type: string, id: string,
               }}
             />
           ))}
-        </>
+        </Stack>
       ) : (
         <DialogContentText>
           This type is not supported yet!
