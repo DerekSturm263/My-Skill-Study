@@ -37,7 +37,7 @@ Free public education is a right that everyone should possess. MySkillStudy.com 
   - [ ] Ratings
   - [ ] Comments
   - [ ] Follows
-- [ ] Interaction Types
+- [ ] Element Types
   - [x] Short Answer
   - [x] True or False
   - [x] Multiple Choice (needs edit features)

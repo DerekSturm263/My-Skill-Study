@@ -106,6 +106,12 @@ export function PageComponent({ page, mode, isThinking, pagesCompleted, currentC
                 }
               }}
               setCurrentElementIndex={setCurrentElementIndex}
+              deleteInteraction={() => {
+                const elements = page.interactions;
+                elements.splice(index, 1);
+
+                setValue({ ... value, interactions: elements });
+              }}
             />
           ))}
         </ReorderList>
@@ -153,12 +159,21 @@ export function PageComponent({ page, mode, isThinking, pagesCompleted, currentC
       <NewInteractionDialog
         isOpen={isNewOpen}
         setIsOpen={setIsNewOpen}
+        createElement={(type: string) => {
+          const elements = page.interactions;
+          elements.push({
+            type: type,
+            value: (interactionMap[type] as InteractionPackage<Interaction>).defaultValue
+          });
+
+          setValue({ ... value, interactions: elements });
+        }}
       />
     </Stack>
   );
 }
 
-export function InteractionComponent(props: InteractionProps<Interaction> & { thisType: string }) {
+export function InteractionComponent(props: InteractionProps<Interaction> & { thisType: string, deleteInteraction: () => void }) {
   const [ type, setType ] = useState(props.thisType);
   const [ isSettingsOpen, setIsSettingsOpen ] = useState(false);
 
@@ -222,6 +237,7 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
         isOpen={isSettingsOpen}
         setType={setType}
         setIsOpen={setIsSettingsOpen}
+        deleteInteraction={props.deleteInteraction}
       />
     </Stack>
   );

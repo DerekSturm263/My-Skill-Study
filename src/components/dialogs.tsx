@@ -287,7 +287,7 @@ export function DeleteDialog({ type, id, isOpen, setIsOpen, setSnackbarText }: {
   );
 }
 
-export function SettingsDialog({ props, type, isOpen, setType, setIsOpen }: { props: InteractionProps<Interaction>, type: string, isOpen: boolean, setType: Dispatch<SetStateAction<string>>, setIsOpen: Dispatch<SetStateAction<boolean>> }) {
+export function SettingsDialog({ props, type, isOpen, setType, setIsOpen, deleteInteraction }: { props: InteractionProps<Interaction>, type: string, isOpen: boolean, setType: Dispatch<SetStateAction<string>>, setIsOpen: Dispatch<SetStateAction<boolean>>, deleteInteraction: () => void }) {
   const interactionPackage = interactionMap[type] as InteractionPackage<Interaction>;
 
   return (
@@ -357,9 +357,9 @@ export function SettingsDialog({ props, type, isOpen, setType, setIsOpen }: { pr
 
       <DialogActions>
         <Button
-          onClick={(e) => {}}
+          onClick={(e) => deleteInteraction()}
         >
-          Delete Interaction
+          Delete
         </Button>
 
         <Button
@@ -372,21 +372,19 @@ export function SettingsDialog({ props, type, isOpen, setType, setIsOpen }: { pr
   );
 }
 
-export function NewInteractionDialog({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen: Dispatch<SetStateAction<boolean>> }) {
-  const [ type, setType ] = useState("");
-
+export function NewInteractionDialog({ isOpen, setIsOpen, createElement }: { isOpen: boolean, setIsOpen: Dispatch<SetStateAction<boolean>>, createElement: (type: string) => void }) {
   return (
     <Dialog
       open={isOpen}
       onClose={(e) => setIsOpen(false)}
     >
       <DialogTitle>
-        Create New Interaction
+        Create New Element
       </DialogTitle>
     
       <DialogContent>
         <DialogContentText>
-          Choose one of the following interaction types to add to this page.
+          Choose one of the following element types to add to this page.
         </DialogContentText>
 
         <br />
@@ -398,6 +396,10 @@ export function NewInteractionDialog({ isOpen, setIsOpen }: { isOpen: boolean, s
             <ToggleButton
               key={interaction.id}
               value={interaction.id}
+              onClick={(e) => {
+                createElement(interaction.id);
+                setIsOpen(false);
+              }}
             >
               <Stack>
                 <interaction.icon
