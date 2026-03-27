@@ -11,6 +11,7 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import { Sharable } from '@/lib/types/general';
 import { Masonry } from '@mui/lab';
 import { remove } from '../lib/miscellaneous/database';
+import { Add, Delete } from '@mui/icons-material';
 
 export function SuccessDialog({ title, text, isOpen, setIsOpen }: { title: string, text: string, isOpen: boolean, setIsOpen: Dispatch<SetStateAction<boolean>> }) {
   return (
@@ -378,16 +379,32 @@ function ElementValue({ type, id, value, setValue }: { type: string, id: string,
           </Typography>
 
           {(value as Array<any>).map((item, index) => (
-            <ElementValue
-              key={item}
-              type={item}
-              id={`Element ${index}`}
-              value={item}
-              setValue={(newValue) => {
-                setValue(newValue);
-              }}
-            />
+            <Stack>
+              <ElementValue
+                key={item}
+                type={item}
+                id={`Element ${index}`}
+                value={item}
+                setValue={(newValue) => {
+                  setValue(newValue);
+                }}
+              />
+
+              <Button
+                startIcon={<Delete />}
+                fullWidth
+              >
+                Delete
+              </Button>
+            </Stack>
           ))}
+
+          <Button
+            startIcon={<Add />}
+            fullWidth
+          >
+            Add Element
+          </Button>
         </Stack>
       ) : type == "object" ? (
         <Stack>
