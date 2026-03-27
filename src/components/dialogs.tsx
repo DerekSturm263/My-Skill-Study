@@ -385,7 +385,7 @@ function ElementValue({ type, id, value, setValue }: { type: string, id: string,
           {(value as Array<any>).map((item, index) => (
             <Stack
               key={item}
-              sx={{ backgroundColor: (theme) => theme.palette.grey[900] }}
+              sx={{ backgroundColor: (theme) => theme.palette.grey[900], padding: '8px' }}
             >
               <ElementValue
                 type={item}
@@ -399,6 +399,7 @@ function ElementValue({ type, id, value, setValue }: { type: string, id: string,
               <Button
                 startIcon={<Delete />}
                 fullWidth
+                variant="contained"
                 onClick={() => {
                   (value as Array<any>).splice(index, 1);
                   setValue(value);
@@ -412,6 +413,7 @@ function ElementValue({ type, id, value, setValue }: { type: string, id: string,
           <Button
             startIcon={<Add />}
             fullWidth
+            variant="contained"
             onClick={() => {
               (value as Array<any>).push();
               setValue(value);
