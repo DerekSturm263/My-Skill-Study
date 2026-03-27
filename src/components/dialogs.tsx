@@ -311,8 +311,7 @@ export function SettingsDialog({ value, type, isOpen, setValue, setIsOpen, reset
         >
           {Object.keys(value).map(key => {
             const keyof = key as keyof Element;
-            const keyValue = value[keyof];
-            const type = typeof keyValue;
+            const type = typeof value[keyof];
 
             return (
               type == "boolean" ? (
@@ -321,8 +320,11 @@ export function SettingsDialog({ value, type, isOpen, setValue, setIsOpen, reset
                   control={
                     <Switch
                       defaultChecked={true}
-                      value={keyValue}
-                      onChange={(e) => value[keyof] = e.target.checked}
+                      value={value[keyof]}
+                      onChange={(e) => {
+                        value[keyof] = e.target.checked;
+                        setValue(value);
+                      }}
                     />
                   }
                   label={key}
@@ -331,20 +333,26 @@ export function SettingsDialog({ value, type, isOpen, setValue, setIsOpen, reset
                 <TextField
                   key={key}
                   label={key}
-                  value={keyValue}
+                  value={value[keyof]}
                   fullWidth
                   multiline
-                  onChange={(e) => /*originalValue[keyof] = e.target.value()*/ {}}
+                  onChange={(e) => {
+                    //value[keyof] = e.target.value;
+                    //setValue(value);
+                  }}
                 />
               ) : type == "number" ? (
                 <TextField
                   key={key}
                   label={key}
-                  value={keyValue}
+                  value={value[keyof]}
                   fullWidth
                   multiline
                   type="number"
-                  onChange={(e) => /*originalValue[keyof] = e.target.value*/ {}}
+                  onChange={(e) => {
+                    //value[keyof] = e.target.value;
+                    //setValue(value);
+                  }}
                 />
               ) : (
                 <>
