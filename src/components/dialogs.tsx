@@ -311,56 +311,18 @@ export function SettingsDialog({ value, type, isOpen, setValue, setIsOpen, reset
         <Stack
           spacing={1}
         >
-          {Object.keys(value).map(key => {
-            const type = typeof (value as any)[key];
-
-            return (
-              type == "boolean" ? (
-                <FormControlLabel
-                  key={key}
-                  control={
-                    <Switch
-                      defaultChecked={true}
-                      value={(value as any)[key]}
-                      onChange={(e) => {
-                        (value as any)[key] = e.target.checked;
-                        setValue(value);
-                      }}
-                    />
-                  }
-                  label={key}
-                />
-              ) : type == "string" ? (
-                <TextField
-                  key={key}
-                  label={key}
-                  value={(value as any)[key]}
-                  fullWidth
-                  multiline
-                  onChange={(e) => {
-                    (value as any)[key] = e.target.value;
-                    setValue(value);
-                  }}
-                />
-              ) : type == "number" ? (
-                <TextField
-                  key={key}
-                  label={key}
-                  value={(value as any)[key]}
-                  fullWidth
-                  multiline
-                  type="number"
-                  onChange={(e) => {
-                    (value as any)[key] = e.target.value;
-                    setValue(value);
-                  }}
-                />
-              ) : (
-                <>
-                </>
-              )
-            );
-          })}
+          {Object.keys(value).map(key => (
+            <ElementValue
+              key={key}
+              type={typeof (value as any)[key]}
+              id={key}
+              value={(value as any)[key]}
+              setValue={(newValue) => {
+                (value as any)[key] = newValue;
+                setValue(value);
+              }}
+            />
+          ))}
         </Stack>
       </DialogContent>
 
@@ -385,6 +347,50 @@ export function SettingsDialog({ value, type, isOpen, setValue, setIsOpen, reset
       </DialogActions>
     </Dialog>
   );
+}
+
+function ElementValue({ type, id, value, setValue }: { type: string, id: string, value: any, setValue: (newValue: any) => void }) {
+  return (
+    <>
+      {type == "boolean" ? (
+        <FormControlLabel
+          control={
+            <Switch
+              defaultChecked={true}
+              value={(value as any)[id]}
+              onChange={(e) => setValue(e.target.checked)}
+            />
+          }
+          label={id}
+        />
+      ) : type == "string" ? (
+        <TextField
+          label={id}
+          value={(value as any)[id]}
+          fullWidth
+          multiline
+          onChange={(e) => setValue(e.target.value)}
+        />
+      ) : type == "number" ? (
+        <TextField
+          label={id}
+          value={(value as any)[id]}
+          fullWidth
+          type="number"
+          onChange={(e) => setValue(e.target.value)}
+        />
+      ) : type == "array" ? (
+        <>
+        </>
+      ) : type == "object" ? (
+        <>
+        </>
+      ) : (
+        <>
+        </>
+      )}
+    </>
+  )
 }
 
 export function NewElementDialog({ isOpen, setIsOpen, createElement }: { isOpen: boolean, setIsOpen: Dispatch<SetStateAction<boolean>>, createElement: (type: string) => void }) {
