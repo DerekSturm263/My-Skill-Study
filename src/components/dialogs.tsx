@@ -400,7 +400,7 @@ function ElementValue({ name, value, setValue }: { name: string, value: any, set
           <ReorderList
             useOnlyIconToDrag
             props={{ style: {
-              gap: '8px', padding: '8px'
+              gap: '8px', padding: '8px', overflowY: "scroll", maxHeight: "250px"
             }}}
           >
             {(value as Array<any>).map((item, index) => (
