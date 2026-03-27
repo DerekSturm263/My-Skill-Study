@@ -374,13 +374,16 @@ function ElementValue({ type, id, value, setValue }: { type: string, id: string,
           value={(value as any)[id]}
         />
       ) : Array.isArray(value) ? (
-        <Stack>
+        <Stack
+          sx={{gap: '8px', backgroundColor: (theme) => theme.palette.grey[700], padding: '8px'}}
+        >
           <Stack
             direction="row"
             sx={{ justifyContent: "space-between" }}
           >
             <Typography
               variant='subtitle1'
+              sx={{ marginTop: "auto", marginBottom: "auto" }}
             >
               {id}
             </Typography>
