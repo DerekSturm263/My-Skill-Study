@@ -379,9 +379,10 @@ function ElementValue({ type, id, value, setValue }: { type: string, id: string,
           </Typography>
 
           {(value as Array<any>).map((item, index) => (
-            <Stack>
+            <Stack
+              key={item}
+            >
               <ElementValue
-                key={item}
                 type={item}
                 id={`Element ${index}`}
                 value={item}
