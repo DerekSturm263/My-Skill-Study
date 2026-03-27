@@ -350,6 +350,8 @@ export function SettingsDialog({ value, type, isOpen, setValue, setIsOpen, reset
 }
 
 function ElementValue({ type, id, value, setValue }: { type: string, id: string, value: any, setValue: (newValue: any) => void }) {
+  console.log(type);
+
   return (
     <>
       {type == "boolean" ? (
