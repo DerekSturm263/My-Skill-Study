@@ -374,34 +374,17 @@ function ElementValue({ type, id, value, setValue }: { type: string, id: string,
           value={(value as any)[id]}
         />
       ) : Array.isArray(value) ? (
-        <ReorderList
-          useOnlyIconToDrag
-          props={{ style: {
-            gap: '8px', padding: '8px'
-          }}}
-        >
+        <Stack>
           <Stack
             direction="row"
             sx={{ justifyContent: "space-between" }}
           >
-            <Stack
-              direction="row"
+            <Typography
+              variant='subtitle1'
             >
-                <ReorderIcon
-                draggable={true}
-              >
-                <DragHandle
-                  sx={{ height: "100%" }}
-                />
-              </ReorderIcon>
+              {id}
+            </Typography>
 
-              <Typography
-                variant='subtitle1'
-              >
-                {id}
-              </Typography>
-            </Stack>
-            
             <IconButton
               onClick={() => {
                 (value as Array<any>).push();
@@ -412,36 +395,49 @@ function ElementValue({ type, id, value, setValue }: { type: string, id: string,
             </IconButton>
           </Stack>
 
-          {(value as Array<any>).map((item, index) => (
-            <Stack
-              key={item}
-              spacing={1}
-              borderRadius={1}
-              direction="row"
-              sx={{ backgroundColor: (theme) => theme.palette.grey[800], padding: '8px', justifyContent: "space-between" }}
-            >
-              <ElementValue
-                type={item}
-                id={`Element ${index}`}
-                value={item}
-                setValue={(newValue) => {
-                  setValue(newValue);
-                }}
-              />
-
-              <IconButton
-                onClick={() => {
-                  (value as Array<any>).splice(index, 1);
-                  setValue(value);
-                }}
+          <ReorderList
+            useOnlyIconToDrag
+            props={{ style: {
+              gap: '8px', padding: '8px'
+            }}}
+          >
+            {(value as Array<any>).map((item, index) => (
+              <Stack
+                key={item}
+                spacing={1}
+                borderRadius={1}
+                direction="row"
+                sx={{ backgroundColor: (theme) => theme.palette.grey[800], padding: '8px', justifyContent: "space-between" }}
               >
-                <Delete />
-              </IconButton>
-            </Stack>
-          ))}
+                <ReorderIcon
+                  draggable={true}
+                >
+                  <DragHandle
+                    sx={{ height: "100%" }}
+                  />
+                </ReorderIcon>
 
-          
-        </ReorderList>
+                <ElementValue
+                  type={item}
+                  id={`Element ${index}`}
+                  value={item}
+                  setValue={(newValue) => {
+                    setValue(newValue);
+                  }}
+                />
+
+                <IconButton
+                  onClick={() => {
+                    (value as Array<any>).splice(index, 1);
+                    setValue(value);
+                  }}
+                >
+                  <Delete />
+                </IconButton>
+              </Stack>
+            ))}
+          </ReorderList>
+        </Stack>
       ) : type == "object" ? (
         <Stack
           spacing={1}
