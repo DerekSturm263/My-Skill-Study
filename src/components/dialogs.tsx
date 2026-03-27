@@ -311,18 +311,14 @@ export function SettingsDialog({ value, type, isOpen, setValue, setIsOpen, reset
         <Stack
           spacing={1}
         >
-          {Object.keys(value).map(key => (
-            <ElementValue
-              key={key}
-              type={typeof (value as any)[key]}
-              id={key}
-              value={(value as any)[key]}
-              setValue={(newValue) => {
-                (value as any)[key] = newValue;
-                setValue(value);
-              }}
-            />
-          ))}
+          <ElementValue
+            type={typeof value}
+            id=""
+            value={value}
+            setValue={newValue => {
+              setValue(newValue);
+            }}
+          />
         </Stack>
       </DialogContent>
 
@@ -389,6 +385,18 @@ function ElementValue({ type, id, value, setValue }: { type: string, id: string,
         </>
       ) : (
         <>
+          {Object.keys(value).map(key => (
+            <ElementValue
+              key={key}
+              type={typeof (value as any)[key]}
+              id={key}
+              value={(value as any)[key]}
+              setValue={(newValue) => {
+                (value as any)[key] = newValue;
+                setValue(value);
+              }}
+            />
+          ))}
         </>
       )}
     </>
