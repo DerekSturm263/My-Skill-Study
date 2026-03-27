@@ -310,6 +310,7 @@ export function SettingsDialog({ value, type, isOpen, setValue, setIsOpen, reset
           spacing={1}
         >
           {Object.keys(value).map(key => {
+            // @ts-ignore: This isn't actually a problem.
             const type = typeof (value as any)[key];
 
             return (
