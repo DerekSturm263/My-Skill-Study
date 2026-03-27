@@ -5,7 +5,7 @@
 import NumberField from './helpers';
 import Link from 'next/link';
 
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, Stack, Switch, Tab, Tabs, TextField, ToggleButton, Typography } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, IconButton, Stack, Switch, Tab, Tabs, TextField, ToggleButton, Typography } from '@mui/material';
 import { Element, ElementPackage, elementMap } from '@/lib/types/element';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { Sharable } from '@/lib/types/general';
@@ -375,19 +375,35 @@ function ElementValue({ type, id, value, setValue }: { type: string, id: string,
       ) : Array.isArray(value) ? ( // TODO: Add drag handles
         <Stack
           spacing={1}
-          sx={{ backgroundColor: (theme) => theme.palette.grey[500], padding: '8px' }}
+          borderRadius={1}
+          sx={{ backgroundColor: (theme) => theme.palette.grey[700], padding: '8px' }}
         >
-          <Typography
-            variant='subtitle1'
+          <Stack
+            direction="row"
           >
-            {id}
-          </Typography>
+            <Typography
+              variant='subtitle1'
+            >
+              {id}
+            </Typography>
+            
+            <IconButton
+              onClick={() => {
+                (value as Array<any>).push();
+                setValue(value);
+              }}
+            >
+              <Add />
+            </IconButton>
+          </Stack>
 
           {(value as Array<any>).map((item, index) => (
             <Stack
               key={item}
               spacing={1}
-              sx={{ backgroundColor: (theme) => theme.palette.grey[700], padding: '8px' }}
+              borderRadius={1}
+              direction="row"
+              sx={{ backgroundColor: (theme) => theme.palette.grey[800], padding: '8px' }}
             >
               <ElementValue
                 type={item}
@@ -412,17 +428,7 @@ function ElementValue({ type, id, value, setValue }: { type: string, id: string,
             </Stack>
           ))}
 
-          <Button
-            startIcon={<Add />}
-            fullWidth
-            variant="contained"
-            onClick={() => {
-              (value as Array<any>).push();
-              setValue(value);
-            }}
-          >
-            Add Element
-          </Button>
+          
         </Stack>
       ) : type == "object" ? (
         <Stack
