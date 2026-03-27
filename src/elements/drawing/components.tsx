@@ -1,6 +1,6 @@
 'use client'
 
-import { Element, ElementPackage, ElementProps } from '@/lib/types/general';
+import { Element, ElementPackage, ElementProps } from '@/lib/types/element';
 import { useState } from 'react';
 import { Brush } from '@mui/icons-material';
 import { Type } from '@google/genai';

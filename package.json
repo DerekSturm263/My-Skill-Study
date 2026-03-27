@@ -18,6 +18,7 @@
     "@mui/icons-material": "^7.3.4",
     "@mui/lab": "^7.0.1-beta.23",
     "@mui/material": "^7.3.9",
+    "@types/uuid": "^10.0.0",
     "desmos": "^1.5.4",
     "dotenv": "^17.2.1",
     "fs": "^0.0.1-security",
@@ -33,7 +34,8 @@
     "react-game-engine": "^1.2.0",
     "react-markdown": "^10.1.0",
     "react-markdown-typewriter": "^1.1.4",
-    "react-reorder-list": "^0.10.4"
+    "react-reorder-list": "^0.10.4",
+    "uuid": "^13.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

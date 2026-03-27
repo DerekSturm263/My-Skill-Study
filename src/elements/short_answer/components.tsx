@@ -3,8 +3,9 @@
 import verify from "./functions";
 
 import { Box, TextField, Stack, Tooltip, InputAdornment, IconButton } from '@mui/material';
-import { ViewMode, ElementProps, ElementPackage, Element } from "@/lib/types/general";
+import { ElementProps, ElementPackage, Element } from "@/lib/types/element";
 import { Done, FormatQuote } from '@mui/icons-material';
+import { ViewMode } from "@/lib/types/general";
 import { useState } from 'react';
 import { Type } from '@google/genai';
 

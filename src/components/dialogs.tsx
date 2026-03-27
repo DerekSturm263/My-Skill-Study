@@ -3,11 +3,12 @@
 import Link from 'next/link';
 
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, Stack, Switch, Tab, Tabs, TextField, ToggleButton, ToggleButtonGroup } from '@mui/material';
-import { Element, ElementPackage, ElementProps, Sharable } from '@/lib/types/general';
+import { Element, ElementPackage, ElementProps } from '@/lib/types/element';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { elementMap } from './general';
-import { remove } from '../lib/miscellaneous/database';
+import { Sharable } from '@/lib/types/general';
 import { Masonry } from '@mui/lab';
+import { remove } from '../lib/miscellaneous/database';
 
 export function SuccessDialog({ title, text, isOpen, setIsOpen }: { title: string, text: string, isOpen: boolean, setIsOpen: Dispatch<SetStateAction<boolean>> }) {
   return (

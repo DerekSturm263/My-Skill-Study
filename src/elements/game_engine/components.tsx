@@ -1,7 +1,7 @@
 'use client'
 
 import { CSSProperties, PureComponent, useState } from 'react';
-import { Element, ElementPackage, ElementProps } from '@/lib/types/general';
+import { Element, ElementPackage, ElementProps } from '@/lib/types/element';
 import { SportsEsports } from '@mui/icons-material';
 import { Type } from '@google/genai';
 

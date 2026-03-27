@@ -1,6 +1,7 @@
 'use client'
 
 import Skill from '@/lib/types/skill';
+import { v4 as uuidv4 } from 'uuid';
 
 import { Box, Divider, ListItem, ListItemButton, ListItemText, Snackbar } from '@mui/material';
 import { DeleteDialog, DetailsDialog, GenerateDialog, ShareDialog } from './dialogs';
@@ -30,8 +31,10 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
           text: "",
           requiresCompletion: false
         },
-        elements: []
-      }
+        elements: [],
+        id: uuidv4()
+      },
+      id: uuidv4()
     });
 
     setValue({ ... value, subSkills: newChapters });
@@ -152,7 +155,7 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
         >
           {value.subSkills.map((subSkill, index) => (
             <SidebarButton
-              key={index} // TODO: Replace with constant ID. Chapters can move!
+              key={subSkill.id}
               isDisabled={mode == ViewMode.View && isThinking}
               selected={currentChapterIndex == index}
               ogTitle={subSkill.title}
@@ -184,8 +187,8 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
         {value.subSkills.map((chapter, index) => (
           (index == currentChapterIndex && (
             <PageComponent
-              key={index} // TODO: Replace with constant ID. Chapters can move!
-              page={value.subSkills[currentChapterIndex].page}
+              key={chapter.id}
+              page={chapter.page}
               mode={mode}
               isThinking={isThinking}
               pagesCompleted={[[]] as boolean[][]}

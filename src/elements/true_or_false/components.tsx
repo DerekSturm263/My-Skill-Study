@@ -3,7 +3,8 @@
 import verify from './functions';
 
 import { Box, Button, FormControl, Radio, RadioGroup, FormControlLabel } from '@mui/material';
-import { ViewMode, ElementPackage, ElementProps, Element } from '@/lib/types/general';
+import { ElementPackage, ElementProps, Element } from '@/lib/types/element';
+import { ViewMode } from '@/lib/types/general';
 import { ToggleOn } from '@mui/icons-material';
 import { useState } from 'react';
 import { Type } from '@google/genai';

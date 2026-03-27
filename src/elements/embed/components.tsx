@@ -1,6 +1,6 @@
 'use client'
 
-import { ElementPackage, ElementProps, Element } from '@/lib/types/general';
+import { ElementPackage, ElementProps, Element } from '@/lib/types/element';
 import { FilterFrames } from '@mui/icons-material';
 import { useState } from 'react';
 import { Stack } from '@mui/material';

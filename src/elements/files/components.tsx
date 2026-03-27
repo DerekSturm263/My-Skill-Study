@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 
-import { ElementProps, ElementPackage, Element } from "@/lib/types/general";
+import { ElementProps, ElementPackage, Element } from "@/lib/types/element";
 import { Box, Button, Stack } from '@mui/material';
 import { useState } from "react";
 import { Folder } from '@mui/icons-material';

@@ -1,5 +1,6 @@
 import { ElementType as TextType } from "@/elements/text/components";
-import { ElementWrapper as ElementWrapper, Sharable } from "./general";
+import { ElementWrapper } from "./element";
+import { Sharable } from "./general";
 
 export default interface Skill extends Sharable {
   learn: Learn,
@@ -13,12 +14,14 @@ export type Learn = {
 
 export type Chapter = {
   title: string,
-  pages: Page[]
+  pages: Page[],
+  id: string
 }
 
 export type Page = {
   text: TextType,
-  elements: ElementWrapper[]
+  elements: ElementWrapper[],
+  id: string
 }
 
 export type Practice = {
@@ -31,6 +34,6 @@ export type Quiz = {
 
 export type SmallChapter = {
   title: string,
-  page: Page
+  page: Page,
+  id: string
 }
-

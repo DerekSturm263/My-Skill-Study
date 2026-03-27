@@ -5,11 +5,12 @@ import speakText from "@/lib/tts/functions";
 
 import { TextField, Stack, Card, CardContent, LinearProgress, CardActions, Pagination, PaginationItem, Tooltip, Chip, IconButton, Slider, Typography } from '@mui/material';
 import { Add, AutoAwesome, Delete, MotionPhotosAuto, MotionPhotosOff, Pause, PlayArrow, Refresh, TextSnippet } from '@mui/icons-material';
-import { ViewMode, ElementProps, ElementPackage, Element } from "@/lib/types/general";
+import { ElementProps, ElementPackage, Element } from "@/lib/types/element";
 import { ModelType, Verification } from "@/lib/ai/types";
 import { useEffect, useState } from "react";
 import { MarkdownTypewriter } from "react-markdown-typewriter";
 import { useCookies } from "react-cookie";
+import { ViewMode } from "@/lib/types/general";
 import { Type } from '@google/genai';
 
 export interface ElementType extends Element {
@@ -131,7 +132,7 @@ export function Component(props: ElementProps<ElementType>) {
           page={props.pageIndex + 1}
           disabled={props.isThinking}
           renderItem={(item) => (
-            <PaginationItem
+            <PaginationItem // TODO: Make this reorderable
               {...item}
               disabled={props.isThinking || (item.page ?? 0) <= 0 || (item.page ?? 0) > props.totalPagesInChapter || (props.mode == ViewMode.View && (!props.pagesCompleted[props.chapterIndex][props.pageIndex + (item.page ?? 0) - 2] && (item.page ?? 0) != 1))}
               onClick={() => props.setCurrentElementIndex((item.page ?? 0) - 1 )}

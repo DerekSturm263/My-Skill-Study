@@ -1,6 +1,7 @@
 'use client'
 
 import Skill from '@/lib/types/skill';
+import { v4 as uuidv4 } from 'uuid';
 
 import { DeleteDialog, DetailsDialog, GenerateDialog, ShareDialog, SuccessDialog } from './dialogs';
 import { AutoAwesome, Delete, Edit, Info, Refresh, Save, Share, Visibility } from '@mui/icons-material';
@@ -32,9 +33,11 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
             text: "",
             requiresCompletion: false
           },
-          elements: []
+          elements: [],
+          id: uuidv4()
         }
-      ]
+      ],
+      id: uuidv4()
     });
 
     setValue({ ... value, chapters: newChapters });
@@ -168,7 +171,7 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
           {value.chapters.map((chapter, index) => {
             return (
               <SidebarButton
-                key={index} // TODO: Replace with constant ID. Chapters can move!
+                key={chapter.id}
                 isDisabled={mode == ViewMode.View && (isThinking || (index != 0 && !pagesCompleted[index - 1][pagesCompleted[index - 1].length - 1]))}
                 selected={currentChapterIndex == index}
                 ogTitle={chapter.title}

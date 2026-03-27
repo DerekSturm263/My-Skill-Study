@@ -4,8 +4,9 @@ import Markdown from 'react-markdown';
 import verify from './functions';
 
 import { Box, Button, Radio, RadioGroup, Checkbox, FormControl, FormControlLabel } from '@mui/material';
-import { ViewMode, ElementProps, ElementPackage, Element } from '@/lib/types/general';
+import { ElementProps, ElementPackage, Element } from '@/lib/types/element';
 import { useEffect, useState } from 'react';
+import { ViewMode } from '@/lib/types/general';
 import { CheckBox } from '@mui/icons-material';
 import { Type } from '@google/genai';
 
@@ -122,7 +123,7 @@ function Component(props: ElementProps<ElementType>) {
         <RadioGroup>
           {value.items.map((item, index) => (
             <MultipleChoiceItem
-              key={index} // TODO: Replace with constant ID. Items can move!
+              key={item.value}
               props={props}
               item={item}
               isRadio={value.items.filter((item) => item.isCorrect).length == 1}

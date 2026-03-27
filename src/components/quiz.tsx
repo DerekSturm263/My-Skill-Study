@@ -1,6 +1,7 @@
 'use client'
 
 import Skill from '@/lib/types/skill';
+import { v4 as uuidv4 } from 'uuid';
 
 import { DeleteDialog, DetailsDialog, GenerateDialog, ShareDialog, SuccessDialog } from './dialogs';
 import { AutoAwesome, Delete, Edit, Info, Refresh, Save, Share, Visibility } from '@mui/icons-material';
@@ -30,8 +31,10 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
           text: "",
           requiresCompletion: false
         },
-        elements: []
-      }
+        elements: [],
+        id: uuidv4()
+      },
+      id: uuidv4()
     });
 
     setValue({ ... value, questions: newChapters });
@@ -164,7 +167,7 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
         >
           {value.questions.map((page, index) => (
             <SidebarButton
-              key={index} // TODO: Replace with constant ID. Chapters can move!
+              key={page.id}
               isDisabled={mode == ViewMode.View && (isThinking || (index != 0 && !pagesCompleted[index - 1]))}
               selected={currentChapterIndex == index}
               ogTitle={page.title}
@@ -196,8 +199,8 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
         {value.questions.map((chapter, index) => (
           (index == currentChapterIndex && (
             <PageComponent
-              key={index} // TODO: Replace with constant ID. Chapters can move!
-              page={value.questions[currentChapterIndex].page}
+              key={chapter.id}
+              page={chapter.page}
               mode={mode}
               isThinking={isThinking}
               pagesCompleted={[[]] as boolean[][]}

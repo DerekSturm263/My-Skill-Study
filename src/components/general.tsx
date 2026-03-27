@@ -16,15 +16,17 @@ import MultipleChoice from '@/elements/multiple_choice/components';
 import Ordering from '@/elements/ordering/components';
 import Matching from '@/elements/matching/components';
 import Embed from '@/elements/embed/components';
+import { v4 as uuidv4 } from 'uuid';
 
-import { ViewMode, ElementProps, ElementPackageBase, ElementPackage, Element } from '../lib/types/general';
 import { IconButton, Typography, Stack, Toolbar, Tooltip, ToggleButton } from '@mui/material';
+import { ElementProps, ElementPackageBase, ElementPackage, Element } from '../lib/types/element';
 import { useState, Dispatch, SetStateAction, useEffect } from 'react';
 import { NewElementDialog, SettingsDialog } from './dialogs';
 import { Component as TextComponent } from '@/elements/text/components'; 
 import { useSearchParams } from 'next/navigation';
 import { Add, Settings } from '@mui/icons-material';
 import { Verification } from '@/lib/ai/types';
+import { ViewMode } from '../lib/types/general';
 import { Page } from '@/lib/types/skill';
 
 export const elementMap: Record<string, ElementPackageBase> = {
@@ -89,7 +91,7 @@ export function PageComponent({ page, mode, isThinking, pagesCompleted, currentC
         >
           {page.elements.map((element, index) => (
             <ElementComponent
-              key={index} // TODO: Replace with constant ID. Elements can move!
+              key={element.id}
               thisType={element.type}
               text={page.text.text}
               originalValue={element.value}
@@ -99,12 +101,12 @@ export function PageComponent({ page, mode, isThinking, pagesCompleted, currentC
               isThinking={isThinking}
               pagesCompleted={pagesCompleted}
               mode={mode}
-              setText={(text) => setValue({ ... value, text: { text: text,  requiresCompletion: false } })}
+              setText={(text) => setValue({ ... value, text: { text: text, requiresCompletion: false } })}
               evaluateAndReply={async (promise: Promise<Verification>) => {
                 setIsThinking(true);
 
                 const verification = await promise;
-                setValue({ ... value, text: { text: verification.feedback,  requiresCompletion: false } })
+                setValue({ ... value, text: { text: verification.feedback, requiresCompletion: false } })
     
                 setIsThinking(false);
 
@@ -170,7 +172,8 @@ export function PageComponent({ page, mode, isThinking, pagesCompleted, currentC
           const newElements = page.elements;
           newElements.push({
             type: type,
-            value: (elementMap[type] as ElementPackage<Element>).defaultValue
+            value: (elementMap[type] as ElementPackage<Element>).defaultValue,
+            id: uuidv4()
           });
 
           setValue({ ... value, elements: newElements });
