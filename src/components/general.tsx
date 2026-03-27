@@ -3,23 +3,10 @@
 import './style.css';
 
 import ReorderList, { ReorderIcon } from 'react-reorder-list';
-import Files from '@/elements/files/components';
-import Drawing from '@/elements/drawing/components';
-import Graph from '@/elements/graph/components';
-import DAW from '@/elements/daw/components';
-import Codespace from '@/elements/codespace/components';
-import ThreeDModeling from '@/elements/3d_modeling/components';
-import GameEngine from '@/elements/game_engine/components';
-import ShortAnswer from '@/elements/short_answer/components';
-import TrueOrFalse from '@/elements/true_or_false/components';
-import MultipleChoice from '@/elements/multiple_choice/components';
-import Ordering from '@/elements/ordering/components';
-import Matching from '@/elements/matching/components';
-import Embed from '@/elements/embed/components';
 import { v4 as uuidv4 } from 'uuid';
 
 import { IconButton, Typography, Stack, Toolbar, Tooltip, ToggleButton } from '@mui/material';
-import { ElementProps, ElementPackageBase, ElementPackage, Element } from '../lib/types/element';
+import { ElementProps, ElementPackage, Element, elementMap } from '../lib/types/element';
 import { useState, Dispatch, SetStateAction, useEffect } from 'react';
 import { NewElementDialog, SettingsDialog } from './dialogs';
 import { Component as TextComponent } from '@/elements/text/components'; 
@@ -28,22 +15,6 @@ import { Add, Settings } from '@mui/icons-material';
 import { Verification } from '@/lib/ai/types';
 import { ViewMode } from '../lib/types/general';
 import { Page } from '@/lib/types/skill';
-
-export const elementMap: Record<string, ElementPackageBase> = {
-  "files": Files,
-  "drawing": Drawing,
-  "graph": Graph,
-  "daw": DAW,
-  "codespace": Codespace,
-  "3d_modeling": ThreeDModeling,
-  "engine": GameEngine,
-  "shortAnswer": ShortAnswer,
-  "trueOrFalse": TrueOrFalse,
-  "multipleChoice": MultipleChoice,
-  "ordering": Ordering,
-  "matching": Matching,
-  "embed": Embed
-};
 
 export function PageComponent({ page, mode, isThinking, pagesCompleted, currentChapterIndex, currentPageIndex, totalPagesInChapter, setIsThinking, setCurrentPageIndex: setCurrentElementIndex, setSnackbarText, setIsPageComplete: setIsElementComplete }: { page: Page, mode: ViewMode, isThinking: boolean, pagesCompleted: boolean[][], currentChapterIndex: number, currentPageIndex: number, totalPagesInChapter: number, setIsThinking: Dispatch<SetStateAction<boolean>>, setCurrentPageIndex: Dispatch<SetStateAction<number>>, setSnackbarText: (text: string) => void, setIsPageComplete: (isComplete: boolean) => void }) {
   const searchParams = useSearchParams();

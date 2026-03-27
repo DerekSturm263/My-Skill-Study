@@ -2,10 +2,9 @@
 
 import Link from 'next/link';
 
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, Stack, Switch, Tab, Tabs, TextField, ToggleButton, ToggleButtonGroup } from '@mui/material';
-import { Element, ElementPackage, ElementProps } from '@/lib/types/element';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, Stack, Switch, Tab, Tabs, TextField, ToggleButton } from '@mui/material';
+import { Element, ElementPackage, ElementProps, elementMap } from '@/lib/types/element';
 import { Dispatch, SetStateAction, useState } from 'react';
-import { elementMap } from './general';
 import { Sharable } from '@/lib/types/general';
 import { Masonry } from '@mui/lab';
 import { remove } from '../lib/miscellaneous/database';
