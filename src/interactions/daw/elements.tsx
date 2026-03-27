@@ -42,7 +42,7 @@ function Component(props: InteractionProps<InteractionType>) {
 
 const interaction: InteractionPackage<InteractionType> = {
   id: "daw",
-  prettyName: "Digital Audio Workstation",
+  prettyName: "DAW",
   description: "Let users create music using a digital audio workstation. Feedback will be generated for the user based on their work.",
   category: "Audio",
   icon: GraphicEq,

@@ -7,6 +7,7 @@ import { Interaction, InteractionPackage, InteractionProps, Sharable } from '@/l
 import { Dispatch, SetStateAction, useState } from 'react';
 import { interactionMap } from './general';
 import { remove } from '../lib/miscellaneous/database';
+import { Masonry } from '@mui/lab';
 
 export function SuccessDialog({ title, text, isOpen, setIsOpen }: { title: string, text: string, isOpen: boolean, setIsOpen: Dispatch<SetStateAction<boolean>> }) {
   return (
@@ -384,12 +385,14 @@ export function NewInteractionDialog({ isOpen, setIsOpen }: { isOpen: boolean, s
       </DialogTitle>
     
       <DialogContent>
-        <ToggleButtonGroup
-          orientation="horizontal"
-          value={type}
-          exclusive
-          onChange={(e, type) => setType(type)}
-          fullWidth
+        <DialogContentText>
+          Choose one of the following interaction types to add to this page.
+        </DialogContentText>
+
+        <br />
+
+        <Masonry
+          columns={2}
         >
           {Object.values(interactionMap).map(interaction => (
             <ToggleButton
@@ -397,13 +400,15 @@ export function NewInteractionDialog({ isOpen, setIsOpen }: { isOpen: boolean, s
               value={interaction.id}
             >
               <Stack>
-                <interaction.icon />
+                <interaction.icon
+                  sx={{ margin: "auto" }}
+                />
 
                 {interaction.prettyName}
               </Stack>
             </ToggleButton>
           ))}
-        </ToggleButtonGroup>
+        </Masonry>
       </DialogContent>
 
       <DialogActions>
@@ -411,12 +416,6 @@ export function NewInteractionDialog({ isOpen, setIsOpen }: { isOpen: boolean, s
           onClick={(e) => setIsOpen(false)}
         >
           Cancel
-        </Button>
-
-        <Button
-          onClick={(e) => setIsOpen(false)}
-        >
-          Create
         </Button>
       </DialogActions>
     </Dialog>

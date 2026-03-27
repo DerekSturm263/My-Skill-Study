@@ -17,7 +17,7 @@ import Ordering from '@/interactions/ordering/elements';
 import Matching from '@/interactions/matching/elements';
 import Embed from '@/interactions/embed/elements';
 
-import { IconButton, Typography, Stack, ListItemText, MenuItem, Toolbar, Select, ListItemIcon, Tooltip, Button } from '@mui/material';
+import { IconButton, Typography, Stack, ListItemText, MenuItem, Toolbar, Select, ListItemIcon, Tooltip, Button, ToggleButton } from '@mui/material';
 import { ViewMode, InteractionProps, InteractionPackageBase, InteractionPackage, Interaction } from '../lib/types/general';
 import { useState, Dispatch, SetStateAction, useEffect } from 'react';
 import { Add, DragHandle, Settings } from '@mui/icons-material';
@@ -110,15 +110,22 @@ export function PageComponent({ page, mode, isThinking, pagesCompleted, currentC
           ))}
         </ReorderList>
 
-        {mode == ViewMode.Edit && (
-          <Button
-            onClick={() => setIsNewOpen(true)}
-            sx={{ flex: 0, backgroundColor: (theme) => theme.palette.grey[900], width: '350px', marginTop: '8px', marginBottom: '8px', marginRight: '8px' }}
-            style={{ height: "100%" }}
-            startIcon={<Add />}
-            size="large"
+        {mode == ViewMode.Edit && page.interactions.length == 0 && (
+          <Typography
+            sx={{ margin: "auto", flexGrow: 1, color: (theme) => theme.palette.text.secondary }}
           >
-          </Button>
+            This page has no elements. The text below will take up the whole page in View mode. To add an element, click the Add button on the right.
+          </Typography>
+        )}
+
+        {mode == ViewMode.Edit && (
+          <ToggleButton
+            onClick={() => setIsNewOpen(true)}
+            sx={{ flexGrow: 0, flexBasis: "80px", backgroundColor: (theme) => theme.palette.grey[900], marginTop: '8px', marginBottom: '8px', marginRight: '8px' }}
+            value=""
+          >
+            <Add/>
+          </ToggleButton>
         )}
       </Stack>
 
@@ -167,8 +174,8 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
     <Stack
       sx={{ flexGrow: 1, backgroundColor: (theme) => theme.palette.grey[900] }}
       style={{ height: "100%" }}
+      borderRadius={1}
     >
-        
       {props.mode == ViewMode.Edit && (
         <ReorderIcon
           draggable={true}
@@ -176,6 +183,7 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
           <Stack
             direction="row"
             sx={{ justifyContent: "space-between", backgroundColor: (theme) => theme.palette.grey[800] }}
+            borderRadius={1}
           >
             <Stack
               direction="row"

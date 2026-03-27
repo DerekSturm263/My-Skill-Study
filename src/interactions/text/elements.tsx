@@ -100,7 +100,14 @@ export function Component(props: InteractionProps<InteractionType>) {
               props.setText(e.target.value);
             }}
             fullWidth={true}
-            style={{ height: '100%' }}
+            /*slotProps={{
+              input: {
+                style: { height: "100px", overflowY: "auto" }
+              },
+              htmlInput: {
+                style: { height: "100px" }
+              }
+            }}*/
           />
         ) : (
           <MarkdownTypewriter
