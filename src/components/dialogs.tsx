@@ -374,7 +374,7 @@ function ElementValue({ type, id, value, setValue }: { type: string, id: string,
         />
       ) : Array.isArray(value) ? (
         <Stack
-          spacing={2}
+          spacing={1}
         >
           <Typography
             variant='subtitle1'
@@ -385,6 +385,7 @@ function ElementValue({ type, id, value, setValue }: { type: string, id: string,
           {(value as Array<any>).map((item, index) => (
             <Stack
               key={item}
+              spacing={1}
               sx={{ backgroundColor: (theme) => theme.palette.grey[900], padding: '8px' }}
             >
               <ElementValue
@@ -424,7 +425,7 @@ function ElementValue({ type, id, value, setValue }: { type: string, id: string,
         </Stack>
       ) : type == "object" ? (
         <Stack
-          spacing={2}
+          spacing={1}
         >
           <Typography>
             {id}
