@@ -76,6 +76,13 @@ export function PageComponent({ page, mode, isThinking, pagesCompleted, currentC
       >
         <ReorderList
           useOnlyIconToDrag={true}
+          onPositionChange={(e) => {
+            const newElements = value.interactions;
+            const [ oldElement ] = newElements.splice(e.start, 1);
+            newElements.splice(e.end, 0, oldElement);
+
+            setValue({ ... value, interactions: newElements });
+          }}
           props={{ className: "reorderableList", style: {
             display: "flex", flexDirection: "row", gap: mode == ViewMode.Edit ? 8 : 0, flexGrow: 1, padding: mode == ViewMode.Edit ? "8px" : "0px" }
           }}
@@ -160,13 +167,13 @@ export function PageComponent({ page, mode, isThinking, pagesCompleted, currentC
         isOpen={isNewOpen}
         setIsOpen={setIsNewOpen}
         createElement={(type: string) => {
-          const elements = page.interactions;
-          elements.push({
+          const newElements = page.interactions;
+          newElements.push({
             type: type,
             value: (interactionMap[type] as InteractionPackage<Interaction>).defaultValue
           });
 
-          setValue({ ... value, interactions: elements });
+          setValue({ ... value, interactions: newElements });
         }}
       />
     </Stack>
