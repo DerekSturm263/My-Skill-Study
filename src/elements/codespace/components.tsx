@@ -183,17 +183,17 @@ function Component(props: ElementProps<InteractionType>) {
   const [ currentTabIndex, setTabIndex ] = useState(0);
   const [ isRunning, setIsRunning ] = useState(false);
   
-  const currentFile = props.currentValue.files[currentTabIndex];
+  const currentFile = props.value.files[currentTabIndex];
 
   async function submit(): Promise<Verification> {
     setIsRunning(true);
 
-    const output = await compile(props.currentValue);
+    const output = await compile(props.value);
     setOutput(output.consoleOutput);
 
     setIsRunning(false);
 
-    return verify(props.text, props.currentValue, output.response);
+    return verify(props.text, props.value, output.response);
   }
 
   return (
@@ -210,20 +210,20 @@ function Component(props: ElementProps<InteractionType>) {
           variant="scrollable"
           scrollButtons="auto"
         >
-          {props.currentValue.files.map(file => (
+          {props.value.files.map(file => (
             <Tab
               key={file.name} // TODO: Replace with constant ID. File names can change!
               label={file.name}
             />
           ))}
 
-          {props.currentValue.allowNewFiles && (
+          {props.value.allowNewFiles && (
             <Tab
               icon={<Add />}
               onClick={(e) => {
-                const newFiles = props.currentValue.files;
+                const newFiles = props.value.files;
                 newFiles.push({ name: "New File", content: "" });
-                props.setCurrentValue({ ... props.currentValue, files: newFiles });
+                props.setValue({ ... props.value, files: newFiles });
               }}
             />
           )}
@@ -231,13 +231,13 @@ function Component(props: ElementProps<InteractionType>) {
 
         <Editor
           path={currentFile.name}
-          defaultLanguage={props.currentValue.language}
+          defaultLanguage={props.value.language}
           defaultValue={currentFile.content}
           theme="vs-dark"
           onChange={(e) => {
-            const newFiles = props.currentValue.files;
+            const newFiles = props.value.files;
             newFiles[currentTabIndex].content = e ?? '';
-            props.setCurrentValue({ ... props.currentValue, files: newFiles });
+            props.setValue({ ... props.value, files: newFiles });
           }}
         />
       </Stack>
@@ -296,7 +296,7 @@ function Component(props: ElementProps<InteractionType>) {
 const interaction: ElementPackage<InteractionType> = {
   id: "codespace",
   prettyName: "Codespace",
-  description: "Let users write code in an IDE. Feedback will be generated for the user based on their work.",
+  description: "Let users write code in an Integrated Development Environment. Feedback will be generated for the user based on their work.",
   category: "Computer Science",
   icon: Code,
   defaultValue: defaultValue,

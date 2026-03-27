@@ -38,7 +38,7 @@ function Component(props: ElementProps<ElementType>) {
       sx={{ height: "100%" }}
     >
       <iframe
-        src={props.currentValue.source}
+        src={props.value.source}
         width="100%"
         height="100%"
       ></iframe>

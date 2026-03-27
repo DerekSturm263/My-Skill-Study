@@ -200,12 +200,11 @@ export function ElementComponent({ text, originalValue, type, mode, setText, del
 
       <Component
         text={text}
-        originalValue={originalValue}
-        currentValue={value}
+        value={value}
         isDisabled={isDisabled || mode == ViewMode.Edit}
         setText={setText}
         evaluateAndReply={evaluateAndReply}
-        setCurrentValue={setValue}
+        setValue={setValue}
         setIsDisabled={setIsDisabled}
       />
 

@@ -76,25 +76,25 @@ function Component(props: ElementProps<ElementType>) {
   const [ selected, setSelected ] = useState([ ] as string[]);
 
   useEffect(() => {
-    const newItems = props.currentValue.items.toSorted((item1, item2) => Math.random() - 0.5);
-    props.setCurrentValue({ ... props.currentValue, items: newItems });
+    const newItems = props.value.items.toSorted((item1, item2) => Math.random() - 0.5);
+    props.setValue({ ... props.value, items: newItems });
   }, []);
 
   function addItem() {
-    const newItems = props.currentValue.items;
+    const newItems = props.value.items;
     newItems.push({
       value: "New Multiple Choice Item",
       isCorrect: false
     });
 
-    props.setCurrentValue({ ... props.currentValue, items: newItems });
+    props.setValue({ ... props.value, items: newItems });
   }
 
   function removeItem(index: number) {
-    const newItems = props.currentValue.items;
+    const newItems = props.value.items;
     newItems.splice(index, 1);
 
-    props.setCurrentValue({ ... props.currentValue, items: newItems });
+    props.setValue({ ... props.value, items: newItems });
   }
 
   function selectItem(item: string) {
@@ -119,12 +119,12 @@ function Component(props: ElementProps<ElementType>) {
         disabled={props.isDisabled}
       >
         <RadioGroup>
-          {props.currentValue.items.map((item, index) => (
+          {props.value.items.map((item, index) => (
             <MultipleChoiceItem
               key={item.value}
               props={props}
               item={item}
-              isRadio={props.currentValue.items.filter((item) => item.isCorrect).length == 1}
+              isRadio={props.value.items.filter((item) => item.isCorrect).length == 1}
               index={index}
               toggle={(item: string, toggleState: boolean) => {
                 if (toggleState)
@@ -141,7 +141,7 @@ function Component(props: ElementProps<ElementType>) {
 
         <Button
           variant="contained"
-          onClick={(e) => props.evaluateAndReply(verify(props.text, selected, props.currentValue))}
+          onClick={(e) => props.evaluateAndReply(verify(props.text, selected, props.value))}
           sx={{ width: '120px' }}
           disabled={props.isDisabled}
         >

@@ -310,8 +310,7 @@ export function SettingsDialog({ value, type, isOpen, setValue, setIsOpen, reset
           spacing={1}
         >
           {Object.keys(value).map(key => {
-            const keyof = key as keyof Element;
-            const type = typeof value[keyof];
+            const type = typeof (value as any)[key];
 
             return (
               type == "boolean" ? (
@@ -320,9 +319,9 @@ export function SettingsDialog({ value, type, isOpen, setValue, setIsOpen, reset
                   control={
                     <Switch
                       defaultChecked={true}
-                      value={value[keyof]}
+                      value={(value as any)[key]}
                       onChange={(e) => {
-                        value[keyof] = e.target.checked;
+                        (value as any)[key] = e.target.checked;
                         setValue(value);
                       }}
                     />
@@ -333,25 +332,25 @@ export function SettingsDialog({ value, type, isOpen, setValue, setIsOpen, reset
                 <TextField
                   key={key}
                   label={key}
-                  value={value[keyof]}
+                  value={(value as any)[key]}
                   fullWidth
                   multiline
                   onChange={(e) => {
-                    //value[keyof] = e.target.value;
-                    //setValue(value);
+                    (value as any)[key] = e.target.value;
+                    setValue(value);
                   }}
                 />
               ) : type == "number" ? (
                 <TextField
                   key={key}
                   label={key}
-                  value={value[keyof]}
+                  value={(value as any)[key]}
                   fullWidth
                   multiline
                   type="number"
                   onChange={(e) => {
-                    //value[keyof] = e.target.value;
-                    //setValue(value);
+                    (value as any)[key] = e.target.value;
+                    setValue(value);
                   }}
                 />
               ) : (

@@ -67,17 +67,17 @@ const schema = {
 
 function Component(props: ElementProps<ElementType>) {
   function addFile() {
-    const newFiles = props.currentValue.files;
+    const newFiles = props.value.files;
     newFiles.push(defaultValue.files[0]);
 
-    props.setCurrentValue({ ... props.currentValue, files: newFiles });
+    props.setValue({ ... props.value, files: newFiles });
   }
 
   function removeFile(index: number) {
-    const newFiles = props.currentValue.files;
+    const newFiles = props.value.files;
     newFiles.splice(index, 1);
 
-    props.setCurrentValue({ ... props.currentValue, files: newFiles });
+    props.setValue({ ... props.value, files: newFiles });
   }
 
   return (
@@ -89,7 +89,7 @@ function Component(props: ElementProps<ElementType>) {
         direction="row"
         spacing={2}
       >
-        {props.currentValue.files.map((item, index) => (
+        {props.value.files.map((item, index) => (
           <FileItem
             key={item.name} // TODO: Replace with constant ID. File names can change!
             props={props}

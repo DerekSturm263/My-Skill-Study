@@ -49,7 +49,7 @@ function Component(props: ElementProps<ElementType>) {
           disabled={props.isDisabled}
           value={userResponse}
           onChange={(e) => setUserResponse(e.target.value)}
-          onSubmit={(e) => props.evaluateAndReply(verify(props.text, userResponse, props.currentValue))}
+          onSubmit={(e) => props.evaluateAndReply(verify(props.text, userResponse, props.value))}
           slotProps={{
             input: {
               endAdornment: <InputAdornment position="end">
@@ -57,7 +57,7 @@ function Component(props: ElementProps<ElementType>) {
                   title="Submit your response"
                 >
                   <IconButton
-                    onClick={(e) => props.evaluateAndReply(verify(props.text, userResponse, props.currentValue))}
+                    onClick={(e) => props.evaluateAndReply(verify(props.text, userResponse, props.value))}
                     disabled={props.isDisabled}
                   >
                     <Done />

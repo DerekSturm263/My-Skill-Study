@@ -45,12 +45,11 @@ export type TextProps = {
 
 export type ElementProps<T extends Element> = {
   text: string,
-  originalValue: T,
-  currentValue: T,
+  value: T,
   isDisabled: boolean,
   setText: (text: string) => void,
   evaluateAndReply: (promise: Promise<Verification>) => void,
-  setCurrentValue: Dispatch<SetStateAction<T>>,
+  setValue: Dispatch<SetStateAction<T>>,
   setIsDisabled: Dispatch<SetStateAction<boolean>>
 }
 
