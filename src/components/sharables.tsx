@@ -106,9 +106,9 @@ export function SharablePage<T extends Sharable>({ slug, sharable, mode, type, c
         variant="scrollable"
         scrollButtons="auto"
       >
-        {tabs.map((label, index) => (
+        {tabs.map(label => (
           <Tab
-            key={index}
+            key={label}
             label={label}
           />
         ))}

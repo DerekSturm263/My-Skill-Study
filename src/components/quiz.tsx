@@ -30,7 +30,7 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
           text: "",
           requiresCompletion: false
         },
-        interactions: []
+        elements: []
       }
     });
 
@@ -164,7 +164,7 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
         >
           {value.questions.map((page, index) => (
             <SidebarButton
-              key={index}
+              key={index} // TODO: Replace with constant ID. Chapters can move!
               isDisabled={mode == ViewMode.View && (isThinking || (index != 0 && !pagesCompleted[index - 1]))}
               selected={currentChapterIndex == index}
               ogTitle={page.title}
@@ -194,28 +194,30 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
         </Sidebar>
 
         {value.questions.map((chapter, index) => (
-          (index == currentChapterIndex && (<PageComponent
-            key={index}
-            page={value.questions[currentChapterIndex].page}
-            mode={mode}
-            isThinking={isThinking}
-            pagesCompleted={[[]] as boolean[][]}
-            currentChapterIndex={currentChapterIndex}
-            currentPageIndex={0}
-            totalPagesInChapter={1}
-            setIsThinking={setIsThinking}
-            setCurrentPageIndex={setCurrentChapterIndex}
-            setSnackbarText={(text: string) => {
-              setSnackbarText(text);
-              setIsSnackbarOpen(true);
-            }}
-            setIsPageComplete={(isComplete: boolean) => {
-              const newPagesCompleted = pagesCompleted;
-              newPagesCompleted[currentChapterIndex] = isComplete;
+          (index == currentChapterIndex && (
+            <PageComponent
+              key={index} // TODO: Replace with constant ID. Chapters can move!
+              page={value.questions[currentChapterIndex].page}
+              mode={mode}
+              isThinking={isThinking}
+              pagesCompleted={[[]] as boolean[][]}
+              currentChapterIndex={currentChapterIndex}
+              currentPageIndex={0}
+              totalPagesInChapter={1}
+              setIsThinking={setIsThinking}
+              setCurrentPageIndex={setCurrentChapterIndex}
+              setSnackbarText={(text: string) => {
+                setSnackbarText(text);
+                setIsSnackbarOpen(true);
+              }}
+              setIsPageComplete={(isComplete: boolean) => {
+                const newPagesCompleted = pagesCompleted;
+                newPagesCompleted[currentChapterIndex] = isComplete;
 
-              setPagesCompleted(newPagesCompleted);
-            }}
-          />)
+                setPagesCompleted(newPagesCompleted);
+              }}
+            />
+          )
         )))}
 
         <Snackbar

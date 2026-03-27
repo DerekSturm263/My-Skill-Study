@@ -70,9 +70,9 @@ export function Sidebar({ children, label, options, selectedOption, actions }: {
             open={isMenuOpen}
             onClose={() => setIsMenuOpen(false)}
           >
-            {actions.map((action, index) => (
+            {actions.map(action => (
               <MenuItem
-                key={index}
+                key={action.label}
                 href={typeof action.action == "string" ? action.action : ""}
                 onClick={(e) => typeof action.action == "function" ? (action.action as () => void)() : {}}
               >
@@ -95,9 +95,9 @@ export function Sidebar({ children, label, options, selectedOption, actions }: {
           fullWidth
           sx={{ width: 'calc(100% - 32px)', marginLeft: '16px', marginBottom: '12px' }}
         >
-          {options.map((item, index) => (
+          {options.map(item => (
             <Tooltip
-              key={index}
+              key={item.id}
               title={item.tooltip}
             >
               <ToggleButton

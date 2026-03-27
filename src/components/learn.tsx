@@ -32,7 +32,7 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
             text: "",
             requiresCompletion: false
           },
-          interactions: []
+          elements: []
         }
       ]
     });
@@ -168,7 +168,7 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
           {value.chapters.map((chapter, index) => {
             return (
               <SidebarButton
-                key={index}
+                key={index} // TODO: Replace with constant ID. Chapters can move!
                 isDisabled={mode == ViewMode.View && (isThinking || (index != 0 && !pagesCompleted[index - 1][pagesCompleted[index - 1].length - 1]))}
                 selected={currentChapterIndex == index}
                 ogTitle={chapter.title}
@@ -200,28 +200,30 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
         </Sidebar>
 
         {value.chapters.map((chapter, cIndex) => chapter.pages.map((page, pIndex) => (
-          (cIndex == currentChapterIndex && pIndex == currentPageIndex && <PageComponent
-            key={`${cIndex},${pIndex}`}
-            page={page}
-            mode={mode}
-            isThinking={isThinking}
-            pagesCompleted={pagesCompleted}
-            currentChapterIndex={cIndex}
-            currentPageIndex={pIndex}
-            totalPagesInChapter={chapter.pages.length}
-            setIsThinking={setIsThinking}
-            setCurrentPageIndex={setCurrentPageIndex}
-            setSnackbarText={(text: string) => {
-              setSnackbarText(text);
-              setIsSnackbarOpen(true);
-            }}
-            setIsPageComplete={(isComplete: boolean) => {
-              const newPagesCompleted = pagesCompleted;
-              newPagesCompleted[cIndex][pIndex] = isComplete;
+          (cIndex == currentChapterIndex && pIndex == currentPageIndex && (
+            <PageComponent
+              key={`${cIndex},${pIndex}`} // TODO: Replace with constant ID. Chapters and pages can move!
+              page={page}
+              mode={mode}
+              isThinking={isThinking}
+              pagesCompleted={pagesCompleted}
+              currentChapterIndex={cIndex}
+              currentPageIndex={pIndex}
+              totalPagesInChapter={chapter.pages.length}
+              setIsThinking={setIsThinking}
+              setCurrentPageIndex={setCurrentPageIndex}
+              setSnackbarText={(text: string) => {
+                setSnackbarText(text);
+                setIsSnackbarOpen(true);
+              }}
+              setIsPageComplete={(isComplete: boolean) => {
+                const newPagesCompleted = pagesCompleted;
+                newPagesCompleted[cIndex][pIndex] = isComplete;
 
-              setPagesCompleted(newPagesCompleted);
-            }}
-          />)
+                setPagesCompleted(newPagesCompleted);
+              }}
+            />
+          ))
         )))}
 
         <Snackbar

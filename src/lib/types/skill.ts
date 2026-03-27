@@ -1,5 +1,5 @@
-import { InteractionType as TextType } from "@/interactions/text/elements";
-import { InteractionWrapper, Sharable } from "./general";
+import { ElementType as TextType } from "@/elements/text/components";
+import { ElementWrapper as ElementWrapper, Sharable } from "./general";
 
 export default interface Skill extends Sharable {
   learn: Learn,
@@ -18,7 +18,7 @@ export type Chapter = {
 
 export type Page = {
   text: TextType,
-  interactions: InteractionWrapper[]
+  elements: ElementWrapper[]
 }
 
 export type Practice = {

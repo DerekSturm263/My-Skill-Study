@@ -3,9 +3,9 @@
 import Link from 'next/link';
 
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, Stack, Switch, Tab, Tabs, TextField, ToggleButton, ToggleButtonGroup } from '@mui/material';
-import { Interaction, InteractionPackage, InteractionProps, Sharable } from '@/lib/types/general';
+import { Element, ElementPackage, ElementProps, Sharable } from '@/lib/types/general';
 import { Dispatch, SetStateAction, useState } from 'react';
-import { interactionMap } from './general';
+import { elementMap } from './general';
 import { remove } from '../lib/miscellaneous/database';
 import { Masonry } from '@mui/lab';
 
@@ -94,9 +94,9 @@ export function ShareDialog({ type, id, isOpen, setIsOpen, setSnackbarText }: { 
           variant="scrollable"
           scrollButtons="auto"
         >
-          {[ "Link", "IFrame" ].map((label, index) => (
+          {[ "Link", "IFrame" ].map(label => (
             <Tab
-              key={index}
+              key={label}
               label={label}
             />
           ))}
@@ -287,8 +287,8 @@ export function DeleteDialog({ type, id, isOpen, setIsOpen, setSnackbarText }: {
   );
 }
 
-export function SettingsDialog({ props, type, isOpen, setType, setIsOpen, deleteInteraction }: { props: InteractionProps<Interaction>, type: string, isOpen: boolean, setType: Dispatch<SetStateAction<string>>, setIsOpen: Dispatch<SetStateAction<boolean>>, deleteInteraction: () => void }) {
-  const interactionPackage = interactionMap[type] as InteractionPackage<Interaction>;
+export function SettingsDialog({ props, type, isOpen, setType, setIsOpen, deleteElement }: { props: ElementProps<Element>, type: string, isOpen: boolean, setType: Dispatch<SetStateAction<string>>, setIsOpen: Dispatch<SetStateAction<boolean>>, deleteElement: () => void }) {
+  const elementPackage = elementMap[type] as ElementPackage<Element>;
 
   return (
     <Dialog
@@ -296,12 +296,12 @@ export function SettingsDialog({ props, type, isOpen, setType, setIsOpen, delete
       onClose={(e) => setIsOpen(false)}
     >
       <DialogTitle>
-        {`${interactionPackage.prettyName} Settings`}
+        {`${elementPackage.prettyName} Settings`}
       </DialogTitle>
 
       <DialogContent>
         <DialogContentText>
-          {interactionPackage.description}
+          {elementPackage.description}
         </DialogContentText>
 
         <br />
@@ -310,7 +310,7 @@ export function SettingsDialog({ props, type, isOpen, setType, setIsOpen, delete
           spacing={1}
         >
           {Object.keys(props.originalValue).map(key => {
-            const keyof = key as keyof Interaction;
+            const keyof = key as keyof Element;
             const value = props.originalValue[keyof];
             const type = typeof value;
 
@@ -357,7 +357,7 @@ export function SettingsDialog({ props, type, isOpen, setType, setIsOpen, delete
 
       <DialogActions>
         <Button
-          onClick={(e) => deleteInteraction()}
+          onClick={(e) => deleteElement()}
         >
           Delete
         </Button>
@@ -372,7 +372,7 @@ export function SettingsDialog({ props, type, isOpen, setType, setIsOpen, delete
   );
 }
 
-export function NewInteractionDialog({ isOpen, setIsOpen, createElement }: { isOpen: boolean, setIsOpen: Dispatch<SetStateAction<boolean>>, createElement: (type: string) => void }) {
+export function NewElementDialog({ isOpen, setIsOpen, createElement }: { isOpen: boolean, setIsOpen: Dispatch<SetStateAction<boolean>>, createElement: (type: string) => void }) {
   return (
     <Dialog
       open={isOpen}
@@ -392,21 +392,21 @@ export function NewInteractionDialog({ isOpen, setIsOpen, createElement }: { isO
         <Masonry
           columns={2}
         >
-          {Object.values(interactionMap).map(interaction => (
+          {Object.values(elementMap).map(element => (
             <ToggleButton
-              key={interaction.id}
-              value={interaction.id}
+              key={element.id}
+              value={element.id}
               onClick={(e) => {
-                createElement(interaction.id);
+                createElement(element.id);
                 setIsOpen(false);
               }}
             >
               <Stack>
-                <interaction.icon
+                <element.icon
                   sx={{ margin: "auto" }}
                 />
 
-                {interaction.prettyName}
+                {element.prettyName}
               </Stack>
             </ToggleButton>
           ))}

@@ -3,31 +3,31 @@
 import './style.css';
 
 import ReorderList, { ReorderIcon } from 'react-reorder-list';
-import Files from '@/interactions/files/elements';
-import Drawing from '@/interactions/drawing/elements';
-import Graph from '@/interactions/graph/elements';
-import DAW from '@/interactions/daw/elements';
-import Codespace from '@/interactions/codespace/elements';
-import ThreeDModeling from '@/interactions/3d_modeling/elements';
-import GameEngine from '@/interactions/game_engine/elements';
-import ShortAnswer from '@/interactions/short_answer/elements';
-import TrueOrFalse from '@/interactions/true_or_false/elements';
-import MultipleChoice from '@/interactions/multiple_choice/elements';
-import Ordering from '@/interactions/ordering/elements';
-import Matching from '@/interactions/matching/elements';
-import Embed from '@/interactions/embed/elements';
+import Files from '@/elements/files/components';
+import Drawing from '@/elements/drawing/components';
+import Graph from '@/elements/graph/components';
+import DAW from '@/elements/daw/components';
+import Codespace from '@/elements/codespace/components';
+import ThreeDModeling from '@/elements/3d_modeling/elements';
+import GameEngine from '@/elements/game_engine/components';
+import ShortAnswer from '@/elements/short_answer/components';
+import TrueOrFalse from '@/elements/true_or_false/components';
+import MultipleChoice from '@/elements/multiple_choice/components';
+import Ordering from '@/elements/ordering/components';
+import Matching from '@/elements/matching/components';
+import Embed from '@/elements/embed/components';
 
-import { IconButton, Typography, Stack, ListItemText, MenuItem, Toolbar, Select, ListItemIcon, Tooltip, Button, ToggleButton } from '@mui/material';
-import { ViewMode, InteractionProps, InteractionPackageBase, InteractionPackage, Interaction } from '../lib/types/general';
+import { ViewMode, ElementProps, ElementPackageBase, ElementPackage, Element } from '../lib/types/general';
+import { IconButton, Typography, Stack, Toolbar, Tooltip, ToggleButton } from '@mui/material';
 import { useState, Dispatch, SetStateAction, useEffect } from 'react';
-import { Add, DragHandle, Settings } from '@mui/icons-material';
-import { Component as TextComponent } from '@/interactions/text/elements'; 
+import { NewElementDialog, SettingsDialog } from './dialogs';
+import { Component as TextComponent } from '@/elements/text/components'; 
 import { useSearchParams } from 'next/navigation';
-import { NewInteractionDialog, SettingsDialog } from './dialogs';
+import { Add, Settings } from '@mui/icons-material';
 import { Verification } from '@/lib/ai/types';
 import { Page } from '@/lib/types/skill';
 
-export const interactionMap: Record<string, InteractionPackageBase> = {
+export const elementMap: Record<string, ElementPackageBase> = {
   "files": Files,
   "drawing": Drawing,
   "graph": Graph,
@@ -51,7 +51,7 @@ export function PageComponent({ page, mode, isThinking, pagesCompleted, currentC
   const [ isNewOpen, setIsNewOpen ] = useState(false);
 
   useEffect(() => {
-    if (page.interactions.every(interaction => !interaction.value.requiresCompletion)) {
+    if (page.elements.every(element => !element.value.requiresCompletion)) {
       setIsComplete(true, false);
     }
   }, []);
@@ -77,22 +77,22 @@ export function PageComponent({ page, mode, isThinking, pagesCompleted, currentC
         <ReorderList
           useOnlyIconToDrag={true}
           onPositionChange={(e) => {
-            const newElements = value.interactions;
+            const newElements = value.elements;
             const [ oldElement ] = newElements.splice(e.start, 1);
             newElements.splice(e.end, 0, oldElement);
 
-            setValue({ ... value, interactions: newElements });
+            setValue({ ... value, elements: newElements });
           }}
           props={{ className: "reorderableList", style: {
             display: "flex", flexDirection: "row", gap: mode == ViewMode.Edit ? 8 : 0, flexGrow: 1, padding: mode == ViewMode.Edit ? "8px" : "0px" }
           }}
         >
-          {page.interactions.map((interaction, index) => (
-            <InteractionComponent
-              key={index}
-              thisType={interaction.type}
+          {page.elements.map((element, index) => (
+            <ElementComponent
+              key={index} // TODO: Replace with constant ID. Elements can move!
+              thisType={element.type}
               text={page.text.text}
-              originalValue={interaction.value}
+              originalValue={element.value}
               chapterIndex={currentChapterIndex}
               pageIndex={currentPageIndex}
               totalPagesInChapter={totalPagesInChapter}
@@ -113,17 +113,17 @@ export function PageComponent({ page, mode, isThinking, pagesCompleted, currentC
                 }
               }}
               setCurrentElementIndex={setCurrentElementIndex}
-              deleteInteraction={() => {
-                const elements = page.interactions;
+              deleteElement={() => {
+                const elements = page.elements;
                 elements.splice(index, 1);
 
-                setValue({ ... value, interactions: elements });
+                setValue({ ... value, elements: elements });
               }}
             />
           ))}
         </ReorderList>
 
-        {mode == ViewMode.Edit && page.interactions.length == 0 && (
+        {mode == ViewMode.Edit && page.elements.length == 0 && (
           <Typography
             sx={{ margin: "auto", flexGrow: 1, color: (theme) => theme.palette.text.secondary }}
           >
@@ -163,34 +163,34 @@ export function PageComponent({ page, mode, isThinking, pagesCompleted, currentC
         setCurrentElementIndex={setCurrentElementIndex}
       />
 
-      <NewInteractionDialog
+      <NewElementDialog
         isOpen={isNewOpen}
         setIsOpen={setIsNewOpen}
         createElement={(type: string) => {
-          const newElements = page.interactions;
+          const newElements = page.elements;
           newElements.push({
             type: type,
-            value: (interactionMap[type] as InteractionPackage<Interaction>).defaultValue
+            value: (elementMap[type] as ElementPackage<Element>).defaultValue
           });
 
-          setValue({ ... value, interactions: newElements });
+          setValue({ ... value, elements: newElements });
         }}
       />
     </Stack>
   );
 }
 
-export function InteractionComponent(props: InteractionProps<Interaction> & { thisType: string, deleteInteraction: () => void }) {
+export function ElementComponent(props: ElementProps<Element> & { thisType: string, deleteElement: () => void }) {
   const [ type, setType ] = useState(props.thisType);
   const [ isSettingsOpen, setIsSettingsOpen ] = useState(false);
 
-  const Icon = (interactionMap[type] as InteractionPackage<Interaction>).icon;
+  const Icon = (elementMap[type] as ElementPackage<Element>).icon;
 
   function reset() {
-    props.originalValue = (interactionMap[type] as InteractionPackage<Interaction>).defaultValue;
+    props.originalValue = (elementMap[type] as ElementPackage<Element>).defaultValue;
   }
 
-  const Component = (interactionMap[type] as InteractionPackage<Interaction>).Component;
+  const Component = (elementMap[type] as ElementPackage<Element>).Component;
 
   return (
     <Stack
@@ -217,12 +217,12 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
               <Typography
                 sx={{ overflow: "hidden", whiteSpace: "nowrap" }}
               >
-                {(interactionMap[type] as InteractionPackage<Interaction>).prettyName}
+                {(elementMap[type] as ElementPackage<Element>).prettyName}
               </Typography>
             </Stack>
 
             <Tooltip
-              title="Edit this interaction"
+              title="Edit this element"
             >
               <IconButton
                 onClick={() => setIsSettingsOpen(true)}
@@ -244,7 +244,7 @@ export function InteractionComponent(props: InteractionProps<Interaction> & { th
         isOpen={isSettingsOpen}
         setType={setType}
         setIsOpen={setIsSettingsOpen}
-        deleteInteraction={props.deleteInteraction}
+        deleteElement={props.deleteElement}
       />
     </Stack>
   );

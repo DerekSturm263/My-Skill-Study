@@ -20,16 +20,16 @@ export enum ViewMode {
 export type SlugProps = Promise<{ slug: string }>;
 export type URLProps = Promise<{ [key: string]: string | string[] | undefined }>;
 
-export interface Interaction {
+export interface Element {
   requiresCompletion: boolean
 }
 
-export type InteractionWrapper = {
+export type ElementWrapper = {
   type: string,
-  value: Interaction
+  value: Element
 }
 
-export type InteractionProps<T extends Interaction> = {
+export type ElementProps<T extends Element> = {
   text: string,
   originalValue: T,
   chapterIndex: number,
@@ -43,7 +43,7 @@ export type InteractionProps<T extends Interaction> = {
   setCurrentElementIndex: (index: number) => void
 }
 
-export interface InteractionPackageBase {
+export interface ElementPackageBase {
   id: string,
   prettyName: string,
   description: string,
@@ -52,7 +52,7 @@ export interface InteractionPackageBase {
   schema: SchemaUnion
 }
 
-export interface InteractionPackage<T extends Interaction> extends InteractionPackageBase {
+export interface ElementPackage<T extends Element> extends ElementPackageBase {
   defaultValue: T,
-  Component: (props: InteractionProps<T>) => JSX.Element
+  Component: (props: ElementProps<T>) => JSX.Element
 }
