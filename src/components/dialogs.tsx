@@ -373,7 +373,7 @@ function ElementValue({ type, id, value, setValue }: { type: string, id: string,
           label={id}
           value={(value as any)[id]}
         />
-      ) : Array.isArray(value) ? ( // TODO: Add drag handles
+      ) : Array.isArray(value) ? (
         <ReorderList
           useOnlyIconToDrag
           props={{ style: {
@@ -382,20 +382,25 @@ function ElementValue({ type, id, value, setValue }: { type: string, id: string,
         >
           <Stack
             direction="row"
+            sx={{ justifyContent: "space-between" }}
           >
-            <ReorderIcon
-              draggable={true}
+            <Stack
+              direction="row"
             >
-              <DragHandle
-                sx={{ height: "100%" }}
-              />
-            </ReorderIcon>
+                <ReorderIcon
+                draggable={true}
+              >
+                <DragHandle
+                  sx={{ height: "100%" }}
+                />
+              </ReorderIcon>
 
-            <Typography
-              variant='subtitle1'
-            >
-              {id}
-            </Typography>
+              <Typography
+                variant='subtitle1'
+              >
+                {id}
+              </Typography>
+            </Stack>
             
             <IconButton
               onClick={() => {
@@ -413,7 +418,7 @@ function ElementValue({ type, id, value, setValue }: { type: string, id: string,
               spacing={1}
               borderRadius={1}
               direction="row"
-              sx={{ backgroundColor: (theme) => theme.palette.grey[800], padding: '8px' }}
+              sx={{ backgroundColor: (theme) => theme.palette.grey[800], padding: '8px', justifyContent: "space-between" }}
             >
               <ElementValue
                 type={item}
