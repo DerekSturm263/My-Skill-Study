@@ -443,7 +443,9 @@ function ElementValue({ name, value, setValue }: { name: string, value: any, set
         <Stack
           spacing={1}
         >
-          <Typography>
+          <Typography
+            variant="subtitle1"
+          >
             {name}
           </Typography>
 
