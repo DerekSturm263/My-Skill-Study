@@ -442,6 +442,7 @@ function ElementValue({ name, value, setValue }: { name: string, value: any, set
       ) : type == "object" ? (
         <Stack
           spacing={1}
+          sx={{ flex: 1 }}
         >
           <Typography
             variant="subtitle1"
