@@ -373,16 +373,17 @@ function ElementValue({ type, id, value, setValue }: { type: string, id: string,
           value={(value as any)[id]}
         />
       ) : Array.isArray(value) ? (
-        <Stack
-          sx={{ backgroundColor: (theme) => theme.palette.grey[900] }}
-        >
-          <Typography>
+        <Stack>
+          <Typography
+            variant='subtitle1'
+          >
             {id}
           </Typography>
 
           {(value as Array<any>).map((item, index) => (
             <Stack
               key={item}
+              sx={{ backgroundColor: (theme) => theme.palette.grey[900] }}
             >
               <ElementValue
                 type={item}
