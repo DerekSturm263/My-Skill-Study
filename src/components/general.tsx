@@ -88,7 +88,7 @@ export function PageComponent({ page, mode, isThinking, pagesCompleted, currentC
           </Typography>
         )}
 
-        {mode == ViewMode.Edit && (
+        {mode == ViewMode.Edit && value.elements.length < 4 && (
           <ToggleButton
             onClick={() => setIsNewOpen(true)}
             sx={{ flexGrow: 0, flexBasis: "80px", backgroundColor: (theme) => theme.palette.grey[900], marginTop: '8px', marginBottom: '8px', marginRight: '8px' }}
