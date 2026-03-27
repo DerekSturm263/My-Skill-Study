@@ -4,7 +4,7 @@
 
 import Link from 'next/link';
 
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, Stack, Switch, Tab, Tabs, TextField, ToggleButton } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, Stack, Switch, Tab, Tabs, TextField, ToggleButton, Typography } from '@mui/material';
 import { Element, ElementPackage, elementMap } from '@/lib/types/element';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { Sharable } from '@/lib/types/general';
@@ -382,9 +382,6 @@ function ElementValue({ type, id, value, setValue }: { type: string, id: string,
         </>
       ) : type == "object" ? (
         <>
-        </>
-      ) : (
-        <>
           {Object.keys(value).map(key => (
             <ElementValue
               key={key}
@@ -398,6 +395,10 @@ function ElementValue({ type, id, value, setValue }: { type: string, id: string,
             />
           ))}
         </>
+      ) : (
+        <Typography>
+          This type is not supported yet!
+        </Typography>
       )}
     </>
   )
