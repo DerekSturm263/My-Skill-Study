@@ -118,7 +118,7 @@ function Component(props: ElementProps<ElementType>) {
       sx={{ height: "100%", alignSelf: "center", alignContent: "center" }}
     >
       <FormControl
-        disabled={isDisabled}
+        disabled={isDisabled || props.mode == ViewMode.Edit}
       >
         <RadioGroup>
           {value.items.map((item, index) => (
@@ -141,20 +141,14 @@ function Component(props: ElementProps<ElementType>) {
           ))}
         </RadioGroup>
 
-        {props.mode == ViewMode.View && (
-          <>
-            <br />
-          
-            <Button
-              variant="contained"
-              onClick={(e) => props.evaluateAndReply(verify(props.text, selected, value))}
-              sx={{ width: '120px' }}
-              disabled={isDisabled}
-            >
-              Submit
-            </Button>
-          </>
-        )}
+        <Button
+          variant="contained"
+          onClick={(e) => props.evaluateAndReply(verify(props.text, selected, value))}
+          sx={{ width: '120px' }}
+          disabled={isDisabled || props.mode == ViewMode.Edit}
+        >
+          Submit
+        </Button>
       </FormControl>
     </Box>
   );
