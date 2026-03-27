@@ -424,17 +424,14 @@ function ElementValue({ type, id, value, setValue }: { type: string, id: string,
                 }}
               />
 
-              <Button
-                startIcon={<Delete />}
-                fullWidth
-                variant="contained"
+              <IconButton
                 onClick={() => {
                   (value as Array<any>).splice(index, 1);
                   setValue(value);
                 }}
               >
-                Delete
-              </Button>
+                <Delete />
+              </IconButton>
             </Stack>
           ))}
 
