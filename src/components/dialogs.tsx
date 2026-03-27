@@ -373,7 +373,9 @@ function ElementValue({ type, id, value, setValue }: { type: string, id: string,
           value={(value as any)[id]}
         />
       ) : Array.isArray(value) ? (
-        <Stack>
+        <Stack
+          spacing={2}
+        >
           <Typography
             variant='subtitle1'
           >
@@ -419,7 +421,9 @@ function ElementValue({ type, id, value, setValue }: { type: string, id: string,
           </Button>
         </Stack>
       ) : type == "object" ? (
-        <Stack>
+        <Stack
+          spacing={2}
+        >
           <Typography>
             {id}
           </Typography>
