@@ -11,7 +11,8 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import { Sharable } from '@/lib/types/general';
 import { Masonry } from '@mui/lab';
 import { remove } from '../lib/miscellaneous/database';
-import { Add, Delete } from '@mui/icons-material';
+import { Add, Delete, DragHandle, Reorder } from '@mui/icons-material';
+import ReorderList, { ReorderIcon } from 'react-reorder-list';
 
 export function SuccessDialog({ title, text, isOpen, setIsOpen }: { title: string, text: string, isOpen: boolean, setIsOpen: Dispatch<SetStateAction<boolean>> }) {
   return (
@@ -373,14 +374,23 @@ function ElementValue({ type, id, value, setValue }: { type: string, id: string,
           value={(value as any)[id]}
         />
       ) : Array.isArray(value) ? ( // TODO: Add drag handles
-        <Stack
-          spacing={1}
-          borderRadius={1}
-          sx={{ backgroundColor: (theme) => theme.palette.grey[700], padding: '8px' }}
+        <ReorderList
+          useOnlyIconToDrag
+          props={{ style: {
+            gap: '8px', padding: '8px'
+          }}}
         >
           <Stack
             direction="row"
           >
+            <ReorderIcon
+              draggable={true}
+            >
+              <DragHandle
+                sx={{ height: "100%" }}
+              />
+            </ReorderIcon>
+
             <Typography
               variant='subtitle1'
             >
@@ -429,7 +439,7 @@ function ElementValue({ type, id, value, setValue }: { type: string, id: string,
           ))}
 
           
-        </Stack>
+        </ReorderList>
       ) : type == "object" ? (
         <Stack
           spacing={1}

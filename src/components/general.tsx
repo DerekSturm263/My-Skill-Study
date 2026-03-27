@@ -57,8 +57,8 @@ export function PageComponent({ page, mode, isThinking, pagesCompleted, currentC
             setValue({ ... value, elements: newElements });
           }}
           props={{ className: "reorderableList", style: {
-            display: "flex", flexDirection: "row", gap: mode == ViewMode.Edit ? 8 : 0, flexGrow: 1, padding: mode == ViewMode.Edit ? "8px" : "0px" }
-          }}
+            display: "flex", flexDirection: "row", gap: mode == ViewMode.Edit ? 8 : 0, flexGrow: 1, padding: mode == ViewMode.Edit ? "8px" : "0px"
+          }}}
         >
           {page.elements.map((element, index) => (
             <ElementComponent
