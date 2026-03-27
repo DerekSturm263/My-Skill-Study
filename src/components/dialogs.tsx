@@ -463,8 +463,10 @@ function ElementValue({ type, id, value, setValue }: { type: string, id: string,
           ))}
         </Stack>
       ) : (
-        <DialogContentText>
-          This type is not supported yet!
+        <DialogContentText
+          sx={{ marginTop: "auto",  marginBottom: "auto" }}
+        >
+          {`The type ${type} is not supported yet!`}
         </DialogContentText>
       )}
     </>
