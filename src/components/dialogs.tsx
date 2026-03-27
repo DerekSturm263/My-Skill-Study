@@ -372,9 +372,10 @@ function ElementValue({ type, id, value, setValue }: { type: string, id: string,
           label={id}
           value={(value as any)[id]}
         />
-      ) : Array.isArray(value) ? (
+      ) : Array.isArray(value) ? ( // TODO: Add drag handles
         <Stack
           spacing={1}
+          sx={{ backgroundColor: (theme) => theme.palette.grey[500], padding: '8px' }}
         >
           <Typography
             variant='subtitle1'
@@ -386,7 +387,7 @@ function ElementValue({ type, id, value, setValue }: { type: string, id: string,
             <Stack
               key={item}
               spacing={1}
-              sx={{ backgroundColor: (theme) => theme.palette.grey[900], padding: '8px' }}
+              sx={{ backgroundColor: (theme) => theme.palette.grey[700], padding: '8px' }}
             >
               <ElementValue
                 type={item}
