@@ -8,7 +8,7 @@ import Drawing from '@/elements/drawing/components';
 import Graph from '@/elements/graph/components';
 import DAW from '@/elements/daw/components';
 import Codespace from '@/elements/codespace/components';
-import ThreeDModeling from '@/elements/3d_modeling/elements';
+import ThreeDModeling from '@/elements/3d_modeling/components';
 import GameEngine from '@/elements/game_engine/components';
 import ShortAnswer from '@/elements/short_answer/components';
 import TrueOrFalse from '@/elements/true_or_false/components';

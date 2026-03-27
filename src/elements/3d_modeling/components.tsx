@@ -1,6 +1,6 @@
 'use client'
 
-import { Element, ElementPackage, ElementProps } from '@/lib/types/general';
+import { Element, ElementPackage, ElementProps } from '@/lib/types/element';
 import { Landscape } from '@mui/icons-material';
 import { useState } from 'react';
 import { Type } from '@google/genai';
@@ -40,7 +40,7 @@ function Component(props: ElementProps<InteractionType>) {
   );
 }
 
-const interaction: ElementPackage<InteractionType> = {
+const elementPackage: ElementPackage<InteractionType> = {
   id: "3dModeling",
   prettyName: "3D Modeling",
   description: "Let users create 3D models in a workspace. Feedback will be generated for the user based on their work.",
@@ -51,4 +51,4 @@ const interaction: ElementPackage<InteractionType> = {
   Component: Component
 };
 
-export default interaction;
+export default elementPackage;
