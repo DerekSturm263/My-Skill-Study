@@ -396,9 +396,9 @@ function ElementValue({ type, id, value, setValue }: { type: string, id: string,
           ))}
         </>
       ) : (
-        <Typography>
+        <DialogContentText>
           This type is not supported yet!
-        </Typography>
+        </DialogContentText>
       )}
     </>
   )
