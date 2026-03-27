@@ -420,7 +420,7 @@ function ElementValue({ name, value, setValue }: { name: string, value: any, set
                 </ReorderIcon>
 
                 <ElementValue
-                  name={`Element ${index}`}
+                  name={`Item ${index + 1}`}
                   value={item}
                   setValue={(newValue) => {
                     setValue(newValue);
