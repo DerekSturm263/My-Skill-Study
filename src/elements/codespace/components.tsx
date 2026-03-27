@@ -6,7 +6,6 @@ import { Stack,  Tabs, Tab, Button, Typography, LinearProgress, Box } from '@mui
 import { ElementPackage, ElementProps, Element } from '@/lib/types/element';
 import { Add, Code, PlayArrow } from '@mui/icons-material';
 import { Verification } from '@/lib/ai/types';
-import { ViewMode } from '@/lib/types/general';
 import { useState } from 'react';
 import { Editor } from '@monaco-editor/react';
 import { Type } from '@google/genai';
@@ -16,7 +15,7 @@ export interface InteractionType extends Element {
   files: CodespaceFile[],
   isSimplified: boolean,
   allowNewFiles: boolean,
-  correctOutput: string | null
+  correctOutput: string
 };
 
 enum CodespaceLanguage {
@@ -95,7 +94,7 @@ const defaultValue: InteractionType = {
   ],
   isSimplified: false,
   allowNewFiles: false,
-  correctOutput: null,
+  correctOutput: "",
   requiresCompletion: true
 }
 

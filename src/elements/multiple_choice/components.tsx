@@ -6,7 +6,6 @@ import verify from './functions';
 import { Box, Button, Radio, RadioGroup, Checkbox, FormControl, FormControlLabel } from '@mui/material';
 import { ElementProps, ElementPackage, Element } from '@/lib/types/element';
 import { useEffect, useState } from 'react';
-import { ViewMode } from '@/lib/types/general';
 import { CheckBox } from '@mui/icons-material';
 import { Type } from '@google/genai';
 

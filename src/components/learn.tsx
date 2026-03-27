@@ -8,7 +8,7 @@ import { AutoAwesome, Delete, Edit, Info, Refresh, Save, Share, Visibility } fro
 import { Box, ListItem, ListItemButton, ListItemText, Snackbar } from '@mui/material';
 import { Sidebar, SidebarButton } from './sidebar';
 import { CookiesProvider } from 'react-cookie';
-import { PageComponent } from './page';
+import { PageComponent } from './general';
 import { defaultValue } from './text';
 import { ViewMode } from '@/lib/types/general';
 import { useState } from 'react';

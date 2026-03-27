@@ -5,16 +5,15 @@ import verify from "./functions";
 import { Box, TextField, Stack, Tooltip, InputAdornment, IconButton } from '@mui/material';
 import { ElementProps, ElementPackage, Element } from "@/lib/types/element";
 import { Done, FormatQuote } from '@mui/icons-material';
-import { ViewMode } from "@/lib/types/general";
 import { useState } from 'react';
 import { Type } from '@google/genai';
 
 export interface ElementType extends Element {
-  correctAnswer: string | null
+  correctAnswer: string
 };
 
 const defaultValue: ElementType = {
-  correctAnswer: null,
+  correctAnswer: "",
   requiresCompletion: true
 }
 
