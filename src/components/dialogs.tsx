@@ -375,7 +375,7 @@ function ElementValue({ type, id, value, setValue }: { type: string, id: string,
         />
       ) : Array.isArray(value) ? (
         <Stack
-          sx={{gap: '8px', backgroundColor: (theme) => theme.palette.grey[700], padding: '8px'}}
+          sx={{gap: '8px', backgroundColor: (theme) => theme.palette.grey[800], padding: '8px'}}
         >
           <Stack
             direction="row"
@@ -410,7 +410,7 @@ function ElementValue({ type, id, value, setValue }: { type: string, id: string,
                 spacing={1}
                 borderRadius={1}
                 direction="row"
-                sx={{ backgroundColor: (theme) => theme.palette.grey[800], padding: '8px', justifyContent: "space-between" }}
+                sx={{ backgroundColor: (theme) => theme.palette.grey[700], padding: '8px', justifyContent: "space-between" }}
               >
                 <ReorderIcon
                   draggable={true}
