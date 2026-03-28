@@ -1,6 +1,7 @@
 'use client'
 
 import verify, { compile } from './functions';
+import { v4 as uuidv4 } from 'uuid';
 
 import { Stack,  Tabs, Tab, Button, Typography, LinearProgress, Box } from '@mui/material';
 import { ElementPackage, ElementProps, Element } from '@/lib/types/element';
@@ -81,7 +82,8 @@ enum CodespaceLanguage {
 
 export type CodespaceFile = {
   name: string,
-  content: string
+  content: string,
+  id: string
 }
 
 const defaultValue: InteractionType = {
@@ -89,7 +91,8 @@ const defaultValue: InteractionType = {
   files: [
     {
       name: 'Main.js',
-      content: 'console.log("Hello, world!");'
+      content: 'console.log("Hello, world!");',
+      id: uuidv4()
     }
   ],
   isSimplified: false,
@@ -211,7 +214,7 @@ function Component(props: ElementProps<InteractionType>) {
         >
           {props.value.files.map(file => (
             <Tab
-              key={file.name} // TODO: Replace with constant ID. File names can change!
+              key={file.id}
               label={file.name}
             />
           ))}
@@ -221,7 +224,7 @@ function Component(props: ElementProps<InteractionType>) {
               icon={<Add />}
               onClick={(e) => {
                 const newFiles = props.value.files;
-                newFiles.push({ name: "New File", content: "" });
+                newFiles.push({ name: "New File", content: "", id: uuidv4() });
                 props.setValue({ ... props.value, files: newFiles });
               }}
             />

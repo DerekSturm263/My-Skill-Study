@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image';
+import { v4 as uuidv4 } from 'uuid';
 
 import { ElementProps, ElementPackage, Element } from "@/lib/types/element";
 import { Box, Button, Stack } from '@mui/material';
@@ -15,7 +16,8 @@ export interface ElementType extends Element {
 type File = {
   name: string,
   source: string,
-  isDownloadable: boolean
+  isDownloadable: boolean,
+  id: string
 };
 
 const defaultValue: ElementType = {
@@ -23,7 +25,8 @@ const defaultValue: ElementType = {
     {
       name: "New File",
       source: "",
-      isDownloadable: false
+      isDownloadable: false,
+      id: uuidv4()
     }
   ],
   requiresCompletion: false
@@ -68,7 +71,7 @@ const schema = {
 function Component(props: ElementProps<ElementType>) {
   function addFile() {
     const newFiles = props.value.files;
-    newFiles.push(defaultValue.files[0]);
+    newFiles.push({ name: "New File", source: "", isDownloadable: true, id: uuidv4() });
 
     props.setValue({ ... props.value, files: newFiles });
   }
@@ -91,7 +94,7 @@ function Component(props: ElementProps<ElementType>) {
       >
         {props.value.files.map((item, index) => (
           <FileItem
-            key={item.name} // TODO: Replace with constant ID. File names can change!
+            key={item.id}
             props={props}
             item={item}
             index={index}
