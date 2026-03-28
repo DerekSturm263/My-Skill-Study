@@ -313,6 +313,7 @@ export function SettingsDialog({ value, type, isOpen, setValue, setIsOpen, reset
 
         <ElementValue
           name="Properties"
+          doPrettify={false}
           value={value}
           setValue={newValue => {
             setValue(newValue);
@@ -343,13 +344,15 @@ export function SettingsDialog({ value, type, isOpen, setValue, setIsOpen, reset
   );
 }
 
-function ElementValue({ name, value, setValue }: { name: string, value: any, setValue: (newValue: any) => void }) {
+function ElementValue({ name, doPrettify, value, setValue }: { name: string, doPrettify: boolean, value: any, setValue: (newValue: any) => void }) {
   const type = typeof value;
-  
+  const prettyName = doPrettify ? prettify(name) : name;
+
   return (
     <>
       {type == "boolean" ? (
         <FormControlLabel
+          label={prettyName}
           control={
             <Switch
               defaultChecked={true}
@@ -357,11 +360,10 @@ function ElementValue({ name, value, setValue }: { name: string, value: any, set
               onChange={(e) => setValue(e.target.checked)}
             />
           }
-          label={name}
         />
       ) : type == "string" ? (
         <TextField
-          label={name}
+          label={prettyName}
           value={(value as any)[name]}
           fullWidth
           multiline
@@ -369,7 +371,7 @@ function ElementValue({ name, value, setValue }: { name: string, value: any, set
         />
       ) : type == "number" ? (
         <NumberField
-          label={name}
+          label={prettyName}
           value={(value as any)[name]}
         />
       ) : Array.isArray(value) ? (
@@ -385,7 +387,7 @@ function ElementValue({ name, value, setValue }: { name: string, value: any, set
               variant='subtitle1'
               sx={{ marginTop: "auto", marginBottom: "auto" }}
             >
-              {name}
+              {prettyName}
             </Typography>
 
             <IconButton
@@ -422,6 +424,7 @@ function ElementValue({ name, value, setValue }: { name: string, value: any, set
 
                 <ElementValue
                   name={`Item ${index + 1}`}
+                  doPrettify={false}
                   value={item}
                   setValue={(newValue) => {
                     setValue(newValue);
@@ -448,13 +451,14 @@ function ElementValue({ name, value, setValue }: { name: string, value: any, set
           <Typography
             variant="subtitle1"
           >
-            {name}
+            {prettyName}
           </Typography>
 
           {Object.keys(value).map(key => (
             <ElementValue
               key={key}
               name={key}
+              doPrettify={true}
               value={(value as any)[key]}
               setValue={(newValue) => {
                 (value as any)[key] = newValue;
@@ -472,6 +476,25 @@ function ElementValue({ name, value, setValue }: { name: string, value: any, set
       )}
     </>
   )
+}
+
+function prettify(name: string) {
+  let output = "";
+
+  for (let i = 0; i < name.length; ++i) {
+    const letter = name[i];
+
+    if (letter.toLowerCase() != letter) { // Uppercase
+      output += " ";
+      output += letter;
+    } else if (i == 0) {
+      output += letter.toUpperCase();
+    } else {
+      output += letter;
+    }
+  }
+
+  return output;
 }
 
 export function NewElementDialog({ isOpen, setIsOpen, createElement }: { isOpen: boolean, setIsOpen: Dispatch<SetStateAction<boolean>>, createElement: (type: string) => void }) {
