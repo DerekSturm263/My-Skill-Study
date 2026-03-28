@@ -47,7 +47,7 @@ function Component(props: ElementProps<ElementType>) {
 
   return (
     <Box
-      sx={{ height: "100%", alignContent: 'center' }}
+      sx={{ height: "100%", alignSelf: "center", alignContent: 'center' }}
     >
       <ReorderList>
         {props.value.correctOrder.map(item => (
@@ -61,10 +61,11 @@ function Component(props: ElementProps<ElementType>) {
   );
 }
 
-function OrderingItem({ item }: { item: string }) {
+function OrderingItem({ item, isDisabled }: { item: string }) {
   return (
     <Stack
       direction="row"
+      spacing={1}
     >
       <ReorderIcon
         draggable={true}
@@ -72,9 +73,9 @@ function OrderingItem({ item }: { item: string }) {
         <DragHandle />
       </ReorderIcon>
 
-      <Typography>
+      <Markdown>
         {item}
-      </Typography>
+      </Markdown>
     </Stack>
   );
 }
