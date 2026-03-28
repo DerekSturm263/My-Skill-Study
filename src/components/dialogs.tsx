@@ -556,11 +556,11 @@ export function NewElementDialog({ isOpen, setIsOpen, createElement }: { isOpen:
       <DialogTitle>
         Create New Element
 
-        <DialogContentText>
+        <DialogContentText
+          gutterBottom
+        >
           Choose one of the following element types to add to this page. Each page can have up to 4 elements on it.
         </DialogContentText>
-
-        <br />
 
         <TextField
           placeholder="Search for elements"
