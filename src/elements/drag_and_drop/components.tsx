@@ -7,11 +7,21 @@ import { Type } from '@google/genai';
 import { Box } from '@mui/material';
 
 export interface ElementType extends Element {
-  placeholder: boolean
+  groups: Group[]
 };
 
+export type Group = {
+  items: string[]
+}
+
 const defaultValue: ElementType = {
-  placeholder: false,
+  groups: [
+    {
+      items: [
+        "New Item"
+      ]
+    }
+  ],
   requiresCompletion: true
 }
 

@@ -34,10 +34,10 @@ const schema = {
     }
   },
   required: [
-    "items"
+    "correctOrder"
   ],
   propertyOrdering: [
-    "items"
+    "correctOrder"
   ]
 };
 
