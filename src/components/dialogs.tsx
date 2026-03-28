@@ -356,7 +356,7 @@ function ElementValue({ name, doPrettify, value, setValue }: { name: string, doP
           control={
             <Switch
               defaultChecked={true}
-              value={(value as any)[name]}
+              value={value}
               onChange={(e) => setValue(e.target.checked)}
             />
           }
@@ -364,7 +364,7 @@ function ElementValue({ name, doPrettify, value, setValue }: { name: string, doP
       ) : type == "string" ? (
         <TextField
           label={prettyName}
-          value={(value as any)[name]}
+          value={value}
           fullWidth
           multiline
           onChange={(e) => setValue(e.target.value)}
@@ -372,7 +372,7 @@ function ElementValue({ name, doPrettify, value, setValue }: { name: string, doP
       ) : type == "number" ? (
         <NumberField
           label={prettyName}
-          value={(value as any)[name]}
+          value={value}
         />
       ) : Array.isArray(value) ? (
         <Stack
@@ -454,14 +454,14 @@ function ElementValue({ name, doPrettify, value, setValue }: { name: string, doP
             {prettyName}
           </Typography>
 
-          {Object.keys(value).map(key => (
+          {Object.entries(value).filter(kvp => kvp[0] != 'id').map(kvp => (
             <ElementValue
-              key={key}
-              name={key}
+              key={kvp[0]}
+              name={kvp[0]}
               doPrettify={true}
-              value={(value as any)[key]}
+              value={kvp[1]}
               setValue={(newValue) => {
-                (value as any)[key] = newValue;
+                value[kvp[0]] = newValue;
                 setValue(value);
               }}
             />
