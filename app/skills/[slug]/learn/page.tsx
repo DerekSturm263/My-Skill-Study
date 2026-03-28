@@ -19,7 +19,16 @@ export default async function Page({ params, searchParams }: { params: SlugProps
   const urlParams = await searchParams;
 
   const valueWithId = await get<Skill>("skills", slug);
-  const value = valueWithId as Skill;
+  const value: Skill = {
+    title: valueWithId.title,
+    tagLine: valueWithId.tagLine,
+    description: valueWithId.description,
+    rating: valueWithId.rating,
+    creator: valueWithId.creator,
+    learn: valueWithId.learn,
+    practice: valueWithId.practice,
+    quiz: valueWithId.quiz
+  };
   const id = valueWithId._id.toString();
   
   const mode = urlParams?.mode ?? "view";
