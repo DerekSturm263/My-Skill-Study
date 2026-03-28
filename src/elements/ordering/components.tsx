@@ -85,7 +85,9 @@ function OrderingItem({ item, isDisabled }: { item: string, isDisabled: boolean 
       <ReorderIcon
         draggable={!isDisabled}
       >
-        <DragHandle />
+        <DragHandle
+          sx={{ marginTop: "auto", marginBottom: "auto" }}
+        />
       </ReorderIcon>
 
       <Markdown>

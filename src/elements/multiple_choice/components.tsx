@@ -172,7 +172,11 @@ function MultipleChoiceItem({ props, item, index, isRadio, toggle, setSelected }
           toggle(item.value, e.target.checked);
         }}
       />)}
-      label={<Markdown>{item.value}</Markdown>}
+      label={
+        <Markdown>
+          {item.value}
+        </Markdown>
+      }
     />
   );
 }
