@@ -54,6 +54,7 @@ function Component(props: ElementProps<ElementType>) {
           <OrderingItem
             key={item}
             item={item}
+            isDisabled={props.isDisabled}
           />
         ))}
       </ReorderList>
@@ -61,14 +62,14 @@ function Component(props: ElementProps<ElementType>) {
   );
 }
 
-function OrderingItem({ item, isDisabled }: { item: string }) {
+function OrderingItem({ item, isDisabled }: { item: string, isDisabled: boolean }) {
   return (
     <Stack
       direction="row"
       spacing={1}
     >
       <ReorderIcon
-        draggable={true}
+        draggable={!isDisabled}
       >
         <DragHandle />
       </ReorderIcon>
