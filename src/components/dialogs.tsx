@@ -427,7 +427,9 @@ function ElementValue({ name, doPrettify, value, setValue }: { name: string, doP
                   doPrettify={false}
                   value={item}
                   setValue={(newValue) => {
-                    setValue(newValue);
+                    const newArray = value;
+                    value[index] = newValue;
+                    setValue(newArray);
                   }}
                 />
 
