@@ -44,7 +44,6 @@ function Component(props: ElementProps<ElementType>) {
         disabled={props.isDisabled}
       >
         <RadioGroup
-          defaultValue=""
           name="true-false-group"
           value={userIsCorrect}
           onChange={(e) => {

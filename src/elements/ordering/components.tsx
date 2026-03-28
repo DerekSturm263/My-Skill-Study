@@ -6,9 +6,10 @@ import ReorderList, { ReorderIcon } from "react-reorder-list";
 
 import { Element, ElementPackage, ElementProps } from "@/lib/types/element";
 import { DragHandle, FormatLineSpacing } from '@mui/icons-material';
-import { Box, Button, Stack } from '@mui/material';
+import { Box, Button, Stack, Typography } from '@mui/material';
 import { useEffect } from 'react';
 import { Type } from '@google/genai';
+import theme from "../../../app/theme";
 
 export interface ElementType extends Element {
   correctOrder: string[]
@@ -77,21 +78,25 @@ function Component(props: ElementProps<ElementType>) {
 
 function OrderingItem({ item, isDisabled }: { item: string, isDisabled: boolean }) {
   return (
-      <ReorderIcon
-        draggable={!isDisabled}
-        style={{  }}
+    <ReorderIcon
+      draggable={!isDisabled}
+    >
+      <Stack
+        direction="row"
+        spacing={1}
+        sx={{ height: '56px', alignItems: "center" }}
       >
-        <Stack
-          direction="row"
-          spacing={1}
-          sx={{ height: '56px' }}
-        >
-          <DragHandle />
+        <DragHandle
+          sx={{ color: (theme) => isDisabled ? theme.palette.text.disabled : theme.palette.text.primary }}
+        />
 
-          <Markdown>
-            {item}
-          </Markdown>
-        </Stack>
+        <Typography
+          component={Markdown}
+          sx={{ color: (theme) => isDisabled ? theme.palette.text.disabled : theme.palette.text.primary }}
+        >
+          {item}
+        </Typography>
+      </Stack>
     </ReorderIcon>
   );
 }

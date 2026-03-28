@@ -98,7 +98,6 @@ export default function Component(props: TextProps) {
           <TextField
             hiddenLabel={true}
             multiline
-            defaultValue={props.originalValue}
             value={props.currentValue}
             onChange={(e) => {
               props.setCurrentValue(e.target.value);
