@@ -52,6 +52,7 @@ function Component(props: ElementProps<ElementType>) {
       <ReorderList>
         {props.value.correctOrder.map(item => (
           <OrderingItem
+            key={item}
             item={item}
           />
         ))}
