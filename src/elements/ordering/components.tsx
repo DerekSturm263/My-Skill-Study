@@ -1,12 +1,14 @@
 'use client'
 
+import Markdown from "react-markdown";
+import verify from './functions';
+import ReorderList, { ReorderIcon } from "react-reorder-list";
+
 import { Element, ElementPackage, ElementProps } from "@/lib/types/element";
 import { DragHandle, FormatLineSpacing } from '@mui/icons-material';
-import { useEffect, useState } from 'react';
+import { Box, Button, Stack } from '@mui/material';
+import { useEffect } from 'react';
 import { Type } from '@google/genai';
-import { Box, FormControlLabel, Stack, Typography } from '@mui/material';
-import Markdown from "react-markdown";
-import ReorderList, { ReorderIcon } from "react-reorder-list";
 
 export interface ElementType extends Element {
   correctOrder: string[]
@@ -58,6 +60,15 @@ function Component(props: ElementProps<ElementType>) {
           />
         ))}
       </ReorderList>
+
+      <Button
+        variant="contained"
+        onClick={(e) => props.evaluateAndReply(verify(props.text, [], props.value))}
+        sx={{ width: '120px' }}
+        disabled={props.isDisabled}
+      >
+        Submit
+      </Button>
     </Box>
   );
 }

@@ -1,7 +1,7 @@
 import generateText from "@/lib/ai/functions";
 
-import { ElementType, ChoiceType } from "./components";
 import { ModelType, Verification } from "@/lib/ai/types";
+import { ElementType, ChoiceType } from "./components";
 
 export default async function verify(question: string, userResponse: string[], value: ElementType): Promise<Verification> {
   let isValid = false;
