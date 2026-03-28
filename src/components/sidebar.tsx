@@ -21,7 +21,7 @@ export type SidebarAction = {
   action: string | (() => void)
 }
 
-export function Sidebar({ children, label, options, selectedOption, actions }: { children?: React.ReactNode, label: string, options: SidebarOption[], selectedOption: string, actions: SidebarAction[] }) {
+export function Sidebar({ children, label, options, selectedOption, actions, showAdd, addItem }: { children?: React.ReactNode, label: string, options: SidebarOption[], selectedOption: string, actions: SidebarAction[], showAdd: boolean, addItem: () => void }) {
   const searchParams = useSearchParams();
   const hideHeader = searchParams.get('hideHeader') === 'true';
     
@@ -122,6 +122,22 @@ export function Sidebar({ children, label, options, selectedOption, actions }: {
             </>
           )}
         </ReorderList>
+        
+        <Divider />
+        
+        {showAdd && (
+          <ListItem>
+            <ListItemButton
+              onClick={(e) => addItem()}
+            >
+              <ListItemText
+                sx={{ textAlign: 'center' }}
+              >
+                New Chapter
+              </ListItemText>
+            </ListItemButton>
+          </ListItem>
+        )}
       </Box>
     </Drawer>
   );

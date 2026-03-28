@@ -165,6 +165,8 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
               action: () => { setDialogOpen("delete") }
             } ] : [])
           ]}
+          showAdd={mode == ViewMode.Edit}
+          addItem={addChapter}
         >
           {value.chapters.map((chapter, index) => {
             return (
@@ -184,20 +186,6 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
               />
             );
           })}
-
-          {mode == ViewMode.Edit && (
-            <ListItem>
-              <ListItemButton
-                onClick={(e) => addChapter()}
-              >
-                <ListItemText
-                  sx={{ textAlign: 'center' }}
-                >
-                  New Chapter
-                </ListItemText>
-              </ListItemButton>
-            </ListItem>
-          )}
         </Sidebar>
 
         {value.chapters.map((chapter, cIndex) => chapter.pages.map((page, pIndex) => (
