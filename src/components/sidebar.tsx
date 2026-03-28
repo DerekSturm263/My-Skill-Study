@@ -117,9 +117,9 @@ export function Sidebar({ children, label, options, selectedOption, actions }: {
           useOnlyIconToDrag={true}
         >
           {Children.map(children, child => 
-            <li>
+            <>
               {child}
-            </li>
+            </>
           )}
         </ReorderList>
       </Box>
