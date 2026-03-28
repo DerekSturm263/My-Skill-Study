@@ -47,7 +47,7 @@ const elementPackage: ElementPackage<ElementType> = {
   id: "graph",
   prettyName: "Graph",
   description: "Let users do math problems on a graph. Feedback will be generated for the user based on their work.",
-  category: "Mathematics",
+  category: "Math",
   icon: Architecture,
   defaultValue: defaultValue,
   schema: schema,

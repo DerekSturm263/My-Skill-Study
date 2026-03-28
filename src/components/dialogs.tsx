@@ -5,13 +5,13 @@
 import NumberField from './helpers';
 import Link from 'next/link';
 
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, IconButton, Stack, Switch, Tab, Tabs, TextField, ToggleButton, Typography } from '@mui/material';
-import { Element, ElementPackage, elementMap } from '@/lib/types/element';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, IconButton, InputAdornment, Stack, Switch, Tab, Tabs, TextField, ToggleButton, Tooltip, Typography } from '@mui/material';
+import { Element, ElementPackage, ElementPackageBase, elementMap } from '@/lib/types/element';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { Sharable } from '@/lib/types/general';
 import { Masonry } from '@mui/lab';
 import { remove } from '../lib/miscellaneous/database';
-import { Add, Delete, DragHandle, Reorder } from '@mui/icons-material';
+import { Add, Delete, DragHandle, Reorder, Search } from '@mui/icons-material';
 import ReorderList, { ReorderIcon } from 'react-reorder-list';
 
 export function SuccessDialog({ title, text, isOpen, setIsOpen }: { title: string, text: string, isOpen: boolean, setIsOpen: Dispatch<SetStateAction<boolean>> }) {
@@ -498,6 +498,55 @@ function prettify(name: string) {
 }
 
 export function NewElementDialog({ isOpen, setIsOpen, createElement }: { isOpen: boolean, setIsOpen: Dispatch<SetStateAction<boolean>>, createElement: (type: string) => void }) {
+  const [ searchQuery, setSearchQuery ] = useState("");
+  
+  function createCategory(category: string) {
+    const elements = Object.values(elementMap)
+      .filter(item => item.category == category && item.prettyName.includes(searchQuery));
+
+    if (elements.length == 0)
+      return <></>
+
+    return (
+      <Stack>
+        <DialogContentText
+          variant="subtitle1"
+        >
+          {category}
+        </DialogContentText>
+
+        <Masonry
+          columns={2}
+        >
+          {fromCategory(elements)}
+        </Masonry>
+      </Stack>
+    );
+  }
+  
+  function fromCategory(elements: ElementPackageBase[]) {
+    return (
+      elements.map(element => (
+        <ToggleButton
+          key={element.id}
+          value={element.id}
+          onClick={(e) => {
+            createElement(element.id);
+            setIsOpen(false);
+          }}
+        >
+          <Stack>
+            <element.icon
+              sx={{ margin: "auto" }}
+            />
+
+            {element.prettyName}
+          </Stack>
+        </ToggleButton>
+      ))
+    );
+  }
+
   return (
     <Dialog
       open={isOpen}
@@ -512,30 +561,29 @@ export function NewElementDialog({ isOpen, setIsOpen, createElement }: { isOpen:
           Choose one of the following element types to add to this page. Each page can have up to 4 elements on it.
         </DialogContentText>
 
+        <TextField
+          placeholder="Search for elements"
+          value={searchQuery}
+          fullWidth
+          onChange={(e) => setSearchQuery(e.target.value)}
+          slotProps={{
+            input: {
+              endAdornment:
+                <InputAdornment position="end">
+                  <Search />
+                </InputAdornment>
+            },
+          }}
+        />
+
         <br />
 
-        <Masonry
-          columns={2}
-        >
-          {Object.values(elementMap).map(element => (
-            <ToggleButton
-              key={element.id}
-              value={element.id}
-              onClick={(e) => {
-                createElement(element.id);
-                setIsOpen(false);
-              }}
-            >
-              <Stack>
-                <element.icon
-                  sx={{ margin: "auto" }}
-                />
-
-                {element.prettyName}
-              </Stack>
-            </ToggleButton>
-          ))}
-        </Masonry>
+        {createCategory("Assessments")}
+        {createCategory("Art")}
+        {createCategory("Math")}
+        {createCategory("Computer Science")}
+        {createCategory("Audio")}
+        {createCategory("Miscellaneous")}
       </DialogContent>
 
       <DialogActions>

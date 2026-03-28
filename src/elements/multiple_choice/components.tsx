@@ -138,6 +138,8 @@ function Component(props: ElementProps<ElementType>) {
           ))}
         </RadioGroup>
 
+        <br />
+          
         <Button
           variant="contained"
           onClick={(e) => props.evaluateAndReply(verify(props.text, selected, props.value))}

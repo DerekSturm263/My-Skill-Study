@@ -74,25 +74,26 @@ function Header({ presetSearchTerms }: { presetSearchTerms: string }) {
           onSubmit={(e) => {}}
           slotProps={{
             input: {
-              endAdornment: <InputAdornment position="end">
-                <Tooltip
-                  title="Search"
-                >
-                  <IconButton
-                    href={`/search?query=${searchTerms}`}
+              endAdornment:
+                <InputAdornment position="end">
+                  <Tooltip
+                    title="Search"
                   >
-                    <Search />
-                  </IconButton>
-                </Tooltip>
-                
-                <Tooltip
-                  title="I'm feeling lucky"
-                >
-                  <IconButton>
-                    <QuestionMark />
-                  </IconButton>
-                </Tooltip>
-              </InputAdornment>,
+                    <IconButton
+                      href={`/search?query=${searchTerms}`}
+                    >
+                      <Search />
+                    </IconButton>
+                  </Tooltip>
+
+                  <Tooltip
+                    title="I'm feeling lucky"
+                  >
+                    <IconButton>
+                      <QuestionMark />
+                    </IconButton>
+                  </Tooltip>
+                </InputAdornment>
             },
           }}
           sx={{ flexGrow: 1, maxWidth: 600 }}

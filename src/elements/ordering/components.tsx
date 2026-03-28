@@ -61,6 +61,8 @@ function Component(props: ElementProps<ElementType>) {
         ))}
       </ReorderList>
 
+      <br />
+          
       <Button
         variant="contained"
         onClick={(e) => props.evaluateAndReply(verify(props.text, [], props.value))}
@@ -78,6 +80,7 @@ function OrderingItem({ item, isDisabled }: { item: string, isDisabled: boolean 
     <Stack
       direction="row"
       spacing={1}
+      sx={{ height: '56px' }}
     >
       <ReorderIcon
         draggable={!isDisabled}
