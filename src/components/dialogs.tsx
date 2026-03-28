@@ -374,6 +374,7 @@ function ElementValue({ name, value, setValue }: { name: string, value: any, set
         />
       ) : Array.isArray(value) ? (
         <Stack
+          borderRadius={1}
           sx={{gap: '8px', backgroundColor: (theme) => theme.palette.grey[800], padding: '8px'}}
         >
           <Stack
