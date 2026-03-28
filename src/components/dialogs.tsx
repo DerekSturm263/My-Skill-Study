@@ -502,7 +502,7 @@ export function NewElementDialog({ isOpen, setIsOpen, createElement }: { isOpen:
   
   function createCategory(category: string) {
     const elements = Object.values(elementMap)
-      .filter(item => item.category == category && item.prettyName.includes(searchQuery));
+      .filter(item => item.category == category && item.prettyName.toLowerCase().includes(searchQuery.toLowerCase()));
 
     if (elements.length == 0)
       return <></>
@@ -511,6 +511,7 @@ export function NewElementDialog({ isOpen, setIsOpen, createElement }: { isOpen:
       <Stack>
         <DialogContentText
           variant="subtitle1"
+          gutterBottom
         >
           {category}
         </DialogContentText>
@@ -554,12 +555,12 @@ export function NewElementDialog({ isOpen, setIsOpen, createElement }: { isOpen:
     >
       <DialogTitle>
         Create New Element
-      </DialogTitle>
-    
-      <DialogContent>
+
         <DialogContentText>
           Choose one of the following element types to add to this page. Each page can have up to 4 elements on it.
         </DialogContentText>
+
+        <br />
 
         <TextField
           placeholder="Search for elements"
@@ -575,14 +576,29 @@ export function NewElementDialog({ isOpen, setIsOpen, createElement }: { isOpen:
             },
           }}
         />
+      </DialogTitle>
+    
+      <DialogContent>
+        {createCategory("Assessments")}
 
         <br />
 
-        {createCategory("Assessments")}
         {createCategory("Art")}
+
+        <br />
+
         {createCategory("Math")}
+
+        <br />
+
         {createCategory("Computer Science")}
+
+        <br />
+
         {createCategory("Audio")}
+
+        <br />
+
         {createCategory("Miscellaneous")}
       </DialogContent>
 
