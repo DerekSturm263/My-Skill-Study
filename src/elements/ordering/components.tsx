@@ -84,15 +84,14 @@ function OrderingItem({ item, isDisabled }: { item: string, isDisabled: boolean 
     >
       <ReorderIcon
         draggable={!isDisabled}
+        style={{  }}
       >
-        <DragHandle
-          sx={{ marginTop: "auto", marginBottom: "auto" }}
-        />
-      </ReorderIcon>
+        <DragHandle />
 
-      <Markdown>
-        {item}
-      </Markdown>
+        <Markdown>
+          {item}
+        </Markdown>
+      </ReorderIcon>
     </Stack>
   );
 }
