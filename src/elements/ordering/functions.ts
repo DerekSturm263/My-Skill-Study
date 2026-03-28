@@ -4,7 +4,7 @@ import { ModelType, Verification } from "@/lib/ai/types";
 import { ElementType } from "./components";
 
 export default async function verify(question: string, userResponse: string[], value: ElementType): Promise<Verification> {
-  let isValid = false;
+  /*let isValid = false;
   let contents = '';
 
   const response = await generateText({
@@ -16,7 +16,9 @@ export default async function verify(question: string, userResponse: string[], v
   return {
     isValid: isValid,
     feedback: response
-  };
+  };*/
+
+  return { isValid: true, feedback: "" };
 }
 
 function areArraysEqual<T>(arr1: T[], arr2: T[]): boolean {
