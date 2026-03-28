@@ -77,22 +77,22 @@ function Component(props: ElementProps<ElementType>) {
 
 function OrderingItem({ item, isDisabled }: { item: string, isDisabled: boolean }) {
   return (
-    <Stack
-      direction="row"
-      spacing={1}
-      sx={{ height: '56px' }}
-    >
       <ReorderIcon
         draggable={!isDisabled}
         style={{  }}
       >
-        <DragHandle />
+        <Stack
+          direction="row"
+          spacing={1}
+          sx={{ height: '56px' }}
+        >
+          <DragHandle />
 
-        <Markdown>
-          {item}
-        </Markdown>
-      </ReorderIcon>
-    </Stack>
+          <Markdown>
+            {item}
+          </Markdown>
+        </Stack>
+    </ReorderIcon>
   );
 }
 
