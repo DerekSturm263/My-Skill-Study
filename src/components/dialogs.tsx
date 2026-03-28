@@ -302,15 +302,15 @@ export function SettingsDialog({ value, type, isOpen, setValue, setIsOpen, reset
     >
       <DialogTitle>
         {`${elementPackage.prettyName} Settings`}
+        
+        <DialogContentText
+          gutterBottom
+        >
+          {elementPackage.description}
+        </DialogContentText>
       </DialogTitle>
 
       <DialogContent>
-        <DialogContentText>
-          {elementPackage.description}
-        </DialogContentText>
-
-        <br />
-
         <ElementValue
           name="Properties"
           doPrettify={false}
@@ -559,7 +559,7 @@ export function NewElementDialog({ isOpen, setIsOpen, createElement }: { isOpen:
         <DialogContentText
           gutterBottom
         >
-          Choose one of the following element types to add to this page. Each page can have up to 4 elements on it.
+          Choose one of the following element types to add to this page. Each page can have up to 4 elements.
         </DialogContentText>
 
         <TextField
@@ -570,7 +570,9 @@ export function NewElementDialog({ isOpen, setIsOpen, createElement }: { isOpen:
           slotProps={{
             input: {
               endAdornment:
-                <InputAdornment position="end">
+                <InputAdornment
+                  position="end"
+                >
                   <Search />
                 </InputAdornment>
             },

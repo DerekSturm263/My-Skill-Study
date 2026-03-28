@@ -75,7 +75,9 @@ function Header({ presetSearchTerms }: { presetSearchTerms: string }) {
           slotProps={{
             input: {
               endAdornment:
-                <InputAdornment position="end">
+                <InputAdornment
+                  position="end"
+                >
                   <Tooltip
                     title="Search"
                   >
