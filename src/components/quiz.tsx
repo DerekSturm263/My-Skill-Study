@@ -16,9 +16,8 @@ import { save } from '@/lib/miscellaneous/database';
 
 export default function Page({ skill, id, mode }: { skill: Skill, id: string, mode: ViewMode }) {
   const [ value, setValue ] = useState(skill.quiz);
-  const [ currentChapterIndex, setCurrentChapterIndex ] = useState(0);
+  const [ currentIndex, setCurrentIndex ] = useState(0);
   const [ isThinking, setIsThinking ] = useState(false);
-  const [ pagesCompleted, setPagesCompleted ] = useState(value.questions.map(questions => false));
   const [ snackbarText, setSnackbarText ] = useState("");
   const [ isSnackbarOpen, setIsSnackbarOpen ] = useState(false);
   const [ dialogOpen, setDialogOpen ] = useState<string | null>(null);
@@ -30,7 +29,8 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
       page: {
         text: defaultValue,
         elements: [],
-        id: uuidv4()
+        id: uuidv4(),
+        isComplete: true
       },
       id: uuidv4()
     });
@@ -162,18 +162,23 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
               action: () => { setDialogOpen("delete") }
             } ] : [])
           ]}
+          showAdd={mode == ViewMode.Edit}
+          addItem={() => {
+            addChapter();
+            setCurrentIndex(value.questions.length - 1);
+          }}
         >
-          {value.questions.map((page, index) => (
+          {value.questions.map((question, index) => (
             <SidebarButton
-              key={page.id}
-              isDisabled={mode == ViewMode.View && (isThinking || (index != 0 && !pagesCompleted[index - 1]))}
-              selected={currentChapterIndex == index}
-              ogTitle={page.title}
+              key={question.id}
+              isDisabled={mode == ViewMode.View && (isThinking || (index != 0 && !value.questions[index - 1].page.isComplete))}
+              selected={currentIndex == index}
+              ogTitle={question.title}
               mode={mode}
-              progress={pagesCompleted[index] ? 1 : 0}
+              progress={question.page.isComplete ? 1 : 0}
               SecondaryIcon={Delete}
               primaryAction={(e) => {
-                setCurrentChapterIndex(index);
+                setCurrentIndex(index);
               }}
               secondaryAction={() => deleteChapter(index)}
             />
@@ -195,27 +200,24 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
         </Sidebar>
 
         {value.questions.map((chapter, index) => (
-          (index == currentChapterIndex && (
+          (index == currentIndex && (
             <PageComponent
               key={chapter.id}
               page={chapter.page}
               mode={mode}
               isThinking={isThinking}
-              pagesCompleted={[[]] as boolean[][]}
-              currentChapterIndex={currentChapterIndex}
-              currentPageIndex={0}
+              pagesCompleted={[] as boolean[]}
+              currentIndex={{ chapter: currentIndex, page: 0}}
               totalPagesInChapter={1}
               setIsThinking={setIsThinking}
-              setCurrentPageIndex={setCurrentChapterIndex}
+              setCurrentPageIndex={setCurrentIndex}
               setSnackbarText={(text: string) => {
                 setSnackbarText(text);
                 setIsSnackbarOpen(true);
               }}
               setIsPageComplete={(isComplete: boolean) => {
-                const newPagesCompleted = pagesCompleted;
-                newPagesCompleted[currentChapterIndex] = isComplete;
-
-                setPagesCompleted(newPagesCompleted);
+                value.questions[index].page.isComplete = isComplete;
+                setValue(value);
               }}
             />
           )

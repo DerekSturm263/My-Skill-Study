@@ -131,12 +131,12 @@ export default function Component(props: TextProps) {
       >
         <Pagination
           count={props.totalPagesInChapter}
-          page={props.pageIndex + 1}
+          page={props.currentPageIndex + 1}
           disabled={props.isThinking}
           renderItem={(item) => (
             <PaginationItem // TODO: Make this reorderable
               {...item}
-              disabled={props.isThinking || (item.page ?? 0) <= 0 || (item.page ?? 0) > props.totalPagesInChapter || (props.mode == ViewMode.View && (!props.pagesCompleted[props.chapterIndex][props.pageIndex + (item.page ?? 0) - 2] && (item.page ?? 0) != 1))}
+              disabled={props.isThinking || (item.page ?? 0) <= 0 || (item.page ?? 0) > props.totalPagesInChapter || (props.mode == ViewMode.View && (!props.pagesCompleted[props.currentPageIndex + (item.page ?? 0) - 2] && (item.page ?? 0) != 1))}
               onClick={() => props.setCurrentPageIndex((item.page ?? 0) - 1 )}
             />
           )}

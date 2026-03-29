@@ -14,9 +14,9 @@ import { useSearchParams } from 'next/navigation';
 import { Add, Settings } from '@mui/icons-material';
 import { Verification } from '@/lib/ai/types';
 import { ViewMode } from '../lib/types/general';
-import { Page } from '@/lib/types/skill';
+import { Page, PageIndex } from '@/lib/types/skill';
 
-export function PageComponent({ page, mode, isThinking, pagesCompleted, currentChapterIndex, currentPageIndex, totalPagesInChapter, setIsThinking, setCurrentPageIndex, setSnackbarText, setIsPageComplete: setIsElementComplete }: { page: Page, mode: ViewMode, isThinking: boolean, pagesCompleted: boolean[][], currentChapterIndex: number, currentPageIndex: number, totalPagesInChapter: number, setIsThinking: Dispatch<SetStateAction<boolean>>, setCurrentPageIndex: Dispatch<SetStateAction<number>>, setSnackbarText: (text: string) => void, setIsPageComplete: (isComplete: boolean) => void }) {
+export function PageComponent({ page, mode, isThinking, pagesCompleted, currentIndex, totalPagesInChapter, setIsThinking, setCurrentPageIndex, setSnackbarText, setIsPageComplete: setIsElementComplete }: { page: Page, mode: ViewMode, isThinking: boolean, pagesCompleted: boolean[], currentIndex: PageIndex, totalPagesInChapter: number, setIsThinking: Dispatch<SetStateAction<boolean>>, setCurrentPageIndex: (index: number) => void, setSnackbarText: (text: string) => void, setIsPageComplete: (isComplete: boolean) => void }) {
   const searchParams = useSearchParams();
   const hideHeader = searchParams.get('hideHeader') === 'true';
 
@@ -102,8 +102,7 @@ export function PageComponent({ page, mode, isThinking, pagesCompleted, currentC
       <TextComponent
         originalValue={page.text.text}
         currentValue={value.text.text}
-        chapterIndex={currentChapterIndex}
-        pageIndex={currentPageIndex}
+        currentPageIndex={currentIndex.page}
         totalPagesInChapter={totalPagesInChapter}
         isThinking={isThinking}
         pagesCompleted={pagesCompleted}

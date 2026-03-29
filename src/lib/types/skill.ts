@@ -18,10 +18,11 @@ export type Chapter = {
   id: string
 }
 
-export type Page = {
+export interface Page {
   text: TextType,
   elements: ElementWrapper[],
-  id: string
+  id: string,
+  isComplete: boolean
 }
 
 export type Practice = {
@@ -32,8 +33,13 @@ export type Quiz = {
   questions: SmallChapter[]
 }
 
-export type SmallChapter = {
+export interface SmallChapter {
   title: string,
   page: Page,
   id: string
+}
+
+export type PageIndex = {
+  chapter: number,
+  page: number
 }

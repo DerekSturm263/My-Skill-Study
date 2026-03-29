@@ -1,13 +1,13 @@
 'use client'
 
-import Skill from '@/lib/types/skill';
+import Skill, { PageIndex } from '@/lib/types/skill';
 import { v4 as uuidv4 } from 'uuid';
 
 import { DeleteDialog, DetailsDialog, GenerateDialog, ShareDialog, SuccessDialog } from './dialogs';
 import { AutoAwesome, Delete, Edit, Info, Refresh, Save, Share, Visibility } from '@mui/icons-material';
-import { Box, ListItem, ListItemButton, ListItemText, Snackbar } from '@mui/material';
 import { Sidebar, SidebarButton } from './sidebar';
 import { CookiesProvider } from 'react-cookie';
+import { Box, Snackbar } from '@mui/material';
 import { PageComponent } from './general';
 import { defaultValue } from './text';
 import { ViewMode } from '@/lib/types/general';
@@ -16,10 +16,8 @@ import { save } from '@/lib/miscellaneous/database';
 
 export default function Page({ skill, id, mode }: { skill: Skill, id: string, mode: ViewMode }) {
   const [ value, setValue ] = useState(skill.learn);
-  const [ currentChapterIndex, setCurrentChapterIndex ] = useState(0);
-  const [ currentPageIndex, setCurrentPageIndex ] = useState(0);
+  const [ currentIndex, setCurrentIndex ] = useState<PageIndex>({ chapter: 0, page: 0 });
   const [ isThinking, setIsThinking ] = useState(false);
-  const [ pagesCompleted, setPagesCompleted ] = useState(value.chapters.map(chapter => chapter.pages.map(page => false)));
   const [ snackbarText, setSnackbarText ] = useState("");
   const [ isSnackbarOpen, setIsSnackbarOpen ] = useState(false);
   const [ dialogOpen, setDialogOpen ] = useState<string | null>(null);
@@ -32,7 +30,8 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
         {
           text: defaultValue,
           elements: [],
-          id: uuidv4()
+          id: uuidv4(),
+          isComplete: false
         }
       ],
       id: uuidv4()
@@ -166,22 +165,22 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
             } ] : [])
           ]}
           showAdd={mode == ViewMode.Edit}
-          addItem={addChapter}
+          addItem={() => {
+            addChapter();
+            setCurrentIndex({ chapter: value.chapters.length - 1, page: 0});
+          }}
         >
           {value.chapters.map((chapter, index) => {
             return (
               <SidebarButton
                 key={chapter.id}
-                isDisabled={mode == ViewMode.View && (isThinking || (index != 0 && !pagesCompleted[index - 1][pagesCompleted[index - 1].length - 1]))}
-                selected={currentChapterIndex == index}
+                isDisabled={mode == ViewMode.View && (isThinking || (index != 0 && !value.chapters[index - 1].pages.at(-1)?.isComplete))}
+                selected={currentIndex.chapter == index}
                 ogTitle={chapter.title}
                 mode={mode}
-                progress={mode == ViewMode.View ? pagesCompleted[index].filter(item => item).length / pagesCompleted[index].length : 1}
+                progress={mode == ViewMode.View ? chapter.pages.filter(item => item.isComplete).length / chapter.pages.length : 1}
                 SecondaryIcon={Delete}
-                primaryAction={(e) => {
-                  setCurrentChapterIndex(index);
-                  setCurrentPageIndex(0);
-                }}
+                primaryAction={(e) => setCurrentIndex({ chapter: index, page: 0 })}
                 secondaryAction={() => deleteChapter(index)}
               />
             );
@@ -189,27 +188,24 @@ export default function Page({ skill, id, mode }: { skill: Skill, id: string, mo
         </Sidebar>
 
         {value.chapters.map((chapter, cIndex) => chapter.pages.map((page, pIndex) => (
-          (cIndex == currentChapterIndex && pIndex == currentPageIndex && (
+          (cIndex == currentIndex.chapter && pIndex == currentIndex.page && (
             <PageComponent
               key={chapter.id}
               page={page}
               mode={mode}
               isThinking={isThinking}
-              pagesCompleted={pagesCompleted}
-              currentChapterIndex={cIndex}
-              currentPageIndex={pIndex}
+              pagesCompleted={chapter.pages.map(page => page.isComplete)}
+              currentIndex={{ chapter: cIndex, page: pIndex }}
               totalPagesInChapter={chapter.pages.length}
               setIsThinking={setIsThinking}
-              setCurrentPageIndex={setCurrentPageIndex}
+              setCurrentPageIndex={(index: number) => setCurrentIndex({ ... currentIndex, page: index })}
               setSnackbarText={(text: string) => {
                 setSnackbarText(text);
                 setIsSnackbarOpen(true);
               }}
               setIsPageComplete={(isComplete: boolean) => {
-                const newPagesCompleted = pagesCompleted;
-                newPagesCompleted[cIndex][pIndex] = isComplete;
-
-                setPagesCompleted(newPagesCompleted);
+                value.chapters[cIndex].pages[pIndex].isComplete = isComplete;
+                setValue(value);
               }}
             />
           ))

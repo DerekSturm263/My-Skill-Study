@@ -18,6 +18,7 @@ import { SvgIconComponent } from "@mui/icons-material"
 import { Verification } from "../ai/types"
 import { SchemaUnion } from "@google/genai"
 import { ViewMode } from "./general"
+import { PageIndex } from './skill';
 
 export interface Element {
   requiresCompletion: boolean
@@ -32,15 +33,14 @@ export type ElementWrapper = {
 export type TextProps = {
   originalValue: string,
   currentValue: string,
-  chapterIndex: number,
-  pageIndex: number,
+  currentPageIndex: number,
   totalPagesInChapter: number,
   isThinking: boolean,
-  pagesCompleted: boolean[][],
+  pagesCompleted: boolean[],
   mode: ViewMode,
   setCurrentValue: (newValue: string) => void,
   setIsThinking: Dispatch<SetStateAction<boolean>>,
-  setCurrentPageIndex: Dispatch<SetStateAction<number>>
+  setCurrentPageIndex: (index: number) => void
 }
 
 export type ElementProps<T extends Element> = {
